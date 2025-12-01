@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Amitzur Digital — תחזוק ושדרוג אתרים</title>
+  <meta name="description" content="אני לא בונה אתרים — אני משדרג אותם. תוספות UX קטנות שעושות הבדל גדול + עיצוב גרפי שמוכר. Shopify / WordPress." />
+  <meta property="og:locale" content="he_IL" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0b0b;
+      --card:#121212;
+      --muted:#bdbdbd;
+      --text:#f5f5f5;
+      --green:#0CE176;
+      --green2:#00C866;
+      --border:#1e1e1e;
+      --shadow: 0 10px 30px rgba(12,225,118,.14);
+      --halo: 0 20px 60px rgba(12,225,118,.16), 0 2px 12px rgba(12,225,118,.12);
+      --headerH: 88px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Rubik',system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;
+      background: var(--bg); 
+      color:var(--text);
+      line-height:1.6;
+      overflow-x:hidden;
+      padding-top: var(--headerH);
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block;border-radius:12px;border:1px solid var(--border)}
+    .container{width:min(1100px,94%);margin-inline:auto}
+  /* container רחב יותר רק לסקשן השדרוגים */
+#upgrades .container{
+  width:min(1700px, 98%);
+}
+
+
+    header{
+      position: fixed; top: 0; right: 0; left: 0; z-index: 1000;
+      backdrop-filter:saturate(150%) blur(8px);
+      background:linear-gradient(to bottom, rgba(11,11,11,0.95), rgba(11,11,11,0.75));
+      border-bottom:1px solid var(--border);
+      height: var(--headerH); display:flex; align-items:center;
+    }
+    .nav{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:18px}
+    .brand{display:flex;justify-content:flex-start}
+    .brand img{width:min(50%,520px);height:auto;object-fit:contain;border:none;border-radius:0;background:transparent}
+    nav ul{display:flex;justify-content:flex-end;gap:22px;list-style:none;margin:0;padding:0}
+    nav a{color:var(--muted);font-weight:500}
+    nav a:hover{color:var(--text)}
+
+    .hero{padding:56px 0 40px;border-bottom:1px solid var(--border)}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
+    .eyebrow{display:inline-block;color:#04170c;background:linear-gradient(90deg,var(--green),var(--green2));
+      padding:6px 10px;border-radius:999px;font-weight:700}
+    .h1{font-size:42px;line-height:1.15;margin:16px 0 10px}
+    .sub{color:var(--muted);font-size:18px}
+    .hero-actions{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
+    .cta{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#04170c;
+      padding:10px 16px;border-radius:12px;font-weight:700;box-shadow:var(--shadow);transition:transform .15s ease}
+    .cta:hover{transform:translateY(-2px)}
+    .ghost{padding:10px 16px;border-radius:12px;border:1px solid var(--border);color:var(--text)}
+
+    .halo{box-shadow:var(--halo)}
+
+    .mock{background:linear-gradient(180deg,#0f0f0f,#0a0a0a);border:1px solid var(--border);border-radius:18px;padding:16px}
+    .mock-inner{height:340px;border-radius:12px;background:radial-gradient(600px 260px at 30% -20%, rgba(12,225,118,.12), transparent 50%), #0e0e0e;
+      display:grid;place-items:center;position:relative;overflow:hidden}
+    .statbar{position:absolute;top:18px;left:18px;right:18px;display:flex;gap:8px}
+    .stat{flex:1;background:#101010;border:1px solid var(--border);border-radius:10px;padding:10px;transition:transform .2s ease, box-shadow .2s ease}
+    .stat b{color:var(--green)}
+    .stat:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+
+    section{padding:56px 0;border-bottom:1px solid var(--border)}
+    h2{font-size:28px;margin:0 0 18px}
+    .muted{color:var(--muted)}
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;transition:transform .2s ease, box-shadow .2s ease}
+    .card:hover{transform:translateY(-4px);box-shadow:var(--halo)}
+    .card h3{margin:6px 0 8px;font-size:18px}
+    .chip{display:inline-block;font-size:12px;color:#04170c;background:var(--green);padding:4px 8px;border-radius:999px;font-weight:700}
+
+    /* הישנה - לא בשימוש כרגע אבל משאירים */
+    .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:16px}
+    .figure{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px;transition:transform .2s ease, box-shadow .2s ease}
+    .figure:hover{transform:translateY(-4px);box-shadow:var(--halo)}
+    .figure img{box-shadow:0 12px 40px rgba(12,225,118,.12)}
+    .caption strong{display:block}
+    .caption small{color:var(--muted)}
+
+    /* ===== גלריית פרויקטים בסגנון החדש ===== */
+    .projects-section{
+      padding:72px 0;
+      border-bottom:1px solid var(--border);
+    }
+    .projects-header{
+      text-align:center;
+      margin-bottom:32px;
+    }
+    .projects-header h2{
+      font-size:38px;
+      margin:0 0 8px;
+    }
+    .projects-tagline{
+      color:var(--muted);
+      font-size:18px;
+    }
+    .projects-category{
+      text-align:center;
+      font-size:22px;
+      margin:0 0 20px;
+    }
+    .projects-row{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:20px;
+      margin-top:120px;
+    }
+    .project-card{
+      background:radial-gradient(800px 400px at 50% -30%, rgba(12,225,118,.12), transparent 55%), #111111;
+      border-radius:26px;
+      padding:14px 14px 18px;
+      border:1px solid var(--border);
+      box-shadow:0 20px 40px rgba(0,0,0,.55);
+      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .project-card:hover{
+      transform:translateY(-6px);
+      box-shadow:var(--halo);
+      border-color:rgba(12,225,118,.5);
+    }
+  /* קופסת התמונה הכללית (לשתי הגלריות) */
+.project-thumb{
+  border-radius:20px;
+  overflow:hidden;
+}
+
+/* ברירת מחדל – גלריית העיצובים (פוסטים / סטוריז) */
+.project-thumb img{
+  width:100%;
+  height:auto;
+  display:block;
+  border:none;
+  border-radius:inherit;
+}
+
+
+
+#upgrades .project-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;       /* חותך קצת אם צריך, אבל שומר מסך מלא ורחב */
+  border:none;
+  border-radius:inherit;
+}
+
+    .project-meta{
+      margin-top:10px;
+    }
+    .project-meta strong{
+      display:block;
+    }
+    .project-meta small{
+      color:var(--muted);
+    }
+
+    .about{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+    .about-img img{width:100%;border-radius:18px;box-shadow:var(--halo);opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease}
+    .about-img.visible img{opacity:1;transform:none}
+    .about p{margin:0 0 10px}
+
+    .btn-wa{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#04170c;
+      padding:10px 16px;border-radius:12px;font-weight:700;box-shadow:var(--shadow);transition:transform .15s ease}
+    .btn-wa:hover{transform:translateY(-2px)}
+
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+    .statbox{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;text-align:center;box-shadow:var(--halo)}
+    .counter{font-size:28px;color:var(--green);font-weight:800}
+
+    footer{padding:32px 0;background :var(--bg);}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:18px;align-items:start}
+    .footer-brand small{color:var(--muted)}
+    .foot-links a{display:block;color:var(--muted);margin:6px 0}
+    .foot-links a:hover{color:var(--text)}
+    .socials{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+    .social-btn{width:36px;height:36px;border-radius:999px;display:grid;place-items:center;background:#fff;border:1px solid #e6e6e6}
+    .social-btn svg{width:18px;height:18px;fill:#000}
+    .footbar{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:18px;padding-top:12px;border-top:1px solid var(--border);color:var(--muted)}
+
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* כותרת מעל הלוגואים */
+/* ===== פס לוגואים רץ אינסופי ===== */
+/* ===== פס לוגואים רץ אינסופי ===== */
+
+#clients{
+  padding:42px 0 80px;
+  border-bottom:1px solid var(--border);
+    background:transparent; 
+}
+
+.clients-title{
+  text-align:center;
+  font-size:26px;
+  font-weight:800;
+  margin:0 0 32px;
+}
+
+/* הקפסולה האפורה */
+.logo-strip{
+  position:relative;
+  overflow:hidden;
+  border-radius:20px;
+  background:#151515;
+  border:1px solid var(--border);
+  padding:22px 0;
+}
+
+/* המסלול שזז – כל הלוגואים בשורה אחת, פעמיים */
+.logo-track{
+  display:flex;
+  align-items:center;
+  gap:70px;
+  animation:logos-loop 5s linear infinite;
+}
+
+/* הלוגואים */
+.logo-track img{
+  height:56px;
+  width:auto;
+  flex:0 0 auto;           /* לא להתקפל */
+  object-fit:contain;
+  border:none !important;
+  border-radius:0 !important;
+  filter:none;
+  opacity:1;
+  transition:transform .4s ease;
+}
+
+.logo-track img:hover{
+  transform:translateY(-3px);
+}
+
+/* הלופ – זזים חצי מרוחב המסלול (כי יש 2 סטים זהים) */
+@keyframes logos-loop{
+  0%   { transform:translateX(0); }
+  100% { transform:translateX(-50%); }
+}
+
+/* מובייל */
+@media (max-width: 640px){
+  .logo-strip{ padding:18px 0; }
+  .logo-track{ gap:40px; }
+  .logo-track img{ height:42px; }
+}
+
+
+    /* ========= גרסה מוגדלת רק לסקשן השדרוגים ========= */
+
+.projects-section--wide{
+  padding:80px 0; /* טיפה יותר גובה לסקשן */
+}
+
+.projects-section--wide .projects-row{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* שתי עמודות שוות */
+  gap: 64px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* במסכים קטנים – טור אחד */
+@media (max-width: 900px){
+  .projects-section--wide .projects-row{
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+/* שתי עמודות גדולות לשדרוגים בלבד */
+.upgrades-row{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:40px;
+  align-items:flex-start;
+}
+
+
+
+/* הכרטיס עצמו יותר גדול ומרופד */
+.projects-section--wide .project-card{
+  border-radius:32px;
+  padding:20px 20px 24px;
+}
+
+/* התמונה נראית יותר כמו מסך מחשב רחב */
+.projects-section--wide .project-thumb img{
+  height:350px;     /* תוכל לעלות ל-280/300 אם תרצה עוד גדול */
+  object-fit:cover; /* ממלאת את המסגרת יפה */
+}
+
+/* ===== FAQ – שאלות ותשובות ===== */
+
+#faq{
+  padding:72px 0 80px;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:transparent;   /* שוב – שלא יחתוך את הגרדיאנט */
+}
+
+.faq-inner{
+  display:grid;
+  grid-template-columns: minmax(0,1.6fr) minmax(0,1.1fr); /* העמודה הראשונה תהיה משמאל */
+  gap:40px;
+  align-items:flex-start;
+  direction:ltr;  /* הופך את כיוון הגריד כדי שהעמודה הראשונה תהיה משמאל */
+}
+.faq-text,
+.faq-copy{
+  direction: rtl;      /* טקסט עברי רגיל */
+  text-align: right;   /* מיושר לימין */
+}
+/* כיוון מלל בקוביות */
+.faq-q span{
+  flex:1;
+  text-align: right;   /* גורם לטקסט לעמוד בצד ימין */
+}
+
+
+.faq-list{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.faq-item{
+  border-radius:18px;
+  background:#262626;
+  border:1px solid #333;
+  overflow:hidden;
+}
+
+.faq-q{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:18px 22px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.faq-toggle{
+  width:26px;
+  height:26px;
+  border-radius:999px;
+  border:2px solid #fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  line-height:1;
+  flex-shrink:0;
+}
+
+.faq-a{
+  padding:0 22px 0;
+  max-height:0;              /* כברירת מחדל – סגור */
+  opacity:0;
+  overflow:hidden;
+  color:var(--muted);
+  transition:max-height .3s ease, opacity .3s ease, padding .3s ease;
+}
+/* כל תשובות ה-FAQ יהיו RTL וימניות */
+.faq-a {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* כשפתוח */
+.faq-item.open .faq-a{
+  padding:0 22px 18px;
+  max-height:300px;          /* מספיק גבוה לתשובה ממוצעת */
+  opacity:1;
+}
+
+/* צד ימין – כותרת וטקסט */
+.faq-copy h2{
+  font-size:36px;
+  margin:0 0 10px;
+}
+
+.faq-copy p{
+  color:var(--muted);
+  margin:0 0 8px;
+}
+
+/* רספונסיב */
+@media (max-width: 960px){
+  .faq-inner{
+    grid-template-columns:1fr;
+    gap:30px;
+  }
+  .faq-copy{
+    text-align:center;
+  }
+}
+
+
+    @media (max-width: 960px){
+      .nav{grid-template-columns:1fr; gap:10px}
+      .brand{justify-content:center}
+      nav ul{justify-content:center; flex-wrap:wrap}
+      .hero-grid{grid-template-columns:1fr}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .gallery{grid-template-columns:1fr}
+      .projects-row{grid-template-columns:repeat(2,1fr)}
+      .about{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr 1fr}
+      :root{ --headerH: 114px; }
+    }
+    
+    @media (max-width: 640px){
+      .grid,.stats{grid-template-columns:1fr}
+      .h1{font-size:32px}
+      .hero-grid .mock-inner{height:260px}
+      .footer-grid{grid-template-columns:1fr}
+      .projects-row{grid-template-columns:1fr}
+    }
+/* ====== SERVICES SECTION – UPGRADED LAYOUT ====== */
+
+#services {
+  padding: 90px 0;
+}
+
+/* גריד רחב עם בלוקים גדולים */
+#services .grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 32px 32px;
+}
+
+/* כרטיסים גדולים יותר, גבוהים, מלאים באוויר */
+#services .card {
+  background: rgba(20, 20, 20, 0.6);
+  border-radius: 22px;
+  padding: 38px 32px;
+  min-height: 260px;   /* עושה כל בלוק גבוה יותר */
+  text-align: right;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 40px rgba(0, 255, 120, 0.08);
+  transition: 0.3s ease;
+}
+
+/* אפקט מרחף – עדין ומקצועי */
+#services .card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 50px rgba(0, 255, 120, 0.18);
+  border-color: rgba(0, 255, 120, 0.35);
+}
+
+/* כותרות גדולות ומסודרות */
+#services .card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: #fff;
+}
+
+/* טקסט קריא יותר ומרווח */
+#services .card p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #cdd1d5;
+}
+
+
+/* ===== שדרוגים – תצוגת מקבוק אמיתי ===== */
+
+#upgrades .mac-card{
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 24px 8px 32px;
+}
+
+/* עוטף את המקבוק */
+#upgrades .mac-wrapper{
+  position: relative;
+  width: 100%;
+  max-width: 1000px;      /* היה 560 – עכשיו הרבה יותר גדול */
+  margin: 0 auto 26px;   /* טיפה יותר מרווח מתחת */
+}
+
+
+/* פריים של המקבוק (ה־SVG / PNG שנתת) */
+#upgrades .mac-frame{
+  display: block;
+
+  width: 100%;
+  height: auto;
+}
+
+/* המסגרת של המסך בתוך ה-Mac */
+#upgrades .mac-screen{
+  position: absolute;
+  left: 50%;
+  top: 11%;          /* אפשר לשחק בין 10–12 לפי איך שזה יושב לך */
+  transform: translateX(-50%);
+
+  width: 76%;        /* רוחב המסך */
+  height: 66%;       /* גובה המסך – תופס כמעט את כל האזור השחור */
+
+  border-radius: 4px;
+  overflow: hidden;  /* חותך כל מה שיוצא החוצה */
+  background: #000;
+}
+
+/* התמונה עצמה – מכסה את כל המסך */
+#upgrades .mac-screen img{
+  position: absolute;
+  inset: 0;          /* top/right/bottom/left = 0 */
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ימלא את כל המסך, גם אם צריך לחתוך קצת */
+  border: none !important;
+  border-radius: 0;
+}
+
+
+
+/* כותרת וטקסט מתחת למקבוק */
+#upgrades .project-meta{
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* מובייל – קצת פחות מרווח */
+@media (max-width: 640px){
+  #upgrades .mac-card{
+    padding: 18px 0 26px;
+  }
+}
+/* ===== סקשן שדרוגים – כרטיס בלי רקע שחור ===== */
+#upgrades .project-card{
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;               /* שלא תהיה מסגרת שחורה גדולה */
+}
+
+/* קצת מרווח מתחת ללפטופ */
+#upgrades .project-meta{
+  margin-top: 14px;
+}
+/* לנקות לגמרי רקע/מסגרת מאחורי הלפטופ בסקשן השדרוגים */
+#upgrades .project-card,
+#upgrades .mac-wrapper,
+#upgrades .mac-frame{
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* שלא יקבל border-radius/מסגרת מהחוק הכללי של img */
+#upgrades .mac-frame{
+  border-radius: 0 !important;
+}
+
+/* כרטיסי השדרוגים – בלי רקע, בלי מסגרת, בלי צל */
+#upgrades .project-card{
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+    
+  </style>
+</head>
+<body>
+  <header>
+  <div class="container nav">
+    <div class="brand">
+      <img src="Images/amitzur clear logo.png" alt="amitzur logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#services">שירותים</a></li>
+        <li><a href="#upgrades">שדרוגים</a></li>
+        <li><a href="#designs">עיצובים</a></li>
+        <li><a href="#about">מי אני</a></li>
+        <li><a href="#contact">צור קשר</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="reveal">
+        <span class="eyebrow">שדרוג ותחזוקה לאתרי Ecommerce</span>
+        <h1 class="h1">אני לא בונה אתרים — אני משדרג אותם.</h1>
+        <p class="sub">מוסיף את הפרטים הקטנים שמשפרים חוויית משתמש ומעלים המרות אחוזי מכירה : תפריטים חכמים, אייקונים, סניפטים, כפתורים אישים, עיצובים גרפים ועוד.</p>
+        <div class="hero-actions">
+<a class="cta"
+   href="https://wa.me/972529535329?text=היי%20עמית,%20ראיתי%20את%20העבודות%20שלך%20אשמח%20לבדוק%20איך%20משפרים%20לי%20את%20העסק."
+   target="_blank"
+   rel="noopener">
+  דברו איתי על האתר
+</a>
+          <a class="ghost" href="#upgrades">למה זה חשוב?</a>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="mock halo" aria-hidden="true">
+          <div class="mock-inner">
+            <div class="statbar">
+              <div class="stat"><small class="muted">מהירות אתר</small><br><b>+34%</b></div>
+              <div class="stat"><small class="muted">שגיאות</small><br><b>-76%</b></div>
+              <div class="stat"><small class="muted">יחס המרה</small><br><b>+18%</b></div>
+            </div>
+            <svg width="220" height="140" viewBox="0 0 220 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="1" width="218" height="138" rx="12" stroke="#1f1f1f"/>
+              <path id="line" d="M10 110 C 50 90, 80 60, 110 78 S 170 120, 210 64" stroke="#0CE176" stroke-width="3" fill="none" />
+              <circle cx="110" cy="78" r="4" fill="#0CE176" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container">
+      <h1 class="reveal">מה אני עושה בשביל העסק שלך ?</h1>
+      <h2 class="muted reveal">כל מה שהאתר צריך.</h2>
+      <div class="grid" style="margin-top:14px">
+        <article class="card reveal halo">
+          <h3>הוספת ושדרוג מוצרים</h3>
+          <p class="muted">קולקציות, וריאנטים, מחירים, תמונות, SEO למוצר כל מה שדף מוצר צריך כדי להראות ברמה הגבוהה ביותר שיש , התאמה אישית לדף מוצר שלכם ולמבנה תבנית שלו<div class=""></div></p>
+        </article>
+        <article class="card reveal halo">
+          <h3>שיפור ביצועי המרה באורגני</h3>
+          <p class="muted">שיווק אורגני באתר שלכם הוא חלק לא פחות חשוב מהממומן , בשביל לוודא שתצליחו לגדול גם באורגני אשאג לשמור על אריארכיית מבנה באתר שלכם שתשפר את היחסיי המרה שלכם במכירות האורגניות מול גוגל ותגרום לכם להופיע ראושנים במנוע החיפוש. </p>
+        </article>
+        <article class="card reveal halo">
+          <h3>התאמות קוד ייחודיות לאתר שלכם</h3>
+          <p class="muted">CSS/JS, אייקונים, כפתורים חכמים, התאמות תבנית , הדברים הקטנים שיגרמו לאתר שלכם לקבל ייחודיות משל עצמו , מה שישפר את אחוזי ההמרה ויחסי הסגירה בין הלקוח לאתר שלכם<div class=""></div></p>
+        </article>
+        <article class="card reveal halo">
+          <h3>שיווק בדיגיטל</h3>
+          <p class="muted">שיווק בדיגיטל לעסק שלכם , תחזוק שוטף ומלא של קמפיינים ממומנים העלאה לאוויר ואוטומציות שיגרמו לכם להתנהל בצורה הטובה והיעילה ביותר</p>
+        </article>
+        <article class="card reveal halo">
+          <h3>עיצובים גרפים</h3>
+          <p class="muted">עיצובי מודעות לקמפיינים , חומרים שיווקים , קמפיינים ממומנים , לוגואים ועוד מגוון רחב של עיצובים לעסק שלכם שיגרום לו להראות הכי מקצועי וממיר שיש .</p>
+        </article>
+        <article class="card reveal halo">
+          <h3>תחזוק שוטף ומלא</h3>
+          <p class="muted">מרגישים שזה כאב ראש להתעסק באתר? לנהל מלאים כמויות ומחירים ? אני אדאג בשבילכם עבור זה כך שתוכלו לשים את כל הפוקוס על להגדיל את העסק ולדאוג שהוא ימשיך לרוץ בצורה הטובה ביותר</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- פרויקטים: שיפוצים קטנים + כותרת עליונה -->
+<section id="upgrades" class="projects-section projects-section--wide">
+  <div class="container">
+
+    <div class="projects-header reveal">
+      <h2>קצת מהפרויקטים האחרונים שלי</h2>
+      <p class="projects-tagline">
+        מילים זה טוב, אבל תוצאות מדברות בעד עצמן. הנה כמה דוגמאות אמיתיות לשיפוצים קטנים שביצעתי באתרים שהעלו המרות ושיפרו חוויית משתמש.
+      </p>
+    </div>
+
+    <div class="projects-row upgrades-row">
+
+      <!-- כרטיס 1 -->
+      <article class="project-card reveal mac-card">
+        <div class="mac-wrapper">
+          <img class="mac-frame" src="Images/macbookpro.svg" alt="MacBook Pro frame">
+          <div class="mac-screen">
+            <img src="Images/CELLINGFAN Storma.png" alt="Storma – הודעת הזמנה אישית">
+          </div>
+        </div>
+        <div class="project-meta">
+          <strong>Storma מאווררי תקרה</strong>
+          <small>הודעה לקבלת פרטים והצעת מחיר עבור בהזמנה אישית פר לקוח.</small>
+        </div>
+      </article>
+
+      <!-- כרטיס 2 -->
+      <article class="project-card reveal mac-card">
+        <div class="mac-wrapper">
+          <img class="mac-frame" src="Images/macbookpro.svg" alt="MacBook Pro frame">
+          <div class="mac-screen">
+            <img src="Images/storma medorot.png" alt="Storma מאווררי תקרה – סקשן אישי למדורות גן">
+          </div>
+        </div>
+        <div class="project-meta">
+          <strong>Storma מאווררי תקרה</strong>
+          <small>סקשן מדורות גן לבחירה אישית כולל כפתור הנעה לשיחה עם נציג להזמנה בעיצוב אישי</small>
+        </div>
+      </article>
+
+      <!-- כרטיס 3 -->
+      <article class="project-card reveal mac-card">
+        <div class="mac-wrapper">
+          <img class="mac-frame" src="Images/macbookpro.svg" alt="MacBook Pro frame">
+          <div class="mac-screen">
+            <img src="Images/with3.png" alt="Ice Diamonds – פופאפ ניוזלטר">
+          </div>
+        </div>
+        <div class="project-meta">
+          <strong>Ice Diamonds</strong>
+          <small>פופאפ הרשמה לניוזלטר + קופון 5% שמגדיל רשימת תפוצה ומכירות.</small>
+        </div>
+      </article>
+
+          <!-- כרטיס 4 -->
+      <article class="project-card reveal mac-card">
+        <div class="mac-wrapper">
+          <img class="mac-frame" src="Images/macbookpro.svg" alt="MacBook Pro frame">
+          <div class="mac-screen">
+            <img src="Images/kiara ring ICE.png" alt="Ice Diamonds –אייקון זמני שילוח">
+          </div>
+        </div>
+        <div class="project-meta">
+          <strong>Ice Diamonds</strong>
+          <small>אייקון זמני שילוח בהתאם להתנאי המוצר מה שמגדיל את האמון בין הלקוח למוכר ומעלה יחסי סגירה</small>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+
+  <!-- עיצובים גרפיים בסגנון כרטיסים -->
+  <section id="designs" class="projects-section">
+
+      <div class="projects-header reveal">
+        <h2>עיצובים גרפים לקמפיינים</h2>
+        <p class="projects-tagline">
+          מחפשים עיצוב לקמפיין ממומן ? לוגו חדש לעסק שלכם ? הנה כמה עבודות שביצעתי ששיפרו אחוזי מכירה לעסקים וסגרו יותר עסקאות.
+        </p>
+      </div>
+
+      <div class="projects-row">
+
+        <article class="project-card reveal">
+          <div class="project-thumb">
+            <img src="Images/Amouage  2 גרסאת פוסט.png" alt="Amouage – סטורי קמפיין">
+          </div>
+          <div class="project-meta">
+            <strong>בושם יוקרתי מבית Amouage</strong>
+            <small>סטורי קמפיין לבושם יוקרתי עם פוקוס על חוויית לייפסטייל.</small>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-thumb">
+            <img src="Images/החלום שלך העיצוב שלך מדורת גן עיצוב גרסאת  כתום פוסט.png" alt="מדורת גן – עיצוב אישי">
+          </div>
+          <div class="project-meta">
+            <strong>מדורות גן בעיצוב אישי</strong>
+            <small>“החלום שלך — העיצוב שלך” לעסק שמתמחה במדורות גן בהתאמה אישית.</small>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-thumb">
+            <img src="Images/ZENO B.png" alt="מאוורר תקרה ZENO">
+          </div>
+          <div class="project-meta">
+            <strong>מאוורר תקרה ZENO</strong>
+            <small>קריאייטיב למכירה מוקדמת בקמפיין ממומן.</small>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-thumb">
+            <img src="Images/CIRE BRECLET גרסאת פוסט פרטים והזמנה.png" alt="רוסרי – גרסאת סטורי">
+          </div>
+          <div class="project-meta">
+            <strong>ROSERY</strong>
+            <small>תכשיטים לגבר מבית רוסרי , להתלבש בסטייל ברמה גבוהה.</small>
+            
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container about">
+      <div class="about-img" id="aboutImg">
+        <img src="Images/ME.jpg" alt="amitzur portrait">
+      </div>
+      <div>
+        <h2 class="reveal">מי אני</h2>
+        <p class="muted reveal">אני עמית עמיצור, בן 18, חי ונושם דיגיטל. עם השנים התחברתי לעולמות של בניית אתרים, עיצוב וחוויית משתמש — מתוך אהבה אמיתית לדיוק ולניקיון ויזואלי.</p>
+        <p class="muted reveal">המטרה שלי היא שכל לקוח שייכנס לאתר שלך ירגיש מיד: “ממנו אני רוצה לקנות. הכל נקי, מונגש, נוח וברור”.</p>
+        <p class="muted reveal">אתר טוב הוא הרבה מעבר לעיצוב יפה — הוא שילוב של נראות, נוחות ונגישות שמייצרים אמון ומכירות. אני כאן כדי למקסם את הפוטנציאל של העסק שלך.</p>
+        <a class="btn-wa reveal" id="waCTA" href="#">ספרו לי על העסק שלכם</a>
+      </div>
+    </div>
+  </section>
+
+<section id="clients">
+  <div class="container">
+    <h2 class="clients-title reveal">מבין הלקוחות שעבדתי איתם</h2>
+
+    <div class="logo-strip reveal">
+      <div class="logo-track">
+        <!-- סט ראשון של לוגואים -->
+        <img src="LOGOS/Pragmatica Extended.png" alt="INGLOT">
+        <img src="LOGOS/IMG_2826.PNG" alt="ספר נולד">
+        <img src="LOGOS/עיצוב ללא שם (3).png" alt="STORMA">
+        <img src="LOGOS/logos_black_3_.pdf_1.png" alt="ICE DIAMONDS">
+        <img src="LOGOS/ROSERY.png" alt="ROSERY">
+      
+        
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+  
+  <section id="stats">
+    <div class="container">
+      <h2 class="reveal">במספרים</h2>
+      <div class="stats">
+        <div class="statbox reveal"><div class="counter" data-target="100">0</div><div class="muted">לקוחות מרוצים</div></div>
+        <div class="statbox reveal"><div class="counter" data-target="25">0</div><div class="muted">פרויקטים</div></div>
+        <div class="statbox reveal"><div class="counter" data-target="3">0</div><div class="muted">שנות ניסיון</div></div>
+      </div>
+    </div>
+  </section>
+
+
+<section id="faq">
+  <div class="container faq-inner">
+
+    <!-- צד שמאל – אקורדיון שאלות -->
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-toggle">+</div>
+          <span>? אני מעוניין בתחזוק אתר באופן שוטף מה זה כולל</span>
+        </div>
+        <div class="faq-a">
+          פשוט מאוד - כל ענייני האתר יורדים מהראש שלכם.
+אני מטפל בעדכונים, תיקונים, שדרוגים ופיצ’רים חדשים לפי הצורך, ואתם מתפנים להתעסק במה שחשוב באמת:
+להביא הזמנות ולגדל את העסק.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-toggle">+</div>
+          <span>? אני צריך עיצוב גרפי איך זה עובד ? בתשלום לפי תמונה</span>
+        </div>
+        <div class="faq-a">
+          כן. עיצובים גרפיים מתומחרים לפי פר פרויקט / תמונה,
+אבל לרוב אני ממליץ על חבילות של 5 עיצובים ומעלה, כי הן משתלמות משמעותית מבחינת מחיר.
+כך אתם מקבלים הרבה יותר תמורה — והרבה יותר אפשרויות לשימוש בקמפיינים.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-toggle">+</div>
+          <span>? איך נדע מה צריך לשדרג באתר שלי</span>
+        </div>
+        <div class="faq-a">
+          חלק מהעבודה שלי הוא לזהות הזדמנויות לשיפור.
+לפני כל פרויקט אני לומד את העסק, המוצר והקהל שלכם, ומאתר את הנקודות החזקות — ואת המקומות שכדאי לשדרג.
+אתם לא צריכים לדעת מה לשפר — זו המומחיות שלי.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-toggle">+</div>
+          <span>? כמה זמן לוקח עד שמשימה שביקשתי מתבצעת</span>
+        </div>
+        <div class="faq-a">
+          זה תלוי בגודל המשימה, אבל אני שם דגש גדול מאוד על זמני תגובה מהירים.
+אני מתעדף משימות לפי הדחיפות שלכם, ופועל תמיד מתוך הבנה שהזמן של העסק שלכם חשוב בדיוק כמו הזמן שלי.
+ברוב המקרים — כמה שעות בודדות, והבקשה כבר מאחורינו.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-toggle">+</div>
+          <span>? איך עובד נושא התשלום ? זה בתשלום חד־פעמי או חבילת תחזוקה</span>
+        </div>
+        <div class="faq-a">
+         ללקוחות שמבקשים תחזוקה שוטפת, אני מציע בנק שעות גמיש שמתאים לצרכים של כל עסק.
+ההתחלה היא מ־10 שעות, ותמיד אפשר להוסיף עוד במידת הצורך.
+כך אתם משלמים רק על העבודה שבוצעה בפועל — בלי התחייבויות מיותרות ובלי הפתעות.
+        </div>
+      </div>
+
+            <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-toggle">+</div>
+          <span>? איך אדע כמה זמן לקחה כל משימה באתר שלי</span>
+        </div>
+        <div class="faq-a">
+         אני עובד עם מערכת מדידת שעות מסודרת,
+כך שכל משימה מתועדת — ואתם יודעים בדיוק כמה זמן הושקע בכל פעולה ושדרוג.
+שקיפות מלאה מהשנייה הראשונה.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- צד ימין – כותרת וטקסט -->
+    <div class="faq-copy">
+      <h2>כל מה שצריך לדעת</h2>
+      <p>עדיין מתלבטים? ריכזתי את כל התשובות לשאלות שבעלי עסקים שואלים לפני שמתחילים תהליך דיגיטלי חדש.</p>
+      <p>אם יש לכם שאלה שלא הופיעה כאן – אתם תמיד מוזמנים לשלוח לי הודעה בוואטסאפ.</p>
+    </div>
+
+  </div>
+</section>
+
+  <footer id="contact">
+    <div class="container footer-grid reveal">
+      <div class="footer-brand">
+        <img src="Images/amitzur clear logo.png" alt="amitzur logo" style="height: 250px; margin-top:-40px; background:transparent; border:none;" />
+        <small>Amitzur Digital | שיווק בדיגיטל • עיצוב גרפי • תחזוק אתרים</small>
+        <div class="socials">
+          <a class="social-btn" href="https://www.instagram.com/amit.amitzur/" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.9.3 2.3.5.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1.1.5 2.3.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.9-.5 2.3-.2.6-.5 1-0.9 1.4-.4.4-.8.7-1.4.9-.4.2-1.1.4-2.3.5-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.9-.3-2.3-.5-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1.1-.5-2.3C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.9.5-2.3.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1.1-.4 2.3-.5C8.4 2.2 8.8 2.2 12 2.2zm0 2c-3.1 0-3.5 0-4.7.1-1 .1-1.6.2-1.9.4-.5.2-.8.4-1.1.7-.3.3-.5.6-.7 1.1-.2.3-.3.9-.4 1.9-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1 .2 1.6.4 1.9.2.5.4.8.7 1.1.3.3.6.5 1.1.7.3.2.9.3 1.9.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1-.1 1.6-.2 1.9-.4.5-.2.8-.4 1.1-.7.3-.3.5-.6.7-1.1.2-.3.3-.9.4-1.9.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1-.2-1.6-.4-1.9-.2-.5-.4-.8-.7-1.1-.3-.3-.6-.5-1.1-.7-.3-.2-.9-.3-1.9-.4C15.5 4.2 15.1 4.2 12 4.2zm0 2.9a4.9 4.9 0 110 9.8 4.9 4.9 0 010-9.8zm0 1.8a3.1 3.1 0 100 6.2 3.1 3.1 0 000-6.2zm5.2-2.2a1.1 1.1 0 110 2.2 1.1 1.1 0 010-2.2z"/></svg>
+          </a>
+          <a class="social-btn" href="https://www.facebook.com/amit.amizur/?locale=he_IL" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M22 12.06C22 6.48 17.52 2 11.94 2S2 6.48 2 12.06C2 17.09 5.66 21.21 10.44 22v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22C18.34 21.21 22 17.09 22 12.06z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="foot-links">
+        <strong>מפת אתר</strong>
+        <a href="#services">שירותים</a>
+        <a href="#upgrades">שדרוגים</a>
+        <a href="#designs">עיצובים</a>
+        <a href="#about">מי אני</a>
+        <a href="#contact">צור קשר</a>
+      </div>
+      <div class="foot-links">
+        <strong>צור קשר</strong>
+        <a href="mailto:Amitshop23@gmail.com">Amitshop23@gmail.com</a>
+        <a id="waFoot" href="#">וואטסאפ</a>
+      </div>
+    </div>
+    <div class="container footbar">
+      <small>© <span id="y"></span> Amitzur Digital</small>
+      <small>בנוי במקצועיות — עמיצור בדיגיטל.</small>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    const PHONE = '972529535329';
+    const MESSAGE = encodeURIComponent('היי עמית, ראיתי את העבודות שלך אשמח לבדוק איך משפרים לי את העסק.');
+    const wa = `https://wa.me/${PHONE}?text=${MESSAGE}`;
+    const waCTA = document.getElementById('waCTA');
+    if (waCTA) waCTA.href = wa;
+    document.getElementById('waFoot').href = wa;
+
+    const line = document.getElementById('line');
+    if (line) {
+      const len = line.getTotalLength();
+      line.style.strokeDasharray = len;
+      line.style.strokeDashoffset = len;
+      setTimeout(()=>{ line.style.transition = 'stroke-dashoffset 1.2s ease'; line.style.strokeDashoffset = '0'; }, 200);
+    }
+
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, {threshold: 0.12});
+    document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+    const aboutImg = document.getElementById('aboutImg');
+    if (aboutImg) io.observe(aboutImg);
+
+    document.querySelectorAll('nav a').forEach(a => {
+      a.addEventListener('click', (e)=>{ e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); t && t.scrollIntoView({behavior:'smooth'}); });
+    });
+
+    let countersStarted = false;
+    function startCounters() {
+      if (countersStarted) return;
+      countersStarted = true;
+      document.querySelectorAll('.counter').forEach(c => {
+        const target = +c.getAttribute('data-target');
+        let cur = 0;
+        const step = Math.max(1, Math.round(target / 70));
+        const timer = setInterval(()=>{
+          cur += step;
+          if (cur >= target) { cur = target; clearInterval(timer); }
+          c.textContent = cur;
+        }, 18);
+      });
+    }
+    const statsEl = document.getElementById('stats');
+    const statsIO = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) startCounters(); });
+    }, {threshold: 0.2});
+    if (statsEl) statsIO.observe(statsEl);
+    // ===== FAQ – פתיחה וסגירה של שאלות =====
+document.querySelectorAll('.faq-q').forEach(function(q){
+  q.addEventListener('click', function () {
+    const item = q.parentElement;
+
+    // לסגור את כל השאר (כדי שתמיד יהיה פתוח רק אחד)
+    document.querySelectorAll('.faq-item').forEach(function(other){
+      if (other !== item) {
+        other.classList.remove('open');
+      }
+    });
+
+    // פתיחה / סגירה של הנוכחי
+    item.classList.toggle('open');
+  });
+});
+
+  </script>
+</body>
+</html>
