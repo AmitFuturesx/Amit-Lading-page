@@ -41,8 +41,8 @@
       color: var(--text);
       line-height:1.7;
       overflow-x:hidden;
-      padding-top: 0;
-      }
+      padding-top: var(--headerH);
+    }
     a{ color:inherit; text-decoration:none }
     img{ max-width:100%; display:block }
     .container{ width:min(var(--maxw), 92%); margin-inline:auto }
@@ -76,7 +76,7 @@
 
     /* ===== HEADER: pill nav ===== */
     header{
-      position: absolute; top:0; right:0; left:0;
+      position:fixed; top:0; right:0; left:0;
       height: var(--headerH);
       z-index:1000;
       background: rgba(11,11,11,.62);
@@ -506,7 +506,7 @@
     }
     .design-card:hover{ transform: translateY(-6px); border-color: rgba(12,225,118,.30); box-shadow: var(--glow); }
     .thumb{ border-bottom:1px solid rgba(255,255,255,.08); background:#0e0e0e }
-    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .thumb img{ width:100%; height:auto; border:none }
     .design-meta{ padding: 14px 14px 16px }
     .design-meta strong{ display:block; margin-bottom: 6px }
     .design-meta small{ color: var(--muted) }
