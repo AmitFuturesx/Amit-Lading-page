@@ -1016,6 +1016,40 @@
 }
 </style>
 <style id="patch-v20">
+
+/* ===== Mobile hero centering fix ===== */
+@media (max-width: 860px){
+
+  .hero-grid{
+    justify-items: center !important;
+    text-align: center !important;
+  }
+
+  .hero-copy{
+    justify-self: center !important;
+    text-align: center !important;
+    margin-inline: auto !important;
+  }
+
+  .hero-copy .kicker{
+    margin-inline: auto !important;
+  }
+
+  .hero-copy .sub{
+    margin-inline: auto !important;
+  }
+
+  .hero-actions{
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .hero-actions .btn{
+    margin-inline: auto !important;
+  }
+}
+
+
 /* ===== PATCH v20 (header + mobile + designs + headline) ===== */
 
 /* Header: not sticky/fixed; sits at top without clipping background */
