@@ -1069,7 +1069,7 @@ header .container.nav{
 @media (max-width: 860px){
   .hero-grid{ grid-template-columns: 1fr !important; }
   .hero-visual{ order: -1 !important; margin-bottom: 6px !important; height: 380px !important; }
-  .lamp-wrap{ width: min(92vw, 430px) !important; transform: translateY(-12px) !important; }
+  .lamp-wrap{ width: min(92vw, 430px) !important; }
   .lamp-wrap.swing{
     -webkit-animation: swing 3.4s ease-in-out infinite !important;
     animation: swing 3.4s ease-in-out infinite !important;
@@ -1095,6 +1095,11 @@ header .container.nav{
 @media (max-width: 1099px){
   .designs{ grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
 }
+
+@media (max-width: 820px){
+  header .brand{display:none !important;}
+}
+
 </style>
 </head>
 
@@ -1125,8 +1130,8 @@ header .container.nav{
         <span class="kicker">תחזוקה ושדרוג לאתרי Ecommerce</span>
         <h1 class="h1"><span class="hero-line">אני לא רק מתחזק אתרים.</span><br><span class="hero-accent">אני מתחזק עסקים.</span></h1>
         <p class="sub">
-          תהליך ברור , מסודר , ופשוט.<br>איתי אתה רואה את התהליך בנוי – שלב אחרי שלב.
-        </p>
+מוסיף את הפרטים הקטנים שמשפרים חוויית משתמש ומעלים המרות אחוזי מכירה<br>
+ תפריטים חכמים, אייקונים, סניפטים, כפתורים אישים, עיצובים גרפים ועוד.        </p>
 
         <div class="hero-actions">
           <a class="btn btn--primary" href="https://wa.me/972529535329?text=היי%20עמית,%20ראיתי%20את%20העבודות%20שלך%20אשמח%20לבדוק%20איך%20משפרים%20לי%20את%20העסק." target="_blank" rel="noopener">
@@ -1201,11 +1206,20 @@ header .container.nav{
   <!-- PROCESS -->
   <section id="process">
     <div class="container">
-      <div class="reveal" style="text-align:center;">
-        <span class="kicker">תהליך עבודה</span>
-        <h2 class="h2">גישה מסודרת. שקיפות. תוצאה.</h2>
-        <p class="sub">בגלילה אתה רואה את התהליך נבנה — שלב אחרי שלב.</p>
-      </div>
+    <div class="reveal" style="text-align:center;">
+  <span class="kicker" style="display:block; margin:0 auto;">
+    תהליך עבודה
+  </span>
+
+  <h2 class="h2" style="margin: 16px auto 12px auto; text-align:center;">
+    תהליך ברור , מסודר , ופשוט.
+  </h2>
+
+  <p class="sub" style="margin: 0 auto; text-align:center; max-width:600px;">
+    איתי אתה רואה את התהליך בנוי – שלב אחרי שלב.
+  </p>
+</div>
+
     </div>
 
     <div class="process-wrap processDesktop" id="processWrap">
@@ -1442,8 +1456,8 @@ header .container.nav{
   <section id="packages" class="packagesV2">
   <div class="wrap">
     <div class="packagesHead">
-      <h2 class="packagesTitle">החבילות שלי</h2>
-      <p class="packagesSub">תחזוקה אמיתית שמביאה תוצאות – לא סתם “עדכונים”.</p>
+      <h2 class="packagesTitle">החבילות שלי </h2>
+      <p class="packagesSub">החבילה המתאימה ביותר עבורכם נמצאת כאן</p>
     </div>
 
     <div class="packageGrid">
@@ -1451,16 +1465,16 @@ header .container.nav{
         <div class="pin" aria-hidden="true"></div>
         <div class="planBadge">GROWTH</div>
         <h3 class="planName">ליווי עסקי מלא</h3>
-        <p class="planLead">תחזוקה, פיתוח וקידום – תחת קורת גג אחת.</p>
+        <p class="planLead">תחזוקה, פיתוח ואוטומציות — הכל במקום אחד.</p>
 
-        <div class="planListTitle">כולל:</div>
+        <div class="planListTitle">מה עושים עם זה בפועל:</div>
         <ul class="planList">
           <li>פיתוחים מותאמים אישית</li>
-          <li>קידום אורגני חודשי ברמה גבוהה</li>
-          <li>ליווי עסקי ואסטרטגי</li>
-          <li>ניהול ושדרוג חנויות WooCommerce</li>
-          <li>אוטומציות מתקדמות ודוחות ביצועים</li>
-          <li>הדרכות אישיות לניהול עצמאי</li>
+          <li>אוטומציות</li>
+          <li>שדרוגים עמוקים</li>
+          <li>תהליכי מכירה (Upsell / Cross-sell)</li>
+          <li>ניהול תוספים מתקדם</li>
+          <li>ליווי טכני מלא</li>
         </ul>
 
         <div class="planFoot">
@@ -1473,7 +1487,7 @@ header .container.nav{
       <article class="packageCard isFeatured" data-plan="pro">
         <div class="pin" aria-hidden="true"></div>
         <div class="planBadge">PRO</div>
-        <h3 class="planName">תחזוקה + שדרוגים חכמים</h3>
+        <h3 class="planName">תחזוקה + שדרוגים</h3>
         <p class="planLead">לא רק לשמור — לשפר ולהתקדם.</p>
 
         <div class="planListTitle">כולל:</div>
@@ -1495,17 +1509,16 @@ header .container.nav{
       <article class="packageCard" data-plan="basic">
         <div class="pin" aria-hidden="true"></div>
         <div class="planBadge">BASIC</div>
-        <h3 class="planName">שקט נפשי דיגיטלי</h3>
-        <p class="planLead">האתר עובד, מאובטח ומגובה. אתה רגוע.</p>
+        <h3 class="planName">תחזוקה בסיסית</h3>
+        <p class="planLead">פתרונות מהירים שמשאירים אתר תקין.</p>
 
-        <div class="planListTitle">כולל:</div>
+        <div class="planListTitle">מה עושים עם זה בפועל:</div>
         <ul class="planList">
-          <li>עדכוני וורדפרס ופלאגינים</li>
-          <li>גיבויים ושחזורים</li>
-          <li>סריקות באגים ואבטחה</li>
-          <li>תיקונים קלים ושיפורים קטנים</li>
-          <li>בדיקת מהירות והתאימות</li>
-          <li>תמיכה אישית בווטסאפ או מייל</li>
+          <li>תיקון באגים קטנים</li>
+          <li>שינויי טקסט / עיצוב</li>
+          <li>עדכוני תוספים / אפליקציות</li>
+          <li>התאמות מובייל</li>
+          <li>שיפורי UX קלים</li>
         </ul>
 
         <div class="planFoot">
@@ -1519,7 +1532,6 @@ header .container.nav{
 </section>
 <section class="packages-cta" aria-label="החבילות שלי">
   <div class="container">
-    <h2 class="section-title">החבילות שלי</h2>
     <p class="section-sub">רוצים חבילה שמותאמת אליכם אישית ?</p>
     <a class="btn btn--primary" href="https://api.whatsapp.com/send/?phone=972529535329&text=%D7%94%D7%99%D7%99+%D7%A2%D7%9E%D7%99%D7%AA%2C+%D7%A8%D7%90%D7%99%D7%AA%D7%99+%D7%90%D7%AA+%D7%94%D7%A2%D7%91%D7%95%D7%93%D7%95%D7%AA+%D7%A9%D7%9C%D7%9A+%D7%90%D7%A9%D7%9E%D7%97+%D7%9C%D7%91%D7%93%D7%95%D7%A7+%D7%90%D7%99%D7%9A+%D7%9E%D7%A9%D7%A4%D7%A8%D7%99%D7%9D+%D7%9C%D7%99+%D7%90%D7%AA+%D7%94%D7%A2%D7%A1%D7%A7.&type=phone_number&app_absent=0" target="_blank" rel="noopener">דברו איתי</a>
   </div>
