@@ -1014,88 +1014,87 @@
   font-size: clamp(16px, 2.2vw, 22px);
   margin: 0 0 22px;
 }
+</style>
+<style id="patch-v20">
+/* ===== PATCH v20 (header + mobile + designs + headline) ===== */
 
-/* ===== Amitzur FINAL tweaks (v17) ===== */
-
-/* 0) Header should NOT stick while scrolling (desktop + mobile) */
+/* Header: not sticky/fixed; sits at top without clipping background */
+body{ padding-top: 0 !important; }
 header{
-  position: relative !important;
-  top: auto !important;
-  left: auto !important;
-  right: auto !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 50 !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border-bottom: none !important;
+}
+header .container.nav{
+  padding-top: 18px !important;
+  padding-bottom: 18px !important;
+  align-items: center !important;
 }
 
-/* 1) Mobile: hide the top navigation pill completely for a clean landing look */
-@media (max-width: 820px){
-  header .pill,
-  header .nav,
+/* ensure hero content doesn't hide behind header */
+.hero{ padding-top: 92px !important; }
+
+/* Mobile: hide nav bar completely (clean landing) */
+@media (max-width: 860px){
   header nav,
-  header .nav-pill,
-  header .nav-wrap{
-    display: none !important;
+  header .nav-links,
+  header .pill,
+  header .pill-nav,
+  header .nav-cta,
+  header .header-cta,
+  header .cta,
+  header .menu-btn{ display:none !important; }
+
+  header .container.nav{
+    justify-content: center !important;
+    gap: 0 !important;
+    padding: 14px 14px !important;
   }
-  header{
-    padding: 10px 0 !important;
-  }
+
+  .hero{ padding-top: 78px !important; }
 }
 
-/* 2) Hero title: force exactly 2 lines on desktop (no wrapping inside each line) */
-.hero-line{
-  display: inline-block;
-  white-space: nowrap;
+/* Headline: force 2 lines on desktop (prevent first line wrap) */
+@media (min-width: 861px){
+  .hero h1{ max-width: 760px !important; }
+  .hero h1 .hero-line{ white-space: nowrap !important; display:inline-block; }
 }
 
-/* Safety: if someone has a narrow laptop, slightly reduce headline size before it wraps */
-@media (min-width: 1024px) and (max-width: 1180px){
-  .hero .h1{ font-size: clamp(40px, 4.2vw, 56px) !important; }
+/* Lamp on mobile: bigger + keep swing animation working + avoid overlap with text */
+@media (max-width: 860px){
+  .hero-grid{ grid-template-columns: 1fr !important; }
+  .hero-visual{ order: -1 !important; margin-bottom: 6px !important; height: 380px !important; }
+  .lamp-wrap{ width: min(92vw, 430px) !important; transform: translateY(-12px) !important; }
+  .lamp-wrap.swing{
+    -webkit-animation: swing 3.4s ease-in-out infinite !important;
+    animation: swing 3.4s ease-in-out infinite !important;
+    will-change: transform;
+    transform-origin: top center;
+  }
+  .hero-copy{ padding-top: 8px !important; }
 }
 
-/* 3) Mobile: move/scale the lamp up so it won't overlap the text below */
-@media (max-width: 820px){
-  .hero{
-    padding-top: 18px !important;
-    padding-bottom: 34px !important;
-    overflow: hidden;
-  }
-  .hero-grid{
-    grid-template-columns: 1fr !important;
-    gap: 14px !important;
-  }
-  .hero-art{
-    order: -1 !important;
-    margin: 0 auto 6px !important;
-    max-width: 320px !important;
-  }
-  .lamp-wrap{
-    transform: translateY(-42px) scale(0.86) !important;
-    transform-origin: top center !important;
-  }
-  .hero-copy{
-    margin-top: -6px !important;
-  }
+/* iOS/Safari safety: prefixed keyframes (same name as existing) */
+@-webkit-keyframes swing{
+  0%{ -webkit-transform: rotate(-6deg); transform: rotate(-6deg); }
+  50%{ -webkit-transform: rotate(6deg); transform: rotate(6deg); }
+  100%{ -webkit-transform: rotate(-6deg); transform: rotate(-6deg); }
 }
 
-/* 4) Desktop: keep ALL graphic design cards in ONE row (slightly smaller if needed) */
-@media (min-width: 1024px){
-  .designs{
-    display: grid !important;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 18px !important;
-    align-items: stretch !important;
-  }
-  .design-card{
-    min-width: 0 !important;
-  }
-  .design-card .thumb{
-    aspect-ratio: 3 / 4 !important;
-  }
-  .design-card .thumb img{
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-  }
+/* Designs section on desktop: slightly larger but keep 4 in one row */
+@media (min-width: 1100px){
+  .designs{ max-width: 1320px !important; }
+  .designs{ grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 18px !important; }
+  .design-card .thumb{ aspect-ratio: 3 / 4 !important; }
 }
-
+@media (max-width: 1099px){
+  .designs{ grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
 </style>
 </head>
 
@@ -1124,7 +1123,7 @@ header{
   <section class="hero">
     <div class="container hero-grid"><div class="hero-copy reveal">
         <span class="kicker">תחזוקה ושדרוג לאתרי Ecommerce</span>
-        <h1 class="h1"><span class="hero-line">אני לא רק מתחזק אתרים.</span><br><span class="hero-accent hero-line">אני מתחזק עסקים.</span></h1>
+        <h1 class="h1"><span class="hero-line">אני לא רק מתחזק אתרים.</span><br><span class="hero-accent">אני מתחזק עסקים.</span></h1>
         <p class="sub">
           תהליך ברור , מסודר , ופשוט.<br>איתי אתה רואה את התהליך בנוי – שלב אחרי שלב.
         </p>
