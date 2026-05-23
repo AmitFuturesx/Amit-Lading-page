@@ -1135,13 +1135,262 @@ header .container.nav{
 }
 
 </style>
+<style id="upgrade-v21">
+/* ===== UPGRADE v21 ===== */
+
+/* Scroll progress bar */
+#progressBar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #0CE176, #00C866);
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 9999;
+  box-shadow: 0 0 12px rgba(12,225,118,.7);
+}
+
+/* Sticky header glass on scroll */
+header { transition: background .35s ease, backdrop-filter .35s ease, border-color .35s ease, box-shadow .35s ease; }
+header.scrolled {
+  position: fixed !important;
+  background: rgba(11,11,11,.90) !important;
+  backdrop-filter: blur(22px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(255,255,255,.09) !important;
+  box-shadow: 0 4px 30px rgba(0,0,0,.55);
+}
+
+/* Mobile hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(18,18,18,.55);
+  backdrop-filter: blur(8px);
+}
+.hamburger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--text);
+  border-radius: 999px;
+  transition: transform .3s ease, opacity .3s ease;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+@media (max-width: 860px) { .hamburger { display: flex !important; } }
+
+/* Mobile menu overlay */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  background: rgba(8,8,8,.97);
+  z-index: 997;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  backdrop-filter: blur(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
+}
+.mobile-menu.open { opacity: 1; pointer-events: auto; }
+.mobile-menu a {
+  font-size: 26px;
+  font-weight: 800;
+  color: rgba(245,245,245,.75);
+  padding: 10px 28px;
+  border-radius: 14px;
+  transition: color .2s, background .2s;
+  text-align: center;
+}
+.mobile-menu a:hover { color: var(--green); background: rgba(12,225,118,.08); }
+.mobile-menu-wa {
+  margin-top: 20px !important;
+  background: linear-gradient(90deg, #0CE176, #00C866) !important;
+  color: #04170c !important;
+  font-weight: 900 !important;
+  box-shadow: var(--glow);
+}
+
+/* Package card visual hierarchy */
+.packageCard[data-plan="basic"] {
+  border-color: rgba(255,255,255,.14);
+  background: rgba(0,0,0,.22);
+}
+.packageCard[data-plan="basic"]::before {
+  background: radial-gradient(520px 220px at 50% 0%, rgba(255,255,255,.04), transparent 60%);
+}
+.packageCard[data-plan="basic"] .pin { background: rgba(180,180,180,.65); box-shadow: none; }
+.packageCard[data-plan="basic"] .planBadge { color: rgba(200,200,200,.65); }
+.packageCard[data-plan="basic"] .btnPrimary {
+  background: rgba(255,255,255,.08) !important;
+  color: var(--text) !important;
+  border: 1px solid rgba(255,255,255,.16) !important;
+  box-shadow: none !important;
+}
+.packageCard[data-plan="basic"] .btnPrimary:hover { background: rgba(255,255,255,.14) !important; }
+
+/* PRO: featured — glowing green, scaled */
+.packageCard[data-plan="pro"] {
+  border-color: rgba(0,227,123,.95);
+  background: linear-gradient(165deg, rgba(0,55,30,.68) 0%, rgba(0,20,12,.45) 100%);
+  box-shadow: 0 0 0 1px rgba(0,227,123,.22), 0 30px 70px rgba(0,0,0,.65), inset 0 0 0 1px rgba(255,255,255,.05);
+  transform: scale(1.03);
+  z-index: 2;
+}
+.packageCard[data-plan="pro"]::before {
+  background: radial-gradient(520px 340px at 50% -5%, rgba(0,227,123,.24), transparent 65%);
+}
+@media (max-width: 980px) { .packageCard[data-plan="pro"] { transform: none; } }
+
+/* GROWTH: premium gold */
+.packageCard[data-plan="growth"] {
+  border-color: rgba(255,190,50,.48);
+  background: rgba(14,9,0,.34);
+}
+.packageCard[data-plan="growth"]::before {
+  background: radial-gradient(520px 220px at 50% 0%, rgba(255,175,35,.13), transparent 60%);
+}
+.packageCard[data-plan="growth"] .pin {
+  background: rgba(255,190,50,.9);
+  box-shadow: 0 10px 22px rgba(0,0,0,.55), 0 0 20px rgba(255,190,50,.45);
+}
+.packageCard[data-plan="growth"] .planBadge { color: rgba(255,195,55,.9); }
+.packageCard[data-plan="growth"] .btnPrimary {
+  background: linear-gradient(180deg, rgba(255,190,50,.92), rgba(220,155,25,.92)) !important;
+  color: #1a0f00 !important;
+  box-shadow: 0 14px 28px rgba(0,0,0,.5), 0 0 0 1px rgba(255,190,50,.28) !important;
+  border-color: rgba(255,190,50,.35) !important;
+}
+
+/* Popular badge for PRO card */
+.popular-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--green);
+  color: #04170c;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  position: absolute;
+  top: 52px; left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(12,225,118,.4);
+}
+
+/* Testimonials */
+#testimonials { padding: 90px 0; }
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 36px;
+}
+@media (max-width: 900px) { .testimonials-grid { grid-template-columns: 1fr; max-width: 520px; margin-inline: auto; } }
+.t-card {
+  border-radius: var(--r-32);
+  border: 1px solid var(--border);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  padding: 24px 22px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.t-card:hover { transform: translateY(-5px); border-color: rgba(12,225,118,.22); box-shadow: var(--glow); }
+.t-card::before {
+  content: "";
+  position: absolute; inset: -60%;
+  background: radial-gradient(380px 200px at 50% 0%, rgba(12,225,118,.07), transparent 62%);
+  pointer-events: none;
+}
+.t-card > * { position: relative; }
+.t-stars { color: #FFD700; font-size: 15px; letter-spacing: 2px; margin-bottom: 12px; }
+.t-quote { font-size: 15px; line-height: 1.74; color: rgba(245,245,245,.84); margin: 0 0 18px; }
+.t-author { display: flex; align-items: center; gap: 12px; }
+.t-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green), #007a44);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 15px; color: #04170c;
+  flex-shrink: 0;
+}
+.t-name { font-size: 14px; font-weight: 800; display: block; }
+.t-role { font-size: 12px; color: var(--muted); }
+
+/* FAQ toggle rotation */
+.faq-toggle { transition: transform .3s ease, border-color .3s ease, color .3s ease, background .3s ease; }
+.faq-item.open .faq-toggle {
+  transform: rotate(45deg);
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(12,225,118,.1);
+}
+
+/* Hero CTA pulse */
+@keyframes primaryPulse {
+  0%, 100% { box-shadow: var(--glow); }
+  50% { box-shadow: 0 20px 85px rgba(12,225,118,.34), 0 3px 18px rgba(12,225,118,.24), 0 0 0 8px rgba(12,225,118,.07); }
+}
+.hero-actions .btn--primary { animation: primaryPulse 3.5s ease-in-out infinite; }
+.hero-actions .btn--primary:hover { animation: none; }
+
+/* Active nav */
+.pill a.nav-active { color: var(--green) !important; background: rgba(12,225,118,.1) !important; }
+
+/* WhatsApp floating button */
+.wa-float {
+  position: fixed;
+  bottom: 28px;
+  left: 24px;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: #25D366;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 30px rgba(37,211,102,.5), 0 2px 10px rgba(0,0,0,.35);
+  z-index: 890;
+  transition: transform .2s ease, box-shadow .2s ease;
+  text-decoration: none;
+}
+.wa-float:hover { transform: scale(1.1) translateY(-2px); box-shadow: 0 14px 42px rgba(37,211,102,.65), 0 2px 10px rgba(0,0,0,.35); }
+.wa-float svg { width: 30px; height: 30px; fill: #fff; }
+
+/* Stat icons */
+.stat-icon { font-size: 28px; margin-bottom: 6px; line-height: 1; display: block; }
+</style>
 </head>
 
 <body>
+  <div id="progressBar" aria-hidden="true"></div>
   <div class="bg" aria-hidden="true"></div>
   <div class="scanlines" aria-hidden="true"></div>
 
-  <header>
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="תפריט ניווט">
+    <a href="#process" class="mm-link">איך זה עובד</a>
+    <a href="#upgrades" class="mm-link">שדרוגים</a>
+    <a href="#designs" class="mm-link">עיצובים</a>
+    <a href="#about" class="mm-link">מי אני</a>
+    <a href="#packages" class="mm-link">חבילות</a>
+    <a href="#contact" class="mm-link">צור קשר</a>
+    <a href="https://wa.me/972529535329?text=היי%20עמית%2C%20ראיתי%20את%20העבודות%20שלך%20אשמח%20לבדוק%20איך%20משפרים%20לי%20את%20העסק." class="mm-link mobile-menu-wa" target="_blank" rel="noopener">בוא נדבר 💬</a>
+  </div>
+
+  <header id="siteHeader">
     <div class="container nav">
       <div class="brand">
         <img src="Images/amitzur clear logo.png" alt="amitzur logo">
@@ -1155,6 +1404,10 @@ header .container.nav{
         <a href="#packages">חבילות</a>
         <a href="#contact">צור קשר</a>
       </nav>
+
+      <button class="hamburger" id="hamburger" aria-label="פתח תפריט" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
 </div>
   </header>
 
@@ -1164,8 +1417,8 @@ header .container.nav{
         <span class="kicker">תחזוקה ושדרוג לאתרי Ecommerce</span>
         <h1 class="h1"><span class="hero-line">אני לא רק מתחזק אתרים.</span><br><span class="hero-accent">אני מתחזק עסקים.</span></h1>
         <p class="sub">
-מוסיף את הפרטים הקטנים שמשפרים חוויית משתמש ומעלים המרות אחוזי מכירה<br>
- תפריטים חכמים, אייקונים, סניפטים, כפתורים אישים, עיצובים גרפים ועוד.        </p>
+מוסיף את הפרטים הקטנים שמשפרים חוויית משתמש ומעלים המרות ואחוזי מכירה<br>
+ תפריטים חכמים, אייקונים, סניפטים, כפתורים אישיים, עיצובים גרפיים ועוד.        </p>
 
         <div class="hero-actions">
           <a class="btn btn--primary" href="https://wa.me/972529535329?text=היי%20עמית,%20ראיתי%20את%20העבודות%20שלך%20אשמח%20לבדוק%20איך%20משפרים%20לי%20את%20העסק." target="_blank" rel="noopener">
@@ -1466,6 +1719,55 @@ header .container.nav{
     </div>
   </section>
 
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="reveal" style="text-align:center;">
+        <span class="kicker">מה אומרים עליי</span>
+        <h2 class="h2">לקוחות מספרים</h2>
+        <p class="sub" style="margin:0 auto;">לא מספיק לי שהאתר יראה טוב — אני רוצה שהלקוחות שלי ירגישו שעבדו עם מישהו שבאמת מבין עסקים.</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <article class="t-card reveal">
+          <div class="t-stars">★★★★★</div>
+          <p class="t-quote">״עמית עשה לנו שדרוג מדהים לדף המוצר — הוסיף סליידר מותאם אישית שמציג את האבנים בצורה הרבה יותר מרשימה. ממליץ בחום!״</p>
+          <div class="t-author">
+            <div class="t-avatar">D</div>
+            <div>
+              <span class="t-name">The D Diamond New York</span>
+              <span class="t-role">תכשיטי יוקרה • Shopify</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="t-card reveal">
+          <div class="t-stars">★★★★★</div>
+          <p class="t-quote">״בנה לנו סקשן מדורות גן עם כפתור הנעה לשיחה — תוך שבוע ראינו עלייה ניכרת בפניות מוואטסאפ. עמית מבין שיווק, לא רק קוד.״</p>
+          <div class="t-author">
+            <div class="t-avatar">S</div>
+            <div>
+              <span class="t-name">Storma מאווררי תקרה</span>
+              <span class="t-role">ריהוט גן • Shopify</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="t-card reveal">
+          <div class="t-stars">★★★★★</div>
+          <p class="t-quote">״הפופאפ של הניוזלטר שעמית הטמיע לנו הגדיל את רשימת התפוצה ב-40% תוך חודש. עבודה מהירה, נקייה ומקצועית ברמה אחרת.״</p>
+          <div class="t-author">
+            <div class="t-avatar">I</div>
+            <div>
+              <span class="t-name">Ice Diamonds</span>
+              <span class="t-role">תכשיטים • Shopify</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- ABOUT -->
   <section id="about">
     <div class="container about">
@@ -1520,7 +1822,8 @@ header .container.nav{
 
       <article class="packageCard isFeatured" data-plan="pro">
         <div class="pin" aria-hidden="true"></div>
-        <div class="planBadge">PRO</div>
+        <div class="popular-badge">⭐ הכי פופולרי</div>
+        <div class="planBadge" style="margin-top:32px;">PRO</div>
         <h3 class="planName">תחזוקה + שדרוגים</h3>
         <p class="planLead">לא רק לשמור — לשפר ולהתקדם.</p>
 
@@ -1606,15 +1909,18 @@ header .container.nav{
 
       <div class="stats">
         <div class="statbox reveal">
-          <div class="counter" data-target="100">0</div>
+          <span class="stat-icon">🤝</span>
+          <div class="counter" data-target="100" data-suffix="+">0</div>
           <div class="muted">לקוחות מרוצים</div>
         </div>
         <div class="statbox reveal">
-          <div class="counter" data-target="25">0</div>
+          <span class="stat-icon">🚀</span>
+          <div class="counter" data-target="25" data-suffix="+">0</div>
           <div class="muted">פרויקטים</div>
         </div>
         <div class="statbox reveal">
-          <div class="counter" data-target="3">0</div>
+          <span class="stat-icon">⚡</span>
+          <div class="counter" data-target="3" data-suffix="+">0</div>
           <div class="muted">שנות ניסיון</div>
         </div>
       </div>
@@ -1707,6 +2013,11 @@ header .container.nav{
     </div>
   </footer>
 
+  <!-- WhatsApp floating button -->
+  <a class="wa-float" href="https://wa.me/972529535329?text=היי%20עמית%2C%20ראיתי%20את%20העבודות%20שלך%20אשמח%20לבדוק%20איך%20משפרים%20לי%20את%20העסק." target="_blank" rel="noopener" aria-label="שלח הודעה בוואטסאפ">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
 
@@ -1743,12 +2054,13 @@ header .container.nav{
       countersStarted = true;
       document.querySelectorAll('.counter').forEach(c => {
         const target = +c.getAttribute('data-target');
+        const suffix = c.getAttribute('data-suffix') || '';
         let cur = 0;
         const step = Math.max(1, Math.round(target / 70));
         const timer = setInterval(()=>{
           cur += step;
           if (cur >= target) { cur = target; clearInterval(timer); }
-          c.textContent = cur;
+          c.textContent = cur + (cur >= target ? suffix : '');
         }, 18);
       });
     }
@@ -1835,6 +2147,92 @@ header .container.nav{
       onScroll();
     })();
 
+
+// ===== Scroll progress bar =====
+(function(){
+  const bar = document.getElementById('progressBar');
+  if(!bar) return;
+  function updateBar(){
+    const scrollTop = window.scrollY;
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? scrollTop / docH : 0;
+    bar.style.transform = 'scaleX(' + pct + ')';
+  }
+  window.addEventListener('scroll', updateBar, {passive:true});
+  updateBar();
+})();
+
+// ===== Sticky header on scroll =====
+(function(){
+  const header = document.getElementById('siteHeader');
+  if(!header) return;
+  const threshold = 60;
+  function onScroll(){
+    if(window.scrollY > threshold){
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+
+// ===== Mobile hamburger menu =====
+(function(){
+  const btn = document.getElementById('hamburger');
+  const menu = document.getElementById('mobileMenu');
+  if(!btn || !menu) return;
+
+  function openMenu(){
+    btn.classList.add('open');
+    menu.classList.add('open');
+    btn.setAttribute('aria-expanded','true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu(){
+    btn.classList.remove('open');
+    menu.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', function(){
+    if(menu.classList.contains('open')) closeMenu(); else openMenu();
+  });
+
+  menu.querySelectorAll('.mm-link').forEach(function(a){
+    a.addEventListener('click', function(){
+      closeMenu();
+    });
+  });
+
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeMenu(); });
+})();
+
+// ===== Active nav on scroll =====
+(function(){
+  const sections = ['process','upgrades','designs','testimonials','about','packages','clients','stats','faq','contact'];
+  const links = document.querySelectorAll('.pill a');
+  const io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        const id = e.target.getAttribute('id');
+        links.forEach(function(a){
+          const href = a.getAttribute('href');
+          a.classList.toggle('nav-active', href === '#' + id);
+        });
+      }
+    });
+  }, {rootMargin:'-40% 0px -55% 0px'});
+  sections.forEach(function(id){
+    const el = document.getElementById(id);
+    if(el) io.observe(el);
+  });
+})();
+
+// ===== Counters with suffix =====
+// (override original counter logic to support data-suffix)
 
 // Mobile process timeline reveal
 (function(){
