@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Ad 1 – Pain Point</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    width:1080px;height:1080px;overflow:hidden;
+    background:#060608;
+    font-family:'Rubik',sans-serif;
+    color:#f5f5f5;
+  }
+
+  .ad{
+    width:1080px;height:1080px;
+    position:relative;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:space-between;
+    padding:52px 64px 54px;
+  }
+
+  /* === BACKGROUND === */
+  .bg-blob{position:absolute;inset:0;pointer-events:none;}
+  .bg-blob::before{
+    content:"";position:absolute;
+    width:820px;height:600px;
+    top:-180px;right:-200px;
+    background:radial-gradient(ellipse, rgba(12,225,118,.13) 0%, transparent 70%);
+  }
+  .bg-blob::after{
+    content:"";position:absolute;
+    width:700px;height:500px;
+    bottom:-160px;left:-180px;
+    background:radial-gradient(ellipse, rgba(180,60,60,.12) 0%, transparent 68%);
+  }
+  .bg-grid{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size:72px 72px;
+  }
+  .noise{
+    position:absolute;inset:0;
+    opacity:.22;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:200px 200px;
+  }
+
+  /* === TOP BAR === */
+  .topbar{
+    width:100%;display:flex;
+    align-items:center;justify-content:space-between;
+    position:relative;z-index:2;
+  }
+  .brand-badge{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:10px 20px;
+    border-radius:999px;
+    border:1px solid rgba(12,225,118,.25);
+    background:rgba(12,225,118,.08);
+    backdrop-filter:blur(12px);
+    font-size:15px;font-weight:700;
+    color:rgba(255,255,255,.85);
+    letter-spacing:.3px;
+  }
+  .brand-dot{
+    width:9px;height:9px;border-radius:50%;
+    background:#0CE176;
+    box-shadow:0 0 10px rgba(12,225,118,.8);
+    flex-shrink:0;
+  }
+  .alert-chip{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:9px 18px;border-radius:999px;
+    background:rgba(220,60,60,.12);
+    border:1px solid rgba(220,80,80,.28);
+    font-size:13px;font-weight:700;
+    color:rgba(255,160,140,.9);
+    letter-spacing:.2px;
+  }
+  .alert-dot{width:7px;height:7px;border-radius:50%;background:#f06060;flex-shrink:0;}
+
+  /* === CENTER: BIG STAT === */
+  .center{
+    position:relative;z-index:2;
+    display:flex;flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:0;
+    margin-top:-18px;
+  }
+
+  .eyebrow{
+    font-size:17px;font-weight:600;
+    color:rgba(255,255,255,.45);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+
+  .big-stat{
+    font-size:202px;font-weight:900;
+    line-height:.88;
+    letter-spacing:-8px;
+    background:linear-gradient(135deg, #0CE176 0%, #00E064 40%, rgba(12,225,118,.55) 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    filter:drop-shadow(0 0 60px rgba(12,225,118,.3));
+    position:relative;
+  }
+  .big-stat::after{
+    content:"";
+    position:absolute;
+    bottom:-8px;left:50%;
+    transform:translateX(-50%);
+    width:60%;height:2px;
+    background:linear-gradient(90deg, transparent, rgba(12,225,118,.5), transparent);
+  }
+
+  .stat-label{
+    margin-top:22px;
+    font-size:36px;font-weight:800;
+    line-height:1.18;
+    letter-spacing:-.5px;
+    color:#f5f5f5;
+    max-width:680px;
+  }
+  .stat-label span{color:#0CE176;}
+
+  .stat-sub{
+    margin-top:14px;
+    font-size:19px;
+    color:rgba(255,255,255,.45);
+    font-weight:400;
+    max-width:520px;
+    line-height:1.5;
+  }
+
+  /* === PROBLEM PILLS === */
+  .problems{
+    display:flex;gap:14px;
+    position:relative;z-index:2;
+    flex-wrap:nowrap;
+  }
+  .prob{
+    display:flex;align-items:center;gap:10px;
+    padding:14px 20px;
+    border-radius:16px;
+    border:1px solid rgba(220,70,70,.2);
+    background:rgba(180,40,40,.08);
+    backdrop-filter:blur(10px);
+    font-size:15px;font-weight:700;
+    flex:1;
+    color:rgba(255,255,255,.82);
+  }
+  .x-icon{
+    width:26px;height:26px;border-radius:8px;
+    background:rgba(220,60,60,.2);
+    border:1px solid rgba(220,80,80,.3);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;flex-shrink:0;
+    color:#f07070;
+  }
+
+  /* === BOTTOM === */
+  .bottom{
+    width:100%;display:flex;
+    align-items:center;justify-content:space-between;
+    position:relative;z-index:2;
+    gap:18px;
+  }
+  .cta-pill{
+    display:inline-flex;align-items:center;gap:12px;
+    padding:18px 34px;
+    border-radius:999px;
+    background:linear-gradient(90deg,#0CE176,#00C866);
+    font-size:19px;font-weight:800;
+    color:#03140a;
+    box-shadow:0 18px 50px rgba(12,225,118,.35),0 4px 16px rgba(0,0,0,.5);
+    letter-spacing:-.2px;
+    white-space:nowrap;
+  }
+  .arrow-icon{
+    width:28px;height:28px;border-radius:50%;
+    background:rgba(3,20,10,.25);
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;
+  }
+
+  .social-proof{
+    display:flex;flex-direction:column;align-items:flex-start;gap:4px;
+  }
+  .sp-row{display:flex;align-items:center;gap:8px;}
+  .stars{color:#F5C518;font-size:18px;letter-spacing:2px;}
+  .sp-text{font-size:14px;color:rgba(255,255,255,.45);font-weight:500;}
+  .sp-num{font-size:22px;font-weight:800;color:#f5f5f5;}
+
+  /* border glow bottom */
+  .bottom-line{
+    position:absolute;bottom:0;left:0;right:0;
+    height:3px;
+    background:linear-gradient(90deg,transparent,rgba(12,225,118,.6),transparent);
+  }
+</style>
+</head>
+<body>
+<div class="ad">
+  <div class="bg-blob"></div>
+  <div class="bg-grid"></div>
+  <div class="noise"></div>
+  <div class="bottom-line"></div>
+
+  <!-- TOP -->
+  <div class="topbar">
+    <div class="brand-badge">
+      <div class="brand-dot"></div>
+      Amitzur Digital
+    </div>
+    <div class="alert-chip">
+      <div class="alert-dot"></div>
+      בעיה שעסקים מתעלמים ממנה
+    </div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="center">
+    <div class="eyebrow">הסטטיסטיקה שאף אחד לא אוהב לראות</div>
+    <div class="big-stat">73%</div>
+    <div class="stat-label">
+      מהמבקרים <span>עוזבים את הדף שלך</span><br>בלי לפעול
+    </div>
+    <div class="stat-sub">כל שקל שאתה שם בפרסום — שלושה רבעים ממנו הולכים לאבדון</div>
+  </div>
+
+  <!-- PROBLEMS -->
+  <div class="problems">
+    <div class="prob">
+      <div class="x-icon">✕</div>
+      עיצוב שלא מייצר אמון
+    </div>
+    <div class="prob">
+      <div class="x-icon">✕</div>
+      CTA שלא בולט
+    </div>
+    <div class="prob">
+      <div class="x-icon">✕</div>
+      טקסט שלא מוכר
+    </div>
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="bottom">
+    <div class="social-proof">
+      <div class="sp-num">+30 לקוחות</div>
+      <div class="sp-row">
+        <div class="stars">★★★★★</div>
+      </div>
+      <div class="sp-text">עברו לדף שמוכר באמת</div>
+    </div>
+    <div class="cta-pill">
+      בוא נתקן את זה — ייעוץ חינם
+      <div class="arrow-icon">←</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

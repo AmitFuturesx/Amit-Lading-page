@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Ad 3 – Direct Offer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    width:1080px;height:1080px;overflow:hidden;
+    background:#060708;
+    font-family:'Rubik',sans-serif;
+    color:#f5f5f5;
+  }
+
+  .ad{
+    width:1080px;height:1080px;
+    position:relative;overflow:hidden;
+    display:flex;flex-direction:column;
+    align-items:center;
+    padding:52px 72px 56px;
+    gap:0;
+  }
+
+  /* BG */
+  .bg-main{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(900px 700px at 50% -10%, rgba(12,225,118,.10) 0%, transparent 55%),
+      radial-gradient(600px 500px at 10% 100%, rgba(0,120,255,.07) 0%, transparent 60%),
+      radial-gradient(500px 400px at 90% 90%, rgba(180,100,255,.06) 0%, transparent 60%);
+  }
+  .bg-lines{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+    background-size:90px 90px;
+  }
+  .noise{
+    position:absolute;inset:0;opacity:.16;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:200px 200px;
+  }
+  /* Decorative corners */
+  .corner{position:absolute;width:120px;height:120px;}
+  .corner-tl{top:0;right:0;border-top:2px solid rgba(12,225,118,.18);border-right:2px solid rgba(12,225,118,.18);border-radius:0 0 0 16px;}
+  .corner-br{bottom:0;left:0;border-bottom:2px solid rgba(12,225,118,.18);border-left:2px solid rgba(12,225,118,.18);border-radius:0 16px 0 0;}
+
+  /* === TOP: Badge + Logo === */
+  .toprow{
+    width:100%;display:flex;
+    align-items:center;justify-content:space-between;
+    position:relative;z-index:2;
+    margin-bottom:40px;
+  }
+  .tag{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:9px 16px;border-radius:999px;
+    border:1px solid rgba(12,225,118,.22);
+    background:rgba(12,225,118,.07);
+    font-size:13px;font-weight:700;
+    color:rgba(255,255,255,.75);letter-spacing:.2px;
+  }
+  .tag-dot{width:7px;height:7px;border-radius:50%;background:#0CE176;box-shadow:0 0 8px rgba(12,225,118,.9);}
+  .brand{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
+  .brand-name{font-size:18px;font-weight:800;letter-spacing:-.2px;}
+  .brand-sub{font-size:11px;color:rgba(12,225,118,.7);font-weight:600;letter-spacing:.6px;text-transform:uppercase;}
+
+  /* === MAIN HEADLINE === */
+  .headline-area{
+    position:relative;z-index:2;
+    text-align:center;
+    margin-bottom:38px;
+  }
+  .pre-line{
+    font-size:14px;font-weight:700;
+    color:rgba(12,225,118,.75);
+    letter-spacing:2.5px;text-transform:uppercase;
+    margin-bottom:12px;
+  }
+  .main-h{
+    font-size:68px;font-weight:900;
+    line-height:.96;
+    letter-spacing:-2.5px;
+  }
+  .main-h .line1{color:#f5f5f5;}
+  .main-h .line2{
+    background:linear-gradient(135deg,#0CE176 0%,#00E870 50%,rgba(12,225,118,.65) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .main-sub{
+    margin-top:16px;
+    font-size:19px;color:rgba(255,255,255,.45);
+    font-weight:400;line-height:1.5;
+  }
+
+  /* === SERVICES GRID === */
+  .services{
+    position:relative;z-index:2;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    width:100%;
+    margin-bottom:34px;
+  }
+  .svc{
+    display:flex;align-items:flex-start;gap:14px;
+    padding:18px 20px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(12,12,15,.52);
+    backdrop-filter:blur(12px);
+    box-shadow:0 8px 30px rgba(0,0,0,.4);
+    position:relative;overflow:hidden;
+  }
+  .svc::before{
+    content:"";position:absolute;
+    top:0;right:0;width:60%;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(12,225,118,.2));
+  }
+  .svc.featured{
+    border-color:rgba(12,225,118,.28);
+    background:rgba(12,225,118,.07);
+  }
+  .svc-icon{
+    width:42px;height:42px;border-radius:12px;
+    background:rgba(12,225,118,.1);
+    border:1px solid rgba(12,225,118,.18);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;flex-shrink:0;
+    margin-top:1px;
+  }
+  .svc.featured .svc-icon{background:rgba(12,225,118,.18);border-color:rgba(12,225,118,.3);}
+  .svc-body{}
+  .svc-title{font-size:16px;font-weight:800;color:#f0f0f0;line-height:1.2;margin-bottom:4px;}
+  .svc.featured .svc-title{color:#0CE176;}
+  .svc-desc{font-size:13px;color:rgba(255,255,255,.42);line-height:1.5;}
+  .svc-badge{
+    position:absolute;top:12px;left:14px;
+    padding:3px 10px;border-radius:999px;
+    background:rgba(12,225,118,.18);
+    border:1px solid rgba(12,225,118,.3);
+    font-size:10px;font-weight:800;color:#0CE176;letter-spacing:.3px;
+  }
+
+  /* === BOTTOM ROW === */
+  .bottom{
+    position:relative;z-index:2;
+    width:100%;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:20px;
+  }
+  .proof-row{
+    display:flex;align-items:center;gap:20px;
+  }
+  .proof-item{display:flex;flex-direction:column;gap:2px;align-items:flex-end;}
+  .proof-num{font-size:28px;font-weight:900;color:#f5f5f5;letter-spacing:-1px;}
+  .proof-label{font-size:12px;color:rgba(255,255,255,.38);font-weight:500;}
+  .proof-divider{width:1px;height:36px;background:rgba(255,255,255,.1);}
+
+  .cta-block{display:flex;flex-direction:column;align-items:flex-start;gap:8px;}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:12px;
+    padding:16px 32px;border-radius:999px;
+    background:linear-gradient(90deg,#0CE176,#00C866);
+    font-size:18px;font-weight:800;color:#03140a;
+    box-shadow:0 16px 44px rgba(12,225,118,.32),0 4px 14px rgba(0,0,0,.5);
+    letter-spacing:-.2px;white-space:nowrap;
+  }
+  .cta-arrow{
+    width:26px;height:26px;border-radius:50%;
+    background:rgba(3,20,10,.22);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;
+  }
+  .cta-hint{font-size:12px;color:rgba(255,255,255,.3);padding-right:8px;}
+</style>
+</head>
+<body>
+<div class="ad">
+  <div class="bg-main"></div>
+  <div class="bg-lines"></div>
+  <div class="noise"></div>
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-br"></div>
+
+  <!-- TOP ROW -->
+  <div class="toprow">
+    <div class="tag">
+      <div class="tag-dot"></div>
+      בונה דפי נחיתה לעסקים
+    </div>
+    <div class="brand">
+      <div class="brand-name">Amitzur Digital</div>
+      <div class="brand-sub">Landing Pages · UX · Design</div>
+    </div>
+  </div>
+
+  <!-- HEADLINE -->
+  <div class="headline-area">
+    <div class="pre-line">מה שלקוחות שלי מקבלים</div>
+    <div class="main-h">
+      <div class="line1">דפי נחיתה שעובדים.</div>
+      <div class="line2">שסוגרים עסקאות.</div>
+    </div>
+    <div class="main-sub">עיצוב ברמת סוכנות · UX ממוקד המרות · מסירה ב-48 שעות</div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="services">
+    <div class="svc featured">
+      <div class="svc-icon">🎯</div>
+      <div class="svc-body">
+        <div class="svc-title">דף נחיתה לקמפיין ממומן</div>
+        <div class="svc-desc">עיצוב מותאם לפרסום בפייסבוק / גוגל — כולל CTA חזק, טקסט מוכר ומהירות טעינה מקסימלית</div>
+      </div>
+      <div class="svc-badge">הכי פופולרי</div>
+    </div>
+    <div class="svc">
+      <div class="svc-icon">🖌️</div>
+      <div class="svc-body">
+        <div class="svc-title">עיצוב גרפי לקמפיינים</div>
+        <div class="svc-desc">פוסטים, בנרים ועיצובים שעוצרים גלילה ומניעים ללחוץ</div>
+      </div>
+    </div>
+    <div class="svc">
+      <div class="svc-icon">🔧</div>
+      <div class="svc-body">
+        <div class="svc-title">שדרוג אתר קיים</div>
+        <div class="svc-desc">Shopify / WordPress — שיפורי UX, מהירות ואלמנטים שמוכרים</div>
+      </div>
+    </div>
+    <div class="svc">
+      <div class="svc-icon">📊</div>
+      <div class="svc-body">
+        <div class="svc-title">אופטימיזציית המרות</div>
+        <div class="svc-desc">ניתוח הדף הקיים + שינויים קטנים שעושים הבדל גדול בתוצאות</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="bottom">
+    <div class="proof-row">
+      <div class="proof-item">
+        <div class="proof-num">+30</div>
+        <div class="proof-label">לקוחות מרוצים</div>
+      </div>
+      <div class="proof-divider"></div>
+      <div class="proof-item">
+        <div class="proof-num">×3</div>
+        <div class="proof-label">שיפור המרות ממוצע</div>
+      </div>
+      <div class="proof-divider"></div>
+      <div class="proof-item">
+        <div class="proof-num">48h</div>
+        <div class="proof-label">זמן מסירה</div>
+      </div>
+    </div>
+
+    <div class="cta-block">
+      <div class="cta-btn">
+        דבר איתי עכשיו — חינם
+        <div class="cta-arrow">←</div>
+      </div>
+      <div class="cta-hint">ייעוץ ראשוני ללא התחייבות</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
