@@ -1,1880 +1,1620 @@
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Amitzur Digital — תחזוק ושדרוג אתרים</title>
-  <meta name="description" content="אני לא בונה אתרים — אני משדרג אותם. תוספות UX קטנות שעושות הבדל גדול + עיצוב גרפי שמוכר. Shopify / WordPress." />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg:#0b0b0b;
-      --text:#f5f5f5;
-      --muted:#bdbdbd;
-      --green:#0CE176;
-      --green2:#00C866;
-
-      --card: rgba(18,18,18,.55);
-      --border: rgba(255,255,255,.08);
-      --shadow: 0 12px 34px rgba(0,0,0,.45);
-      --glow: 0 20px 85px rgba(12,225,118,.14), 0 3px 18px rgba(12,225,118,.10);
-
-      --r-16:16px;
-      --r-24:24px;
-      --r-32:32px;
-      --r-40:40px;
-
-      --maxw: 1160px;
-      --headerH: 86px;
-    }
-
-    *{ box-sizing:border-box }
-    html,body{ height:100% }
-    body{
-      margin:0;
-      font-family:'Rubik',system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height:1.7;
-      overflow-x:hidden;
-      padding-top: var(--headerH);
-    }
-    a{ color:inherit; text-decoration:none }
-    img{ max-width:100%; display:block }
-    .container{ width:min(var(--maxw), 92%); margin-inline:auto }
-
-    /* ===== BACKGROUND: vertical faint lines + soft glows ===== */
-    .bg{
-      position:fixed; inset:0;
-      pointer-events:none;
-      z-index:-2;
-      background:
-        radial-gradient(900px 600px at 14% 10%, rgba(12,225,118,.14), transparent 55%),
-        radial-gradient(820px 540px at 88% 18%, rgba(0,200,102,.12), transparent 58%),
-        radial-gradient(760px 520px at 50% 92%, rgba(12,225,118,.10), transparent 60%),
-        linear-gradient(to bottom, rgba(255,255,255,.03), transparent 260px);
-    }
-    .scanlines{
-      position:fixed; inset:0;
-      pointer-events:none;
-      z-index:-1;
-      opacity:.18;
-      background:
-        repeating-linear-gradient(
-          90deg,
-          rgba(255,255,255,.25) 0px,
-          rgba(255,255,255,.25) 1px,
-          transparent 1px,
-          transparent 120px
-        );
-      mask-image: radial-gradient(600px 340px at 50% 14%, #000 45%, transparent 80%);
-    }
-
-    /* ===== HEADER: pill nav ===== */
-    header{
-      position:fixed; top:0; right:0; left:0;
-      height: var(--headerH);
-      z-index:1000;
-      background: rgba(11,11,11,.62);
-      backdrop-filter: blur(12px) saturate(150%);
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .nav{
-      height:100%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .brand img{
-      width: min(260px, 46vw);
-      height:auto;
-      object-fit:contain;
-      border:none;
-      background:transparent;
-    }
-    .pill{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.06);
-      background: rgba(18,18,18,.50);
-      box-shadow: var(--shadow);
-      overflow:auto;
-      scrollbar-width:none;
-    }
-    .pill::-webkit-scrollbar{ display:none }
-    .pill a{
-      color: var(--muted);
-      font-weight:700;
-      font-size:14px;
-      padding:8px 12px;
-      border-radius:999px;
-      white-space:nowrap;
-      transition: background .2s ease, color .2s ease, transform .2s ease;
-    }
-    .pill a:hover{ color:var(--text); background: rgba(255,255,255,.06); transform: translateY(-1px) }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:10px 14px;
-      border-radius:999px;
-      font-weight:800;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(18,18,18,.55);
-      color: var(--text);
-      transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
-      box-shadow: var(--shadow);
-    }
-    .btn:hover{ transform: translateY(-2px); border-color: rgba(12,225,118,.35) }
-    .btn--primary{
-      background: linear-gradient(90deg, var(--green), var(--green2));
-      color:#04170c;
-      border-color: rgba(12,225,118,.35);
-      box-shadow: var(--glow);
-    }
-
-    /* ===== Typography ===== */
-    section{ padding: 92px 0; border-bottom:1px solid rgba(255,255,255,.06) }
-    .kicker{
-      display:inline-flex;
-      width:fit-content;
-      align-items:center;
-      gap:10px;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(12,225,118,.22);
-      background: rgba(12,225,118,.08);
-      color: var(--text);
-      font-weight:800;
-      font-size:13px;
-    }
-    .h1{
-      margin: 14px 0 10px;
-      font-size: clamp(40px, 4.6vw, 64px);
-      line-height:1.02;
-      letter-spacing:-.45px;
-    }
-    .h2{
-      margin: 0 0 10px;
-      font-size: clamp(28px, 3.2vw, 44px);
-      line-height:1.12;
-      letter-spacing:-.25px;
-    }
-    .hero-accent{ color: var(--green); display:inline-block; margin-right:10px; }
-
-    .sub{
-      color: var(--muted);
-      font-size: clamp(16px, 1.2vw, 18px);
-      max-width: 70ch;
-    }
-    .muted{ color: var(--muted) }
-
-    
-    /* ===== HERO: swinging lamp ===== */
-    .hero{ padding: 86px 0 86px; }
-    .hero-grid{
-      display:grid;
-      grid-template-columns: 1.08fr .92fr;
-      gap: 34px;
-      align-items:center;
-    }
-
-    .hero-copy{
-      /* Make hero text feel like part of the page (no card) */
-      background: transparent;
-      border: none;
-      box-shadow: none;
-      border-radius: 0;
-      padding: 0;
-      position:relative;
-      overflow: visible;
-      text-align:right;
-      max-width: 760px;
-      justify-self: end;
-    }
-    .hero-copy::before{ display:none; }
-    .hero-copy > *{ position:relative }
-    .hero-actions{ margin-top: 18px; display:flex; gap:12px; flex-wrap:wrap; }
-
-    .hero-art{
-      position:relative;
-      height: min(720px, 78vh);
-      display:grid;
-      place-items:center;
-    }
-
-    .lamp-wrap{
-      position:relative;
-      width:min(700px, 98%);
-      transform-origin: 50% 0%;
-      will-change: transform;
-      filter: drop-shadow(0 26px 62px rgba(0,0,0,.6));
-    }
-
-    @keyframes swing{
-      0%{ transform: rotate(-4deg) translateY(0) }
-      50%{ transform: rotate(4deg) translateY(0) }
-      100%{ transform: rotate(-4deg) translateY(0) }
-    }
-    .lamp-wrap.swing{
-      animation: swing 6.4s ease-in-out infinite;
-    }
-
-    .lamp-glow{
-      position:absolute;
-      left:50%;
-      top: 66%;
-      transform: translateX(-50%);
-      width: 420px;
-      height: 280px;
-      border-radius: 50%;
-      background: radial-gradient(closest-side, rgba(12,225,118,.16), transparent 72%);
-      filter: blur(2px);
-      opacity:.9;
-      pointer-events:none;
-    }
-
-    .chips{
-      position:absolute;
-      inset: 0;
-      display:grid;
-      place-items:center;
-      pointer-events:none;
-      transform: translateY(10px);
-    }
-    .chip{
-      position:absolute;
-      border-radius:999px;
-      padding: 8px 14px;
-      font-weight:800;
-      font-size: 16px;
-      letter-spacing:-.1px;
-      border:1px solid rgba(255,255,255,.06);
-      background: rgba(14,14,14,.72);
-      box-shadow: 0 14px 28px rgba(0,0,0,.45);
-      color: rgba(245,245,245,.92);
-      backdrop-filter: blur(8px);
-      transform: translate(-50%,-50%);
-      opacity:.95;
-    }
-    .chip strong{ color: var(--green) }
-    .chip.c1{ left: 52%; top: 60%; }
-    .chip.c2{ left: 44%; top: 49%; }
-    .chip.c3{ left: 60%; top: 49%; }
-    .chip.c4{ left: 44%; top: 66%; }
-    .chip.c5{ left: 60%; top: 66%; }
-    .chip.c6{ left: 52%; top: 71%; }
-
-    /* ===== PROCESS: wavy path with steps 1-4 ===== */
-    #process{ padding: 92px 0 104px; }
-    .process-head{ text-align:center; margin-bottom: 30px; }
-    .process-wrap{
-      position:relative;
-      border-radius: 0;
-      border:none;
-      background: transparent;
-      box-shadow: none;
-      padding: 10px 0 0;
-      overflow: visible;
-    }
-    .process-wrap::before{ display:none; }
-    /* (disabled) */
-    .process-wrap__old::before{
-      content:"";
-      position:absolute; inset:-40%;
-      background: radial-gradient(820px 520px at 55% 10%, rgba(12,225,118,.12), transparent 62%);
-      opacity:.85;
-      pointer-events:none;
-    }
-    .process-wrap > *{ position:relative }
-
-    /* Sticky scroll stage (Nikita-style) */
-    .process-wrap{
-      position:relative;
-      height: 240vh; /* scroll room */
-      margin-top: 22px;
-    }
-    .process-sticky{
-      position: sticky;
-      top: calc(var(--headerH) + 18px);
-      height: calc(100vh - (var(--headerH) + 18px));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .process-stage{
-      width: min(1200px, 94%);
-      height: 100%;
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .process-svg{
-      width: 100%;
-      height: auto;
-      display:block;
-      filter: drop-shadow(0 26px 70px rgba(0,0,0,.60));
-    }
-
-    /* Wave draw */
-    #waveDraw{
-      stroke-dasharray: 2600;
-      stroke-dashoffset: 2600;
-      transition: stroke-dashoffset .35s linear;
-    }
-
-    /* Nodes */
-    .pNode{ opacity:.22; transform: none; transform-origin:center; transition: opacity .35s ease, filter .35s ease; }
-.pNode.is-done{ opacity:.9; transform:none; filter: drop-shadow(0 0 10px rgba(0,227,123,.28)); }
-.pNode.is-active{ opacity:1; transform:none; filter: drop-shadow(0 0 14px rgba(0,227,123,.55)); }
-
-    /* Step texts */
-    .process-texts{
-      position:absolute;
-      inset: 0;
-      pointer-events:none;
-    }
-    .pText{
-      position:absolute;
-      width: min(360px, 42vw);
-      text-align:right;
-      direction:rtl;
-      padding: 16px 18px;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.07);
-      background: rgba(8,8,8,.55);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 24px 70px rgba(0,0,0,.55);
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity .55s ease, transform .55s ease;
-    }
-    .pText h3{ margin:0 0 8px; font-size: 22px; letter-spacing:-.2px; }
-    .pText p{ margin:0; color: var(--muted); font-size: 15px; line-height:1.65; }
-    .pText.shown{ opacity:1; transform:none; }
-
-    /* Desktop placements (similar to Nikita screenshot) */
-    /* Place texts closer to the numbered nodes (Nikita-style) */
-    .pText[data-step="1"]{ right: 2%; top: 18%; }
-    .pText[data-step="2"]{ right: 22%; bottom: 18%; }
-    .pText[data-step="3"]{ left: 30%; top: 18%; text-align:left; }
-    .pText[data-step="4"]{ left: 2%; bottom: 18%; text-align:left; }
-
-    
-/* Process mobile timeline */
-.processMobile{ display:none; margin-top: 26px; }
-.processMobile .mStep{ 
-  display:flex; 
-  gap:14px; 
-  align-items:flex-start; 
-  padding: 18px 14px; 
-  border: 1px solid rgba(255,255,255,.10);
-  border-radius: 18px;
-  background: rgba(9,10,12,.55);
-  box-shadow: 0 10px 40px rgba(0,0,0,.35);
-  margin: 14px auto;
-  max-width: 620px;
-}
-.processMobile .mDot{
-  width: 44px; height: 44px;
-  border-radius: 999px;
-  background: rgba(0,227,123,.22);
-  border: 2px solid rgba(0,227,123,.85);
-  box-shadow: 0 0 22px rgba(0,227,123,.35);
-  color:#0b0d0f;
-  display:flex; align-items:center; justify-content:center;
-  font-weight: 900;
-  flex: 0 0 44px;
-}
-.processMobile .mBody h3{ margin:0 0 6px; font-size: 22px; }
-.processMobile .mBody p{ margin:0; opacity:.88; line-height: 1.55; }
-
-.processMobile .mStep.is-active .mDot{
-  background: rgba(0,227,123,.95);
-  box-shadow: 0 0 35px rgba(0,227,123,.55);
-}
-.processMobile .mStep.is-done{ opacity: .95; }
-.processMobile .mStep.is-done .mDot{
-  background: rgba(0,227,123,.85);
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>עמית עמיצור — ניהול דיגיטל ו-eCommerce</title>
+<meta name="description" content="ניהול דיגיטל מלא לחנויות Shopify — תחזוקה, שדרוגים, עיצוב, קמפיינים. תוצאות מוכחות."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0b;
+  --bg2:#111214;
+  --bg3:#161719;
+  --text:#eeeae4;
+  --muted:#7a7874;
+  --muted2:#a09c96;
+  --accent:#E63946;
+  --accent-dim:rgba(230,57,70,.1);
+  --border:rgba(255,255,255,.07);
+  --border2:rgba(255,255,255,.12);
+  --card:rgba(255,255,255,.03);
+  --r:14px;
+  --rL:22px;
+  --rXL:32px;
+  --hh:72px;
+  --maxw:1120px;
 }
 
-@media (max-width: 900px){
-  /* Mobile hero fixes */
-  .hero{ padding-top: 110px; }
-  .hero-grid{ grid-template-columns: 1fr; gap: 22px; }
-  .hero-copy{ text-align: center; align-items: center; }
-  .hero-box{ width: min(620px, 94vw); }
-  .hero-visual{ order: -1; justify-content: center; align-items: center; margin: 0 auto 8px; }
-  .bulb{ width: min(520px, 92vw); min-width: 0; }
-  .hero-visual .bulb svg{ width: 100%; height: auto; }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Rubik',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.w{width:min(var(--maxw),92%);margin-inline:auto}
+header,section,.logos-section,.tools-strip{position:relative;z-index:1}
 
-  /* Process: use mobile timeline (desktop wave hidden on mobile) */
-  .processDesktop{ display:none !important; }
-  .processMobile{ display:block !important; }
+/* ─── HEADER (Nir style) ─── */
+header{
+  position:fixed;top:0;right:0;left:0;
+  height:var(--hh);z-index:200;
+  background:rgba(10,10,11,.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav{
+  height:100%;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+/* Logo: "עמית. עמיצור." style */
+.logo{
+  font-size:22px;font-weight:900;
+  letter-spacing:-.5px;
+  white-space:nowrap;
+  line-height:1;
+}
+.logo-first{color:var(--text)}
+.logo-last{color:#E63946}
+.logo-dot-txt{color:#E63946}
 
-      .process-wrap{ height: auto; }
-      .process-sticky{ position:relative; top:auto; height:auto; }
-      .process-stage{ height:auto; padding: 10px 0 0; }
-      #waveDraw{ stroke-dashoffset: 0 !important; }
-      .pNode{ opacity:.95; transform:none; }
-      .process-texts{ position:static; pointer-events:auto; margin-top: 14px; display:grid; gap: 12px; }
-      .pText{
-        position:static;
-        width: 100%;
-        opacity:1;
-        transform:none;
-        text-align:right;
-      }
-      .pText[data-step="3"], .pText[data-step="4"]{ text-align:right; }
-    }
-    .curve{ width:100%; height:auto; display:block; }
-    .step-label{
-      position:absolute;
-      width:min(340px, 40%);
-      text-align:right;
-      direction:rtl;
-    }
-    .step-label h3{ margin:0 0 6px; font-size: 22px; letter-spacing:-.2px; }
-    .step-label p{ margin:0; color: var(--muted); font-size: 15px; line-height:1.65; }
-    .s1{ right: 6%; top: 14%; }
-    .s2{ right: 30%; top: 66%; }
-    .s3{ left: 30%; top: 10%; text-align:left; direction:rtl; }
-    .s4{ left: 4%; top: 72%; text-align:left; direction:rtl; }
+.navlinks{
+  display:flex;align-items:center;gap:4px;
+}
+.navlinks a{
+  color:var(--muted2);font-size:14px;font-weight:500;
+  padding:8px 14px;border-radius:999px;
+  transition:color .2s,background .2s;
+  white-space:nowrap;
+}
+.navlinks a:hover{color:var(--text);background:rgba(255,255,255,.05)}
 
-    /* ===== Projects / Designs ===== */
-    .wide{ width:min(1240px, 96%); margin-inline:auto }
-    .projects-grid{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 28px;
-      margin-top: 34px;
-    }
-    .mac-card{ padding:0; border:none; background:transparent; box-shadow:none }
-    .mac-wrapper{
-      position: relative;
-      width:100%;
-      max-width: 980px;
-      margin: 0 auto 14px;
-      filter: drop-shadow(0 22px 55px rgba(0,0,0,.6));
-    }
-    .mac-frame{ width:100%; height:auto; border:none; background:transparent; display:block }
-    .mac-screen{
-      position:absolute; left:50%; top:11%;
-      transform: translateX(-50%);
-      width: 76%; height: 66%;
-      border-radius: 6px;
-      overflow:hidden;
-      background:#000;
-      box-shadow: 0 10px 40px rgba(0,0,0,.6);
-    }
-    .mac-screen img{ position:absolute; inset:0; width:100%; height:100%; object-fit: cover; border:none }
-    .project-meta{
-      text-align:center;
-      border-radius: var(--r-32);
-      border:1px solid var(--border);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      padding: 14px 16px;
-    }
-    .project-meta strong{ display:block }
-    .project-meta small{ color: var(--muted) }
+/* CTA button — pill with arrow inside circle (like Nir) */
+.nav-wa{
+  display:inline-flex;align-items:center;gap:0;
+  border-radius:999px;
+  background:#E63946;
+  font-weight:700;font-size:14px;
+  overflow:hidden;
+  transition:box-shadow .2s,transform .2s;
+  box-shadow:0 0 22px rgba(230,57,70,.25);
+  white-space:nowrap;
+  color:#fff;
+}
+.nav-wa:hover{transform:translateY(-1px);box-shadow:0 0 36px rgba(230,57,70,.4)}
+.nav-wa-txt{padding:10px 20px 10px 14px}
+.nav-wa-circle{
+  width:38px;height:38px;margin:0 4px 0 0;
+  border-radius:50%;
+  background:rgba(0,0,0,.25);
+  display:grid;place-items:center;
+  font-size:17px;flex-shrink:0;
+  margin-left:6px;
+}
 
-    .designs{
-      display:grid;
-      grid-template-columns: repeat(4, minmax(0,1fr));
-      gap: 16px;
-      margin-top: 34px;
-    }
-    .design-card{
-      border-radius: var(--r-40);
-      border:1px solid var(--border);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
-    }
-    .design-card:hover{ transform: translateY(-6px); border-color: rgba(12,225,118,.30); box-shadow: var(--glow); }
-    .thumb{ border-bottom:1px solid rgba(255,255,255,.08); background:#0e0e0e }
-    .thumb img{ width:100%; height:auto; border:none }
-    .design-meta{ padding: 14px 14px 16px }
-    .design-meta strong{ display:block; margin-bottom: 6px }
-    .design-meta small{ color: var(--muted) }
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
 
-    /* About */
-    .about{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 30px;
-      align-items:center;
-    }
-    .box{
-      border-radius: var(--r-40);
-      border:1px solid var(--border);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      padding: 26px;
-      overflow:hidden;
-      position:relative;
-    }
-    .box::before{
-      content:"";
-      position:absolute; inset:-60%;
-      background: radial-gradient(760px 420px at 20% 10%, rgba(12,225,118,.12), transparent 64%);
-      opacity:.85;
-      pointer-events:none;
-    }
-    .box > *{ position:relative }
-    .about-img{
-      border-radius: var(--r-40);
-      overflow:hidden;
-      border:1px solid var(--border);
-      background: var(--card);
-      box-shadow: var(--shadow);
-    }
-    .about-img img{ width:100%; height:auto; border:none }
+/* ─── SECTION BASE ─── */
+section{padding:100px 0;border-bottom:1px solid var(--border)}
+.sec-eyebrow{
+  font-size:12px;font-weight:700;
+  color:#E63946;letter-spacing:1.2px;
+  text-transform:uppercase;
+  margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+.sec-eyebrow::before{content:"";width:18px;height:1.5px;background:#E63946}
+h1,h2,h3{line-height:1.05;letter-spacing:-.5px}
+h1{font-size:clamp(48px,6.5vw,92px);font-weight:900}
+h2{font-size:clamp(32px,4.2vw,58px);font-weight:800}
+h3{font-size:clamp(20px,2vw,26px);font-weight:700}
+.txt-accent{color:#E63946}
 
-    /* Clients strip */
-    #clients{ padding: 64px 0 92px }
-    .clients-title{
-      text-align:center;
-      font-size: 28px;
-      font-weight: 900;
-      margin: 0 0 28px;
-      letter-spacing:-.2px;
-    }
-    .logo-strip{
-      position:relative;
-      overflow:hidden;
-      text-align:right;
-      border-radius: var(--r-32);
-      border:1px solid var(--border);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      padding: 22px 0;
-    }
-    .logo-track{
-      display:flex;
-      align-items:center;
-      gap: 70px;
-      animation: logos-loop 10s linear infinite;
-      padding-inline: 28px;
-    }
-    .logo-track img{
-      height: 54px;
-      width:auto;
-      flex: 0 0 auto;
-      object-fit: contain;
-      border:none;
-      border-radius:0;
-      transition: transform .25s ease;
-    }
-    .logo-track img:hover{ transform: translateY(-3px) }
-    @keyframes logos-loop{
-      0%{ transform: translateX(0) }
-      100%{ transform: translateX(-50%) }
-    }
+/* ─── HERO (Nir-style: centered, dot-grid bg) ─── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;
+  padding:calc(var(--hh) + 60px) 0 0;
+  border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
 
-    /* Stats */
-    .stats{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 16px;
-      margin-top: 26px;
-    }
-    .statbox{
-      border-radius: var(--r-32);
-      border:1px solid var(--border);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      padding: 18px;
-      text-align:center;
-      position:relative;
-      overflow:hidden;
-      text-align:right;
-    }
-    .statbox::before{
-      content:"";
-      position:absolute; inset:-60%;
-      background: radial-gradient(560px 300px at 50% 0%, rgba(12,225,118,.14), transparent 62%);
-      opacity:.9;
-      pointer-events:none;
-    }
-    .statbox > *{ position:relative }
-    .counter{
-      font-size: 34px;
-      font-weight: 900;
-      color: var(--green);
-      letter-spacing:-.2px;
-      line-height:1.1;
-    }
+/* dot grid background */
+.hero::before{
+  content:"";
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle, rgba(255,255,255,.09) 1px, transparent 1px);
+  background-size:28px 28px;
+  pointer-events:none;
+  z-index:0;
+}
+/* fade dots at edges */
+.hero::after{
+  content:"";
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 50%, transparent 30%, var(--bg) 85%);
+  pointer-events:none;
+  z-index:1;
+}
 
-    /* FAQ */
-    #faq{ padding: 90px 0 100px }
-    .faq-wrap{
-      display:grid;
-      grid-template-columns: minmax(0,1.65fr) minmax(0,1fr);
-      gap: 22px;
-      align-items:flex-start;
-      direction:ltr;
-    }
-    .faq-copy{
-      direction:rtl; text-align:right;
-      border-radius: var(--r-40);
-      border:1px solid var(--border);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      padding: 24px;
-      height: fit-content;
-    }
-    .faq-copy h2{ margin:0 0 10px; font-size: 34px; letter-spacing:-.3px }
-    .faq-copy p{ margin:0 0 10px; color: var(--muted) }
+.hero-inner{
+  position:relative;z-index:2;
+  width:min(860px,92%);
+  margin:0 auto;
+  padding-bottom:64px;
+}
 
-    .faq-list{ display:flex; flex-direction:column; gap: 12px }
-    .faq-item{
-      border-radius: var(--r-32);
-      border:1px solid var(--border);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .faq-q{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding: 16px 18px;
-      cursor:pointer;
-      font-weight:800;
-      direction:rtl;
-      text-align:right;
-    }
-    .faq-toggle{
-      width:28px; height:28px;
-      border-radius:999px;
-      display:flex; align-items:center; justify-content:center;
-      border: 2px solid rgba(255,255,255,.75);
-      font-size: 20px;
-      line-height:1;
-      flex-shrink:0;
-    }
-    .faq-a{
-      direction: rtl;
-      text-align:right;
-      padding: 0 18px 0;
-      max-height: 0;
-      opacity: 0;
-      overflow:hidden;
-      color: var(--muted);
-      transition: max-height .35s ease, opacity .35s ease, padding .35s ease;
-    }
-    .faq-item.open .faq-a{
-      padding: 0 18px 16px;
-      max-height: 360px;
-      opacity: 1;
-    }
+.hero h1{
+  font-size:clamp(52px,7.5vw,100px);
+  font-weight:900;
+  line-height:1.0;
+  letter-spacing:-2px;
+  margin-bottom:26px;
+}
+.hero h1 em{font-style:normal;color:#E63946}
 
-    /* Footer */
-    footer{ padding: 52px 0 22px; border-top: 1px solid rgba(255,255,255,.06) }
-    .footer-grid{
-      display:grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 18px;
-      align-items:start;
-    }
-    .foot-links a{
-      display:block;
-      color: var(--muted);
-      margin: 6px 0;
-      transition: color .2s ease;
-    }
-    .foot-links a:hover{ color: var(--text) }
-    .socials{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top: 10px }
-    .social-btn{
-      width: 40px; height: 40px;
-      border-radius: 999px;
-      display:grid;
-      place-items:center;
-      background: rgba(255,255,255,.90);
-      border: 1px solid rgba(255,255,255,.35);
-      box-shadow: 0 10px 22px rgba(0,0,0,.35);
-    }
-    .social-btn svg{ width: 18px; height: 18px; fill:#000 }
-    .footbar{
-      display:flex;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      gap: 10px;
-      margin-top: 18px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(255,255,255,.06);
-      color: var(--muted);
-    }
+.hero-desc{
+  font-size:clamp(15px,1.3vw,18px);
+  color:var(--muted2);
+  max-width:58ch;
+  line-height:1.85;
+  margin:0 auto 40px;
+}
 
-    /* Reveal */
-    .reveal{ opacity:0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease }
-    .reveal.visible{ opacity:1; transform:none }
+/* CTA pill with inner circle arrow — exactly like Nir */
+.hero-btns{
+  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center;
+}
+.btn-hero{
+  display:inline-flex;align-items:center;gap:0;
+  border-radius:999px;
+  background:#E63946;
+  color:#fff;font-weight:700;font-size:16px;
+  overflow:hidden;
+  box-shadow:0 0 36px rgba(230,57,70,.3);
+  transition:box-shadow .2s,transform .2s;
+}
+.btn-hero:hover{transform:translateY(-2px);box-shadow:0 0 52px rgba(230,57,70,.45)}
+.btn-hero-txt{padding:14px 22px 14px 16px}
+.btn-hero-circle{
+  width:46px;height:46px;
+  border-radius:50%;
+  background:rgba(0,0,0,.22);
+  display:grid;place-items:center;
+  font-size:20px;
+  flex-shrink:0;
+  margin-left:8px;
+}
 
+/* ── TOOLS MARQUEE — truly seamless ── */
+.tools-strip{
+  position:relative;z-index:2;
+  width:100%;
+  padding:36px 0;
+  border-top:1px solid var(--border);
+  overflow:hidden;
+  mask-image:linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+/* CORRECT infinite marquee:
+   - ONE track element containing 2 identical sets of icons
+   - Track total width = 2 × set width
+   - Animation moves translateX(-50%) = exactly one set width
+   - When it reaches -50%, jumps back to 0 invisibly → perfect loop */
+/* ═══════════════════════════════════════════
+   INFINITE MARQUEE — לפי הטכניקה הנכונה:
+   - Bar: display:flex, overflow:hidden, direction:ltr
+   - כל group: flex-shrink:0, min-width:100%
+   - כל group זז translateX(-100%) = רוחב עצמו
+   - 3 groups = תמיד יש מי שממלא את המסך
+   ═══════════════════════════════════════════ */
 
-    /* ===== PROCESS step cards + scroll animation ===== */
-    .step-label{
-      padding: 14px 16px;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.06);
-      background: rgba(14,14,14,.32);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 22px 60px rgba(0,0,0,.45);
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity .55s ease, transform .55s ease;
-    }
-    .step-label.active{ opacity:1; transform:none; }
+/* ── tools marquee ── */
+.tools-strip .tools-bar{
+  display:flex;
+  overflow:hidden;
+  width:100%;
+  direction:ltr;
+  mask-image:linear-gradient(90deg,transparent 0%,#000 8%,#000 92%,transparent 100%);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 8%,#000 92%,transparent 100%);
+}
+.tools-bar:hover .tools-group{ animation-play-state:paused }
+.tools-group{
+  display:flex;
+  align-items:center;
+  justify-content:space-around; /* מפזר את האייקונים לאורך כל ה-100% */
+  flex-shrink:0;
+  min-width:100%;
+  animation:toolsScroll 30s linear infinite;
+  will-change:transform;
+}
+@keyframes toolsScroll{
+  0%  { transform:translateX(0) }
+  100%{ transform:translateX(-100%) }
+}
 
-    /* path draw animation */
-    #processPath{
-      stroke-dasharray: 2400;
-      stroke-dashoffset: 2400;
-      transition: stroke-dashoffset 1.25s ease;
-    }
-    .process-wrap.in #processPath{ display:none; }
-    /* scroll-driven */
-    #processPath{
-      stroke-dashoffset: 0;
-    }
-    /* step circles pop */
-    .stepCircle.active{
-      transform-origin: center;
-      animation: pop .55s ease both;
-    }
-    @keyframes pop{
-      0%{ transform: scale(.65); opacity:.2 }
-      100%{ transform: scale(1); opacity:1 }
-    }
-
-
-
-    /* ===== Lamp chips inside bulb (closer to Nikita) ===== */
-    .lamp-wrap{ position:relative; width:min(640px, 96%); height:auto; pointer-events:none; transform-origin:50% 0%; }
-    .lamp-wrap svg{ display:block; width:100%; height:auto; }
-    .chips{
-      position:absolute;
-      left:50%;
-      top:56%;
-      transform: translate(-50%, -50%);
-      width: 68%;
-      height: 52%;
-      pointer-events:none;
-    }
-    .chip{
-      position:absolute;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 10px 16px;
-      border-radius: 999px;
-      background: rgba(0,0,0,.62);
-      border: 1px solid rgba(255,255,255,.10);
-      color: rgba(255,255,255,.90);
-      font-weight: 700;
-      font-size: 14px;
-      white-space: nowrap;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 24px 70px rgba(0,0,0,.55);
-      backdrop-filter: blur(10px);
-      transform: translate(-50%,-50%) rotate(var(--r, -8deg));
-    }
-    .chip strong{ color:#0CE176; font-weight:900; }
-
-    .chip.c1{ left:50%; top:18%; --r:-10deg;}
-    .chip.c2{ left:28%; top:34%; --r:10deg;}
-    .chip.c3{ left:72%; top:34%; --r:-8deg;}
-    .chip.c4{ left:30%; top:56%; --r:-12deg;}
-    .chip.c5{ left:70%; top:56%; --r:12deg;}
-    .chip.c6{ left:50%; top:74%; --r:-6deg;}
-
-    @media (max-width: 700px){
-      .lamp-wrap{ width:min(540px, 96%); }
-      .chip{ font-size:13px; padding:9px 14px; }
-    }
-
-
-    /* Responsive */
-    @media (max-width: 1040px){
-      :root{ --headerH: 112px; }
-      .nav{ flex-wrap:wrap; justify-content:center }
-      .hero-grid{ grid-template-columns: 1fr; }
-      .hero-art{ height: min(520px, 58vh) }
-      .projects-grid{ grid-template-columns: 1fr; }
-      .designs{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .about{ grid-template-columns: 1fr; }
-      .footer-grid{ grid-template-columns: 1fr 1fr; }
-      .step-label{ width:min(520px, 78%); }
-      .s1{ right: 10%; top: 8%; }
-      .s2{ right: 10%; top: 44%; }
-      .s3{ right: 10%; top: 24%; left:auto; text-align:right; }
-      .s4{ right: 10%; top: 60%; left:auto; text-align:right; }
-    }
-    @media (max-width: 700px){
-
-      /* On small screens show steps normally */
-      .step-label{ opacity:1; transform:none; transition:none; }
-      .stepCircle{ opacity:1; }
-      #processPath{ stroke-dashoffset: 0 !important; }
-
-      section{ padding: 78px 0 }
-      .pill{ width:100%; justify-content:flex-start; }
-      .designs{ grid-template-columns: 1fr; }
-      .stats{ grid-template-columns: 1fr; }
-      .faq-wrap{ grid-template-columns: 1fr; direction:rtl; }
-      .faq-copy{ text-align:center }
-      .footer-grid{ grid-template-columns: 1fr; }
-      .hero-copy{ padding: 24px 18px }
-      .hero-art{ height: 430px }
-      .lamp-wrap{ width:min(520px, 98%) }
-      .chip{ font-size: 13px; padding: 7px 12px; }
-      .process-wrap{ padding: 24px 14px 18px }
-      .step-label{ position:static; width:100%; margin-top: 16px; text-align:right; }
-      .step-label + .step-label{ margin-top: 10px; }
-      .curve{ margin-top: 10px }
-      .s1,.s2,.s3,.s4{ position:static }
-    }
-
-    :focus-visible{ outline: 2px solid rgba(12,225,118,.7); outline-offset: 3px; border-radius: 10px; }
-  
-
-/* =========================
-   Packages V2 (clearer)
-   ========================= */
-.packagesV2{ padding: 96px 0 110px; position:relative; }
-.packagesV2 .wrap{ width:min(1180px, 92vw); margin-inline:auto; }
-.packagesHead{ text-align:center; margin-bottom: 36px; }
-.packagesTitle{ font-size: clamp(44px, 5vw, 74px); font-weight: 800; letter-spacing:-.02em; margin:0 0 10px; }
-.packagesSub{ margin:0; color: rgba(255,255,255,.72); font-size: 18px; }
-
-.packageGrid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 26px; align-items: stretch; margin-top: 38px; }
-@media (max-width: 980px){ .packageGrid{ grid-template-columns: 1fr; } }
-
-.packageCard{
-  position:relative;
-  border-radius: 26px;
-  padding: 56px 34px 30px;
-  background: rgba(0,0,0,.34);
-  border: 2px solid rgba(0,227,123,.75);
-  box-shadow: 0 18px 42px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.06);
+/* ── logos marquee ── */
+.logos-bar{
+  display:flex;
+  overflow:hidden;
+  width:100%;
+  direction:ltr;
+  mask-image:linear-gradient(90deg,transparent 0%,#000 8%,#000 92%,transparent 100%);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 8%,#000 92%,transparent 100%);
+}
+.logos-bar:hover .logos-group{ animation-play-state:paused }
+.logos-group{
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  flex-shrink:0;
+  min-width:100%;
+  animation:logosScroll 22s linear infinite;
+  will-change:transform;
+}
+@keyframes logosScroll{
+  0%  { transform:translateX(0) }
+  100%{ transform:translateX(-100%) }
+}
+/* ── TOOL ICON CARDS — real images, Nir style ── */
+.ti{
+  flex-shrink:0;
+  width:88px;height:88px;
+  border-radius:22px;
+  background:#1a1c1e;
+  border:1px solid rgba(255,255,255,.08);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:7px;
+  padding:13px 8px 9px;
+  box-shadow:0 10px 30px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1);
+  transition:transform .25s,box-shadow .25s,border-color .25s;
+  cursor:default;
   overflow:hidden;
 }
-.packageCard::before{
-  content:"";
-  position:absolute; inset:-2px;
-  background: radial-gradient(520px 220px at 50% 0%, rgba(0,227,123,.20), transparent 60%);
-  opacity:.9; pointer-events:none;
+.ti:hover{
+  transform:translateY(-8px) scale(1.07);
+  border-color:rgba(230,57,70,.35);
+  box-shadow:0 22px 48px rgba(0,0,0,.55),0 0 22px rgba(230,57,70,.1);
 }
-.packageCard.isFeatured{
-  border-color: rgba(0,227,123,.95);
-  box-shadow: 0 22px 56px rgba(0,0,0,.62), 0 0 0 1px rgba(0,227,123,.18), inset 0 0 0 1px rgba(255,255,255,.06);
+.ti img{
+  width:44px;height:44px;
+  object-fit:contain;
+  display:block;
 }
-
-.pin{
-  position:absolute;
-  top: 18px; left: 50%;
-  width: 22px; height: 22px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: rgba(0,227,123,.95);
-  box-shadow: 0 10px 22px rgba(0,0,0,.55), 0 0 18px rgba(0,227,123,.55);
-}
-.packageCard.isFeatured .pin{ background: rgba(0,227,123,.95); box-shadow: 0 10px 22px rgba(0,0,0,.55), 0 0 18px rgba(0,227,123,.55); }
-.pin::after{
-  content:"";
-  position:absolute;
-  left: 50%; top: 18px;
-  width: 10px; height: 14px;
-  transform: translateX(-50%) rotate(12deg);
-  background: rgba(180,255,230,.35);
-  border: 1px solid rgba(255,255,255,.25);
-  border-radius: 999px;
-  filter: blur(.1px);
+.ti small{
+  font-size:8px;font-weight:700;
+  color:rgba(255,255,255,.45);
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  white-space:nowrap;
 }
 
-.planBadge{
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  letter-spacing: .14em;
-  font-weight: 800;
-  color: rgba(0,227,123,.95);
-  font-size: 30px;
-  text-transform: uppercase;
-  margin-top: 6px;
+/* ── CANVAS PARTICLE BACKGROUND — full page, fixed ── */
+#heroBg{
+  position:fixed;
+  top:0;left:0;
+  width:100vw;height:100vh;
+  z-index:0;
+  pointer-events:none;
+  opacity:.65;
+}
+
+/* ── APP ICONS 3D ROW (about section) ── */
+.app-icons-row{
+  display:flex;align-items:flex-end;gap:14px;
+  margin-top:30px;
+  flex-wrap:wrap;
+}
+.app-icon-big{
+  width:80px;height:80px;flex-shrink:0;
+  filter:drop-shadow(0 12px 28px rgba(0,0,0,.55));
+  transition:transform .3s,filter .3s;
+  animation:iconFloat 4s ease-in-out infinite;
+}
+.app-icon-big:hover{
+  transform:translateY(-8px) scale(1.05);
+  filter:drop-shadow(0 20px 36px rgba(94,142,62,.45));
+}
+.app-icon-big svg{width:100%;height:auto}
+.app-icon-sm{
+  width:54px;height:54px;flex-shrink:0;
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.5));
+  transition:transform .3s,filter .3s;
+  animation:iconFloat 4s ease-in-out infinite;
+}
+.app-icon-sm:nth-child(2){animation-delay:.3s}
+.app-icon-sm:nth-child(3){animation-delay:.6s}
+.app-icon-sm:nth-child(4){animation-delay:.9s}
+.app-icon-sm:nth-child(5){animation-delay:1.2s}
+.app-icon-sm:nth-child(6){animation-delay:1.5s}
+.app-icon-sm:hover{
+  transform:translateY(-6px) scale(1.08);
+  filter:drop-shadow(0 14px 24px rgba(0,0,0,.6));
+}
+.app-icon-sm svg{width:100%;height:auto}
+@keyframes iconFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 28px;border-radius:999px;
+  background:#E63946;color:#041a0c;
+  font-weight:800;font-size:15px;
+  box-shadow:0 0 36px rgba(230,57,70,.25);
+  transition:opacity .2s,transform .2s,box-shadow .2s;
+}
+.btn-primary:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 0 50px rgba(230,57,70,.35)}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 28px;border-radius:999px;
+  border:1px solid var(--border2);
+  color:var(--muted2);font-weight:600;font-size:15px;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.btn-outline:hover{border-color:rgba(255,255,255,.25);color:var(--text);background:rgba(255,255,255,.04)}
+
+/* hero stats row */
+.hero-stats{
+  display:flex;gap:0;
+  margin-top:64px;
+  border-top:1px solid var(--border);
+  padding-top:36px;
+}
+.hstat{
+  flex:1;padding:0 36px 0 0;
+  border-right:1px solid var(--border);
+}
+.hstat:first-child{padding-right:36px;padding-left:0}
+.hstat:last-child{border-right:none;padding-right:0;padding-left:36px}
+.hstat-val{
+  font-size:clamp(32px,3.5vw,48px);font-weight:900;
+  color:#E63946;line-height:1;margin-bottom:6px;
+}
+.hstat-lbl{font-size:14px;color:var(--muted);font-weight:500}
+
+/* ─── LOGOS STRIP ─── */
+.logos-section{
+  padding:24px 0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  margin-top:-1px; /* מחבר לבורדר של section למעלה */
+}
+/* Projects: מצמצם padding תחתון */
+#projects{ padding-bottom:0 !important }
+/* Packages: מצמצם padding עליון */
+#packages{ padding-top:60px !important }
+.logos-label{
+  font-size:12px;font-weight:700;color:var(--muted);
+  letter-spacing:1px;text-transform:uppercase;
+  text-align:center;margin-bottom:28px;
+}
+.logos-overflow{overflow:hidden}
+.logos-track{
+  display:inline-flex;
+  align-items:center;
+  gap:0;
+  white-space:nowrap;
+  animation:marqueeInf 24s linear infinite;
+  will-change:transform;
+}
+.logos-track:hover{ animation-play-state:paused }
+.logos-track img{
+  height:44px;width:auto;flex-shrink:0;
+  filter:grayscale(1) brightness(1.8);opacity:.45;
+  transition:opacity .25s,filter .25s;
+  margin:0 48px;
+}
+.logos-track img:hover{opacity:.85;filter:grayscale(0) brightness(1)}
+
+/* ─── ABOUT ─── */
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1.4fr;
+  gap:80px;
+  align-items:center;
+}
+.about-img-wrap{
+  position:relative;
+  border-radius:var(--rXL);
+  overflow:hidden;
+  aspect-ratio:3/4;
+  background:var(--bg3);
+  border:1px solid var(--border);
+}
+.about-img-wrap img{width:100%;height:100%;object-fit:cover}
+.about-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 55%,rgba(10,10,11,.7));
+}
+.about-card{
+  position:absolute;bottom:20px;right:20px;left:20px;
+  background:rgba(10,10,11,.8);
+  border:1px solid var(--border2);
+  border-radius:var(--r);
+  padding:14px 16px;
+  backdrop-filter:blur(10px);
+  display:flex;align-items:center;gap:12px;
+}
+.about-card-dot{
+  width:10px;height:10px;flex-shrink:0;
+  border-radius:50%;background:#E63946;
+  box-shadow:0 0 8px #E63946;
+}
+.about-card-txt{font-size:13px;color:var(--muted2);font-weight:500}
+.about-card-txt strong{color:var(--text);font-weight:700}
+.about-text h2{margin-bottom:20px}
+.about-text p{color:var(--muted2);font-size:16px;line-height:1.85;margin-bottom:16px}
+.about-text p strong{color:var(--text);font-weight:600}
+.skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.skill{
+  padding:7px 14px;border-radius:999px;
+  border:1px solid var(--border2);
+  background:rgba(255,255,255,.03);
+  font-size:13px;color:var(--muted2);font-weight:500;
+  transition:border-color .2s,color .2s;
+}
+.skill:hover{border-color:rgba(230,57,70,.3);color:var(--text)}
+
+/* ─── SERVICES ─── */
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:2px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:var(--rL);
+  overflow:hidden;
+  margin-top:52px;
+}
+.svc{
+  background:var(--bg);
+  padding:36px 32px;
+  transition:background .25s;
+  position:relative;
+  overflow:hidden;
+}
+.svc::after{
+  content:"";
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 80% at 0% 0%,rgba(230,57,70,.06),transparent 60%);
+  opacity:0;transition:opacity .3s;
+}
+.svc:hover{background:var(--bg2)}
+.svc:hover::after{opacity:1}
+.svc-num{
+  font-size:12px;font-weight:700;color:#E63946;
+  letter-spacing:.8px;margin-bottom:16px;
+  font-family:monospace;
+}
+.svc h3{margin-bottom:10px;font-size:22px}
+.svc p{font-size:15px;color:var(--muted2);line-height:1.75}
+.svc-tag{
+  display:inline-block;margin-top:18px;
+  padding:5px 12px;border-radius:999px;
+  background:var(--accent-dim);
+  border:1px solid rgba(230,57,70,.15);
+  font-size:12px;color:#E63946;font-weight:600;
+}
+
+/* ─── PROCESS ─── */
+.process-steps{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  margin-top:60px;
+  position:relative;
+}
+.process-steps::before{
+  content:"";
+  position:absolute;
+  top:30px;right:calc(12.5% + 30px);left:calc(12.5% + 30px);
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(230,57,70,.4),transparent);
+}
+.pstep{text-align:center;padding:0 16px}
+.pstep-circle{
+  width:60px;height:60px;border-radius:50%;
+  border:1.5px solid rgba(230,57,70,.4);
+  background:var(--bg);
+  display:grid;place-items:center;
+  font-size:20px;font-weight:900;color:#E63946;
+  margin:0 auto 20px;
+  position:relative;z-index:1;
+  transition:border-color .3s,box-shadow .3s;
+}
+.pstep:hover .pstep-circle{
+  border-color:#E63946;
+  box-shadow:0 0 24px rgba(230,57,70,.25);
+}
+.pstep h3{font-size:17px;margin-bottom:8px}
+.pstep p{font-size:14px;color:var(--muted2);line-height:1.7}
+
+/* ─── PROJECTS — new card style ─── */
+.proj-header{ margin-bottom:52px }
+
+/* ── כרטיס פרויקט ── */
+.pcard{
+  border-radius:var(--rL);
+  border:1px solid var(--border);
+  background:var(--bg2);
+  overflow:hidden;
+  transition:border-color .3s,transform .3s,box-shadow .3s;
+  margin-bottom:28px;
+}
+.pcard:hover{
+  border-color:rgba(230,57,70,.3);
+  transform:translateY(-4px);
+  box-shadow:0 28px 60px rgba(0,0,0,.5);
+}
+
+/* layout: body מימין, תמונות משמאל */
+.pcard-inner{
+  display:grid;
+  grid-template-columns:1fr 1.15fr;
+  min-height:420px;
+}
+.pcard-inner.flip{
+  grid-template-columns:1.15fr 1fr;
+}
+
+/* ── צד טקסט ── */
+.pcard-body{
+  padding:44px 40px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:0;
+}
+.pcard-tag{
+  font-size:11px;font-weight:700;
+  color:var(--accent);
+  letter-spacing:1.2px;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.pcard-body h3{
+  font-size:clamp(22px,2.2vw,30px);
+  font-weight:800;line-height:1.15;
+  margin-bottom:14px;
+  letter-spacing:-.3px;
+}
+.pcard-body p{
+  font-size:15px;color:var(--muted2);
+  line-height:1.8;margin-bottom:22px;
+}
+.pcard-stats{
+  display:flex;gap:10px;flex-wrap:wrap;
+  margin-bottom:26px;
+}
+.pcard-stat{
+  padding:8px 14px;border-radius:10px;
+  background:rgba(230,57,70,.07);
+  border:1px solid rgba(230,57,70,.15);
+}
+.pcard-stat-val{
+  font-size:19px;font-weight:900;
+  color:var(--accent);line-height:1;
+  margin-bottom:2px;
+}
+.pcard-stat-lbl{font-size:10px;color:var(--muted2);font-weight:500}
+
+/* כפתור לצפייה בפרויקט */
+.pcard-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:11px 22px;border-radius:999px;
+  background:var(--accent);color:#fff;
+  font-weight:700;font-size:14px;
+  width:fit-content;
+  transition:opacity .2s,transform .2s,box-shadow .2s;
+  box-shadow:0 0 24px rgba(230,57,70,.25);
+}
+.pcard-btn:hover{
+  opacity:.9;transform:translateY(-1px);
+  box-shadow:0 0 36px rgba(230,57,70,.4);
+}
+.pcard-btn-arrow{font-size:16px}
+
+/* ── צד תמונות — grid של screenshots ── */
+.pcard-imgs{
+  position:relative;
+  background:var(--bg3);
+  overflow:hidden;
+  border-right:1px solid var(--border); /* RTL: border on right side */
+}
+.pcard-inner.flip .pcard-imgs{
+  border-right:none;
+  border-left:1px solid var(--border);
+}
+
+/* grid layout לתמונות — כמו ניר אבל grid */
+.pcard-imgs-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  gap:3px;
+  height:100%;
+  min-height:420px;
+}
+.pcard-imgs-grid img{
+  width:100%;height:100%;
+  object-fit:cover;
+  transition:transform .5s ease;
+  display:block;
+}
+.pcard-imgs-grid img:first-child{
+  grid-column:1 / -1; /* תמונה ראשונה רחבה */
+}
+.pcard:hover .pcard-imgs-grid img{transform:scale(1.03)}
+
+/* single image variant */
+.pcard-imgs-single{
+  height:100%;min-height:420px;
+}
+.pcard-imgs-single img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s ease;
+}
+.pcard:hover .pcard-imgs-single img{transform:scale(1.03)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px){
+  .pcard-inner,.pcard-inner.flip{
+    grid-template-columns:1fr;
+  }
+  .pcard-imgs,.pcard-inner.flip .pcard-imgs{
+    border:none;
+    border-bottom:1px solid var(--border);
+    order:-1;
+  }
+  .pcard-imgs-grid,.pcard-imgs-single{ min-height:240px }
+  .pcard-body{ padding:28px 22px }
+}
+
+/* ─── PACKAGES ─── */
+.pkg-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin-top:52px;
+  align-items:stretch;
+}
+.pkg{
+  border-radius:var(--rL);
+  border:1px solid var(--border);
+  background:var(--bg2);
+  padding:32px 26px 26px;
+  display:flex;flex-direction:column;
+  position:relative;
+  transition:border-color .3s,transform .3s;
+}
+.pkg:hover{border-color:var(--border2);transform:translateY(-3px)}
+.pkg.featured{
+  border-color:rgba(230,57,70,.3);
+  background:rgba(230,57,70,.03);
+}
+.pkg-badge{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  padding:4px 16px;border-radius:999px;
+  background:#E63946;color:#041a0c;
+  font-size:11px;font-weight:800;letter-spacing:.4px;white-space:nowrap;
+}
+.pkg-tier{
+  font-size:11px;font-weight:800;color:#E63946;
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;
+}
+.pkg-name{font-size:24px;font-weight:800;margin-bottom:6px}
+.pkg-lead{font-size:14px;color:var(--muted2);margin-bottom:20px;line-height:1.55}
+.pkg-price-row{display:flex;align-items:baseline;gap:4px;margin-bottom:4px}
+.pkg-price{font-size:36px;font-weight:900;color:#E63946}
+.pkg-per{font-size:14px;color:var(--muted)}
+.pkg-note{font-size:12px;color:var(--muted);margin-bottom:20px}
+.pkg-hr{height:1px;background:var(--border);margin:16px 0}
+.pkg-list{list-style:none;display:flex;flex-direction:column;gap:9px;flex:1}
+.pkg-list li{
+  font-size:14px;color:rgba(238,234,228,.8);
+  display:flex;align-items:flex-start;gap:9px;line-height:1.5;
+}
+.pkg-list li::before{content:"✓";color:#E63946;font-weight:900;flex-shrink:0;margin-top:1px}
+.pkg-btn{
+  display:flex;align-items:center;justify-content:center;
+  margin-top:22px;padding:13px;border-radius:999px;
+  border:1px solid var(--border2);
+  font-weight:700;font-size:14px;color:var(--muted2);
+  transition:all .25s;
+  text-decoration:none;
+}
+.pkg-btn:hover,.pkg.featured .pkg-btn{
+  border-color:rgba(230,57,70,.45);
+  color:#E63946;
+  background:rgba(230,57,70,.06);
+}
+.pkg.featured .pkg-btn{
+  background:#E63946;color:#041a0c;
+  border-color:#E63946;
+  box-shadow:0 0 28px rgba(230,57,70,.2);
+}
+.pkg.featured .pkg-btn:hover{box-shadow:0 0 42px rgba(230,57,70,.35);transform:translateY(-1px)}
+
+/* ─── FAQ ─── */
+.faq-layout{
+  display:grid;
+  grid-template-columns:1fr 1.5fr;
+  gap:60px;
+  margin-top:52px;
+  align-items:start;
+}
+.faq-sticky{position:sticky;top:calc(var(--hh) + 24px)}
+.faq-sticky p{font-size:16px;color:var(--muted2);line-height:1.8;margin-bottom:28px}
+.faq-list{display:flex;flex-direction:column;gap:10px}
+.faq-item{
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  background:var(--bg2);
+  overflow:hidden;
+}
+.faq-q{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 18px;cursor:pointer;
+  font-size:15px;font-weight:600;
+  direction:rtl;text-align:right;
+  transition:color .2s;
+}
+.faq-q:hover{color:#E63946}
+.faq-icon{
+  width:26px;height:26px;flex-shrink:0;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.25);
+  display:grid;place-items:center;font-size:18px;
+  transition:transform .3s,border-color .3s,color .3s,background .3s;
+}
+.faq-item.open .faq-icon{
+  transform:rotate(45deg);
+  border-color:#E63946;color:#E63946;
+  background:rgba(230,57,70,.1);
+}
+.faq-a{
+  direction:rtl;text-align:right;
+  padding:0 18px;max-height:0;opacity:0;overflow:hidden;
+  color:var(--muted2);font-size:14px;line-height:1.8;
+  transition:max-height .35s ease,opacity .35s ease,padding .35s ease;
+}
+.faq-item.open .faq-a{max-height:280px;opacity:1;padding:0 18px 16px}
+
+/* ─── CTA SECTION ─── */
+.cta-section{padding:100px 0;border-bottom:none}
+.cta-inner{
+  border-radius:var(--rXL);
+  border:1px solid rgba(230,57,70,.18);
+  background:linear-gradient(135deg,rgba(230,57,70,.04),rgba(230,57,70,.02));
+  padding:80px 60px;
   text-align:center;
+  position:relative;overflow:hidden;
 }
-.packageCard.isFeatured .planBadge{ color: rgba(0,227,123,.95); }
-
-.planName{ margin: 14px 0 10px; font-size: 30px; font-weight: 800; text-align:center; }
-.planLead{ margin: 0 0 18px; color: rgba(255,255,255,.72); text-align:center; }
-
-.planListTitle{ margin-top: 18px; color: rgba(255,255,255,.86); font-weight: 700; }
-.planList{
-  margin: 10px 0 0; padding: 0 18px 0 0;
-  display:flex; flex-direction:column; gap: 10px;
-  color: rgba(255,255,255,.82);
-  line-height: 1.5;
+.cta-inner::before{
+  content:"";
+  position:absolute;top:-40%;left:50%;transform:translateX(-50%);
+  width:500px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(230,57,70,.1),transparent 65%);
+  pointer-events:none;
 }
-.planList li{ list-style: "•  "; }
+.cta-inner h2{font-size:clamp(36px,5vw,70px);margin-bottom:16px}
+.cta-inner p{font-size:18px;color:var(--muted2);max-width:48ch;margin:0 auto 36px;line-height:1.8}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 
-.planFoot{ margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.10); text-align:center; }
-.fitTitle{ color: rgba(255,255,255,.86); font-weight: 800; margin-bottom: 6px; }
-.fitText{ color: rgba(255,255,255,.72); margin-bottom: 16px; }
-
-.packagesV2 .btnPrimary{
-  display:inline-flex; align-items:center; justify-content:center;
-  padding: 12px 18px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, rgba(0,227,123,.95), rgba(0,182,92,.95));
-  color: #0b1411;
-  font-weight: 800;
-  border: 1px solid rgba(255,255,255,.12);
-  box-shadow: 0 16px 30px rgba(0,0,0,.55), 0 0 0 1px rgba(0,227,123,.20);
+/* ─── FOOTER ─── */
+footer{padding:52px 0 24px;border-top:1px solid var(--border)}
+.footer-top{
+  display:grid;grid-template-columns:1.8fr 1fr 1fr;
+  gap:40px;margin-bottom:40px;
 }
-.packagesV2 .btnPrimary:hover{ transform: translateY(-1px); filter: brightness(1.05); }
-
-
-/* === Mobile fixes (v14) === */
-@media (max-width: 820px){
-  /* hide the header CTA button on mobile */
-  .site-header a.btn--primary[href*="wa.me"]{display:none !important;}
-
-  /* prevent nav pill menu from breaking / getting too long */
-  .site-header nav{
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    gap: 10px;
-    padding: 6px 10px;
-    justify-content: flex-start;
-  }
-  .site-header nav::-webkit-scrollbar{display:none;}
-  .site-header nav a{
-    flex:0 0 auto;
-    padding: 10px 12px;
-    font-size: 13px;
-    white-space: nowrap;
-  }
-
-  /* FAQ: keep "כל מה שצריך לדעת" block above questions */
-  .faq-wrap{
-    display:flex !important;
-    flex-direction:column !important;
-    gap: 14px !important;
-  }
-  .faq-copy{order: 0 !important;}
-  .faq-list{order: 1 !important;}
+.foot-logo{font-size:20px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.foot-logo-dot{width:8px;height:8px;border-radius:50%;background:#E63946;box-shadow:0 0 8px #E63946}
+.foot-desc{font-size:14px;color:var(--muted2);line-height:1.75;max-width:32ch;margin-bottom:20px}
+.foot-socials{display:flex;gap:8px}
+.foot-social{
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid var(--border);background:rgba(255,255,255,.03);
+  display:grid;place-items:center;font-size:15px;
+  transition:border-color .2s,background .2s;
+}
+.foot-social:hover{border-color:rgba(230,57,70,.3);background:rgba(230,57,70,.06)}
+.foot-col h4{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px}
+.foot-col a{display:block;font-size:14px;color:var(--muted2);padding:4px 0;transition:color .2s}
+.foot-col a:hover{color:var(--text)}
+.foot-bar{
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  padding-top:22px;border-top:1px solid var(--border);
+  font-size:13px;color:var(--muted);
 }
 
+/* ─── REVEAL ─── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}
+.reveal.vis{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
 
-/* ===== tweaks requested (final) ===== */
-.chip, .chip strong { word-spacing: 4px; letter-spacing: 0.2px; }
-.chip.c3, .chip.c3 strong { color: #ffffff !important; }
-
-/* Mobile nav: keep it compact + prevent wrap/break */
-@media (max-width: 720px){
-  .navlinks{ 
-    overflow-x:auto; 
-    white-space:nowrap; 
-    -webkit-overflow-scrolling:touch; 
-    gap:14px;
-    padding: 10px 12px;
-    scrollbar-width:none;
-  }
-  .navlinks::-webkit-scrollbar{ display:none; }
-  .navlinks a{ flex: 0 0 auto; font-size: 14px; padding: 10px 12px; }
+/* ─── RESPONSIVE ─── */
+@media(max-width:1000px){
+  :root{--hh:64px}
+  .navlinks,.nav-wa{display:none}
+  .about-grid,.faq-layout,.footer-top{grid-template-columns:1fr}
+  .about-img-wrap{aspect-ratio:4/3;max-height:360px}
+  .services-grid{grid-template-columns:1fr}
+  .process-steps{grid-template-columns:1fr 1fr;gap:32px}
+  .process-steps::before{display:none}
+  .pkg-grid{grid-template-columns:1fr}
+  .proj-card.big{grid-template-columns:1fr}
+  .proj-row{grid-template-columns:1fr}
+  .hero-stats{flex-direction:column;gap:24px;padding-top:28px}
+  .hstat{border-right:none;padding:0 0 24px;border-bottom:1px solid var(--border)}
+  .hstat:last-child{border-bottom:none;padding:0}
+  .cta-inner{padding:48px 24px}
+}
+@media(max-width:600px){
+  h1{font-size:42px}
+  h2{font-size:30px}
+  .process-steps{grid-template-columns:1fr}
+  .cta-inner h2{font-size:30px}
 }
 
-/* Packages CTA section */
-.packages-cta{
-  padding: 64px 0 10px;
+/* ── SHOPIFY 3D ICON floating beside about text ── */
+.shopify-3d-wrap{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:0;
 }
-.packages-cta .container{
-  max-width: 980px;
-  margin: 0 auto;
-  text-align: center;
+.shopify-3d-icon{
+  position:absolute;
+  left:-60px;
+  top:50%;
+  transform:translateY(-50%);
+  width:140px;
+  opacity:.12;
+  pointer-events:none;
+  animation:shopifyFloat 5s ease-in-out infinite;
+  filter:drop-shadow(0 20px 40px rgba(230,57,70,.3));
 }
-.packages-cta .section-title{
-  font-size: clamp(32px, 5vw, 56px);
-  margin: 0 0 10px;
-}
-.packages-cta .section-sub{
-  opacity: .9;
-  font-size: clamp(16px, 2.2vw, 22px);
-  margin: 0 0 22px;
-}
-</style>
-<style id="patch-v20">
-
-/* ===== Mobile hero centering fix ===== */
-@media (max-width: 860px){
-
-  .hero-grid{
-    justify-items: center !important;
-    text-align: center !important;
-  }
-
-  .hero-copy{
-    justify-self: center !important;
-    text-align: center !important;
-    margin-inline: auto !important;
-  }
-
-  .hero-copy .kicker{
-    margin-inline: auto !important;
-  }
-
-  .hero-copy .sub{
-    margin-inline: auto !important;
-  }
-
-  .hero-actions{
-    justify-content: center !important;
-    align-items: center !important;
-  }
-
-  .hero-actions .btn{
-    margin-inline: auto !important;
-  }
+@keyframes shopifyFloat{
+  0%,100%{transform:translateY(-50%) rotate(-8deg)}
+  50%{transform:translateY(calc(-50% - 14px)) rotate(-4deg)}
 }
 
-
-/* ===== PATCH v20 (header + mobile + designs + headline) ===== */
-
-/* Header: not sticky/fixed; sits at top without clipping background */
-body{ padding-top: 0 !important; }
-header{
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 50 !important;
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border-bottom: none !important;
-}
-header .container.nav{
-  padding-top: 18px !important;
-  padding-bottom: 18px !important;
-  align-items: center !important;
+/* About grid: position relative so icon can overflow */
+.about-img-wrap{
+  position:relative;
 }
 
-/* ensure hero content doesn't hide behind header */
-.hero{ padding-top: 92px !important; }
-
-/* Mobile: hide nav bar completely (clean landing) */
-@media (max-width: 860px){
-  header nav,
-  header .nav-links,
-  header .pill,
-  header .pill-nav,
-  header .nav-cta,
-  header .header-cta,
-  header .cta,
-  header .menu-btn{ display:none !important; }
-
-  header .container.nav{
-    justify-content: center !important;
-    gap: 0 !important;
-    padding: 14px 14px !important;
-  }
-
-  .hero{ padding-top: 78px !important; }
+/* ── BIG floating 3D shopify icon in about section ── */
+.shopify-float{
+  position:absolute;
+  right:-30px;
+  top:-40px;
+  width:110px;height:110px;
+  animation:floatBob 4.5s ease-in-out infinite;
+  filter:drop-shadow(0 16px 40px rgba(150,191,72,.35));
+  z-index:2;
+  pointer-events:none;
+}
+@keyframes floatBob{
+  0%,100%{transform:translateY(0) rotate(-6deg) perspective(400px) rotateY(-15deg)}
+  50%{transform:translateY(-12px) rotate(-3deg) perspective(400px) rotateY(-10deg)}
 }
 
-/* Headline: force 2 lines on desktop (prevent first line wrap) */
-@media (min-width: 861px){
-  .hero h1{ max-width: 760px !important; }
-  .hero h1 .hero-line{ white-space: nowrap !important; display:inline-block; }
+/* ── About h2 + 2 real 3D icons ── */
+.about-h2-wrap{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
 }
-
-/* Lamp on mobile: bigger + keep swing animation working + avoid overlap with text */
-@media (max-width: 860px){
-  .hero-grid{ grid-template-columns: 1fr !important; }
-  .hero-visual{ order: -1 !important; margin-bottom: 6px !important; height: 380px !important; }
-  .lamp-wrap{ width: min(92vw, 430px) !important; }
-  .lamp-wrap.swing{
-    -webkit-animation: swing 3.4s ease-in-out infinite !important;
-    animation: swing 3.4s ease-in-out infinite !important;
-    will-change: transform;
-    transform-origin: top center;
-  }
-  .hero-copy{ padding-top: 8px !important; }
+.about-h2-wrap h2{
+  margin-bottom:0;
+  line-height:1.05;
+  flex:1;
+  min-width:200px;
 }
-
-/* iOS/Safari safety: prefixed keyframes (same name as existing) */
-@-webkit-keyframes swing{
-  0%{ -webkit-transform: rotate(-6deg); transform: rotate(-6deg); }
-  50%{ -webkit-transform: rotate(6deg); transform: rotate(6deg); }
-  100%{ -webkit-transform: rotate(-6deg); transform: rotate(-6deg); }
+.s3d-icon{
+  width:86px;height:86px;
+  flex-shrink:0;
+  border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  padding:14px;
+  position:relative;
+  /* 3D perspective tilt */
+  transform:perspective(400px) rotateY(-18deg) rotateX(4deg) rotate(-4deg);
+  transition:transform .35s ease,box-shadow .35s ease;
+  box-shadow:
+    6px 10px 24px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.2);
 }
-
-/* Designs section on desktop: slightly larger but keep 4 in one row */
-@media (min-width: 1100px){
-  .designs{ max-width: 1320px !important; }
-  .designs{ grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 18px !important; }
-  .design-card .thumb{ aspect-ratio: 3 / 4 !important; }
+.s3d-icon:hover{
+  transform:perspective(400px) rotateY(-8deg) rotateX(2deg) rotate(-2deg) translateY(-6px);
+  box-shadow:8px 20px 40px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.25);
 }
-@media (max-width: 1099px){
-  .designs{ grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.s3d-icon img{
+  width:100%;height:100%;
+  object-fit:contain;
+  display:block;
+  filter:brightness(0) invert(1); /* white icon on colored bg */
 }
-
-@media (max-width: 820px){
-  header .brand{display:none !important;}
+/* Shopify: green */
+.s3d-shopify{
+  background:linear-gradient(135deg,#96bf48,#5e8e3e);
+  box-shadow:6px 10px 24px rgba(94,142,62,.5),inset 0 1px 0 rgba(255,255,255,.25);
+  animation:float3dLeft 4.5s ease-in-out infinite;
 }
-
+/* Meta: blue */
+.s3d-meta{
+  background:linear-gradient(135deg,#1877f2,#0052cc);
+  box-shadow:6px 10px 24px rgba(24,119,242,.5),inset 0 1px 0 rgba(255,255,255,.25);
+  animation:float3dRight 4s ease-in-out infinite;
+  /* slight counter-tilt for Meta */
+  transform:perspective(400px) rotateY(18deg) rotateX(4deg) rotate(4deg);
+}
+.s3d-meta:hover{
+  transform:perspective(400px) rotateY(8deg) rotateX(2deg) rotate(2deg) translateY(-6px);
+}
+@keyframes float3dLeft{
+  0%,100%{transform:perspective(400px) rotateY(-18deg) rotateX(4deg) rotate(-4deg) translateY(0)}
+  50%{transform:perspective(400px) rotateY(-14deg) rotateX(2deg) rotate(-3deg) translateY(-10px)}
+}
+@keyframes float3dRight{
+  0%,100%{transform:perspective(400px) rotateY(18deg) rotateX(4deg) rotate(4deg) translateY(0)}
+  50%{transform:perspective(400px) rotateY(14deg) rotateX(2deg) rotate(3deg) translateY(-10px)}
+}
 </style>
 </head>
-
 <body>
-  <div class="bg" aria-hidden="true"></div>
-  <div class="scanlines" aria-hidden="true"></div>
 
-  <header>
-    <div class="container nav">
-      <div class="brand">
-        <img src="Images/amitzur clear logo.png" alt="amitzur logo">
-      </div>
-
-      <nav class="pill" aria-label="ניווט ראשי">
-        <a href="#process">איך זה עובד</a>
-        <a href="#upgrades">שדרוגים</a>
-        <a href="#designs">עיצובים</a>
-        <a href="#about">מי אני</a>
-        <a href="#packages">חבילות</a>
-        <a href="#contact">צור קשר</a>
-      </nav>
-</div>
-  </header>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container hero-grid"><div class="hero-copy reveal">
-        <span class="kicker">תחזוקה ושדרוג לאתרי Ecommerce</span>
-        <h1 class="h1"><span class="hero-line">אני לא רק מתחזק אתרים.</span><br><span class="hero-accent">אני מתחזק עסקים.</span></h1>
-        <p class="sub">
-מוסיף את הפרטים הקטנים שמשפרים חוויית משתמש ומעלים המרות אחוזי מכירה<br>
- תפריטים חכמים, אייקונים, סניפטים, כפתורים אישים, עיצובים גרפים ועוד.        </p>
-
-        <div class="hero-actions">
-          <a class="btn btn--primary" href="https://wa.me/972529535329?text=היי%20עמית,%20ראיתי%20את%20העבודות%20שלך%20אשמח%20לבדוק%20איך%20משפרים%20לי%20את%20העסק." target="_blank" rel="noopener">
-            בוא נדבר על האתר שלך
-          </a>
-          <a class="btn" href="#process">איך זה עובד איתי?</a>
-        </div>
-      </div>
-    
-      <div class="hero-art reveal">
-        <div class="lamp-glow" aria-hidden="true"></div>
-
-        <div class="lamp-wrap swing" id="lamp">
-          <svg viewBox="0 0 520 740" width="100%" height="100%" aria-label="מנורה מתנדנדת">
-  <defs>
-    <filter id="neon" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="3" result="b"/>
-      <feMerge>
-        <feMergeNode in="b"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-    <linearGradient id="wire" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="rgba(12,225,118,.95)"/>
-      <stop offset="1" stop-color="rgba(12,225,118,.20)"/>
-    </linearGradient>
-  </defs>
-
-  <!-- wire -->
-  <path d="M260 0 C258 120 258 165 260 228" stroke="url(#wire)" stroke-width="6" fill="none" />
-
-  <!-- cap -->
-  <g filter="url(#neon)" stroke="#0CE176" stroke-width="8" fill="none" opacity=".95">
-    <path d="M214 228 h92" stroke-linecap="round"/>
-    <path d="M204 258 h112" stroke-linecap="round"/>
-    <path d="M194 288 h132" stroke-linecap="round"/>
-    <path d="M184 318 h152" stroke-linecap="round"/>
-  </g>
-
-  <!-- outer bulb (bigger + more Nikita-like) -->
-  <path filter="url(#neon)" d="M260 336
-    C175 336 132 430 132 528
-    C132 668 220 726 260 726
-    C300 726 388 668 388 528
-    C388 430 345 336 260 336 Z"
-    stroke="#0CE176" stroke-width="8" fill="rgba(255,255,255,.02)"/>
-
-  <!-- inner shade -->
-  <path d="M260 356
-    C195 356 158 436 158 524
-    C158 640 228 690 260 690
-    C292 690 362 640 362 524
-    C362 436 325 356 260 356 Z"
-    fill="rgba(0,0,0,.48)"/>
-</svg>
-
-          <div class="chips" aria-hidden="true">
-            <div class="chip c1"><strong>תחזוק</strong> שוטף</div>
-            <div class="chip c2">תיקוני <strong>קוד</strong></div>
-            <div class="chip c3"><strong>אוטומציות</strong></div>
-            <div class="chip c4">שיפור <strong>UX</strong></div>
-            <div class="chip c5"><strong>עיצוב</strong> גרפי</div>
-            <div class="chip c6">שיווק <strong>בדיגיטל</strong></div>
-          </div>
-        </div>
-      </div>
-
-      </div>
-  </section>
-
-  
-  <!-- PROCESS -->
-  <section id="process">
-    <div class="container">
-    <div class="reveal" style="text-align:center;">
-  <span class="kicker" style="display:block; margin:0 auto;">
-    תהליך עבודה
-  </span>
-
-  <h2 class="h2" style="margin: 16px auto 12px auto; text-align:center;">
-    תהליך ברור , מסודר , ופשוט.
-  </h2>
-
-  <p class="sub" style="margin: 0 auto; text-align:center; max-width:600px;">
-    איתי אתה רואה את התהליך בנוי – שלב אחרי שלב.
-  </p>
-</div>
-
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="w nav">
+    <!-- Logo: "עמית. עמיצור." -->
+    <div class="logo">
+      <span class="logo-first">עמית </span><span class="logo-last">עמיצור</span><span class="logo-dot-txt">.</span>
     </div>
 
-    <div class="process-wrap processDesktop" id="processWrap">
-      <div class="process-sticky">
-        <div class="process-stage" aria-hidden="true">
-          <svg class="process-svg" viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <filter id="pGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="6" result="b"/>
-                <feMerge>
-                  <feMergeNode in="b"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-            </defs>
+    <nav class="navlinks">
+      <a href="#about">עליי</a>
+      <a href="#services">שירותים</a>
+      <a href="#projects">עבודות</a>
+      <a href="#packages">חבילות</a>
+      <a href="#faq">שאלות</a>
+    </nav>
 
-            <!-- subtle grid -->
-            <g opacity=".10" stroke="#fff">
-              <path d="M0 60 H1200"/><path d="M0 140 H1200"/><path d="M0 220 H1200"/><path d="M0 300 H1200"/><path d="M0 380 H1200"/>
-              <path d="M120 0 V420"/><path d="M240 0 V420"/><path d="M360 0 V420"/><path d="M480 0 V420"/><path d="M600 0 V420"/><path d="M720 0 V420"/><path d="M840 0 V420"/><path d="M960 0 V420"/><path d="M1080 0 V420"/>
-            </g>
+    <!-- CTA pill with inner arrow-circle -->
+    <a class="nav-wa" href="https://wa.me/972529535329?text=היי%20עמית,%20הגעתי%20מהאתר%20אשמח%20לדבר" target="_blank" rel="noopener">
+      <span class="nav-wa-circle">←</span>
+      <span class="nav-wa-txt">יצירת קשר</span>
+    </a>
+  </div>
+</header>
 
-            <!-- base wave -->
-            <path d="M1180 210 C1140 170 1080 120 980 220 C860 340 760 340 660 210 C560 80 480 180 360 260 C240 340 160 210 20 280"
-                  fill="none" stroke="rgba(12,225,118,.18)" stroke-width="10"/>
+<!-- ══ HERO (Nir style) ══ -->
+<canvas id="heroBg" aria-hidden="true"></canvas>
+<section class="hero">
+  <div class="hero-inner">
+    <h1 class="reveal">
+      הדיגיטל של העסק<br>
+      שלך <em>בידיים טובות.</em>
+    </h1>
+    <p class="hero-desc reveal d1">
+      פיתוח אתרי eCommerce, דפי נחיתה ממירים, ניהול Shopify, עיצוב וקמפיינים — הכל במקום אחד.<br>
+      אני מלווה עסקים לכל אורך הדרך ועד השגת תוצאות בשטח.
+    </p>
+    <div class="hero-btns reveal d2">
+      <a class="btn-hero" href="https://wa.me/972529535329?text=היי%20עמית,%20אשמח%20לאבחון%20חינם%20לאתר%20שלי" target="_blank" rel="noopener">
+        <span class="btn-hero-circle">←</span>
+        <span class="btn-hero-txt">אני רוצה לדבר</span>
+      </a>
+    </div>
+  </div>
 
-            <!-- drawn wave -->
-            <path id="waveDraw" d="M1180 210 C1140 170 1080 120 980 220 C860 340 760 340 660 210 C560 80 480 180 360 260 C240 340 160 210 20 280"
-                  fill="none" stroke="#0CE176" stroke-width="12" filter="url(#pGlow)"/>
-
-            <!-- nodes -->
-            <g id="nodes">
-              <circle class="pNode" data-step="1" cx="980" cy="220" r="46" fill="#0CE176" opacity=".95"/>
-              <circle class="pNode" data-step="2" cx="660" cy="210" r="46" fill="#0CE176" opacity=".95"/>
-              <circle class="pNode" data-step="3" cx="360" cy="260" r="46" fill="#0CE176" opacity=".95"/>
-              <circle class="pNode" data-step="4" cx="120" cy="300" r="46" fill="#0CE176" opacity=".95"/>
-              <g font-family="Rubik, system-ui, -apple-system, Segoe UI, Arial" font-weight="900" fill="#07120b">
-                <text x="980" y="220" text-anchor="middle" dominant-baseline="middle" font-size="44">1</text>
-                <text x="660" y="210" text-anchor="middle" dominant-baseline="middle" font-size="44">2</text>
-                <text x="360" y="260" text-anchor="middle" dominant-baseline="middle" font-size="44">3</text>
-                <text x="120" y="300" text-anchor="middle" dominant-baseline="middle" font-size="44">4</text>
-              </g>
-            </g>
-          </svg>
-
-          <!-- texts that stay near numbers (progressively revealed) -->
-          <div class="process-texts">
-            <div class="pText" data-step="1">
-              <h3>אבחון האתר</h3>
-              <p>בדיקה טכנית מלאה: מה עובד, מה חסר, ואיפה אפשר לשפר ביצועים, אבטחה ונראות.</p>
-            </div>
-            <div class="pText" data-step="2">
-              <h3>תחזוקה שוטפת ושדרוגים</h3>
-              <p>עדכונים, תיקונים, שיפור UX, אוטומציות קטנות שמעלות רמה — כדי שהאתר יישאר חד.</p>
-            </div>
-            <div class="pText" data-step="3">
-              <h3>בניית פיצ׳רים לפי צורך</h3>
-              <p>מוצרים, קולקציות, SEO, אינטגרציות — בהתאם למה שהעסק צריך עכשיו.</p>
-            </div>
-            <div class="pText" data-step="4">
-              <h3>ליווי ושקיפות</h3>
-              <p>דוח מסודר + תיעוד ושיחות ייעוץ — כדי לדעת מה בוצע ומה השלב הבא.</p>
-            </div>
-          </div>
-        </div>
+  <!-- TOOLS MARQUEE -->
+  <div class="tools-strip">
+    <div class="tools-bar">
+      <div class="tools-group">
+          <div class="ti" style="background:#0866ff"><img src="meta.png" alt="META ADS"><small>META ADS</small></div>
+          <div class="ti" style="background:#96bf48"><img src="shopify.png" alt="SHOPIFY"><small>SHOPIFY</small></div>
+          <div class="ti" style="background:#6d00cc"><img src="make.png" alt="MAKE"><small>MAKE</small></div>
+          <div class="ti" style="background:#000000"><img src="higgsfield.png" alt="HIGGSFIELD"><small>HIGGSFIELD</small></div>
+          <div class="ti" style="background:#21759b"><img src="wordpress.png" alt="WORDPRESS"><small>WORDPRESS</small></div>
+          <div class="ti" style="background:#001d34"><img src="photoshop.png" alt="PHOTOSHOP"><small>PHOTOSHOP</small></div>
+          <div class="ti" style="background:#ff4f00"><img src="zapier.png" alt="ZAPIER"><small>ZAPIER</small></div>
+          <div class="ti" style="background:#25d366"><img src="whatsapp.png" alt="WHATSAPP"><small>WHATSAPP</small></div>
+          <div class="ti" style="background:#1a1a1a"><img src="github.png" alt="GITHUB"><small>GITHUB</small></div>
+          <div class="ti" style="background:#000000"><img src="vercel.png" alt="VERCEL"><small>VERCEL</small></div>
+      </div>
+      <div class="tools-group" aria-hidden="true">
+          <div class="ti" style="background:#0866ff"><img src="meta.png" alt="META ADS"><small>META ADS</small></div>
+          <div class="ti" style="background:#96bf48"><img src="shopify.png" alt="SHOPIFY"><small>SHOPIFY</small></div>
+          <div class="ti" style="background:#6d00cc"><img src="make.png" alt="MAKE"><small>MAKE</small></div>
+          <div class="ti" style="background:#000000"><img src="higgsfield.png" alt="HIGGSFIELD"><small>HIGGSFIELD</small></div>
+          <div class="ti" style="background:#21759b"><img src="wordpress.png" alt="WORDPRESS"><small>WORDPRESS</small></div>
+          <div class="ti" style="background:#001d34"><img src="photoshop.png" alt="PHOTOSHOP"><small>PHOTOSHOP</small></div>
+          <div class="ti" style="background:#ff4f00"><img src="zapier.png" alt="ZAPIER"><small>ZAPIER</small></div>
+          <div class="ti" style="background:#25d366"><img src="whatsapp.png" alt="WHATSAPP"><small>WHATSAPP</small></div>
+          <div class="ti" style="background:#1a1a1a"><img src="github.png" alt="GITHUB"><small>GITHUB</small></div>
+          <div class="ti" style="background:#000000"><img src="vercel.png" alt="VERCEL"><small>VERCEL</small></div>
+      </div>
+      <div class="tools-group" aria-hidden="true">
+          <div class="ti" style="background:#0866ff"><img src="meta.png" alt="META ADS"><small>META ADS</small></div>
+          <div class="ti" style="background:#96bf48"><img src="shopify.png" alt="SHOPIFY"><small>SHOPIFY</small></div>
+          <div class="ti" style="background:#6d00cc"><img src="make.png" alt="MAKE"><small>MAKE</small></div>
+          <div class="ti" style="background:#000000"><img src="higgsfield.png" alt="HIGGSFIELD"><small>HIGGSFIELD</small></div>
+          <div class="ti" style="background:#21759b"><img src="wordpress.png" alt="WORDPRESS"><small>WORDPRESS</small></div>
+          <div class="ti" style="background:#001d34"><img src="photoshop.png" alt="PHOTOSHOP"><small>PHOTOSHOP</small></div>
+          <div class="ti" style="background:#ff4f00"><img src="zapier.png" alt="ZAPIER"><small>ZAPIER</small></div>
+          <div class="ti" style="background:#25d366"><img src="whatsapp.png" alt="WHATSAPP"><small>WHATSAPP</small></div>
+          <div class="ti" style="background:#1a1a1a"><img src="github.png" alt="GITHUB"><small>GITHUB</small></div>
+          <div class="ti" style="background:#000000"><img src="vercel.png" alt="VERCEL"><small>VERCEL</small></div>
       </div>
     </div>
-  
-    <!-- Mobile timeline (shown only on mobile) -->
-    <div class="processMobile" id="processMobile">
-      <div class="mStep" data-step="1">
-        <div class="mDot">1</div>
-        <div class="mBody">
-          <h3>אבחון האתר</h3>
-          <p>בדיקה טכנית מלאה של האתר שלך: מה עובד, מה חסר, ואיפה ניתן לשפר ביצועים, אבטחה ונראות.</p>
-        </div>
-      </div>
-
-      <div class="mStep" data-step="2">
-        <div class="mDot">2</div>
-        <div class="mBody">
-          <h3>תחזוקה שוטפת ושדרוגים חודשיים</h3>
-          <p>עדכונים, תיקונים, שיפורי UX, אוטומציות קטנות שמעלות רמה — כדי שהאתר יישאר חד.</p>
-        </div>
-      </div>
-
-      <div class="mStep" data-step="3">
-        <div class="mDot">3</div>
-        <div class="mBody">
-          <h3>גיבוי ותוכנית תחזוקה מותאמת אישית</h3>
-          <p>יחד נבנה תהליך תחזוקה מדויק לצרכים שלך — תחזוקה שוטפת, קידום, תיקונים, פיתוחים או אוטומציות.</p>
-        </div>
-      </div>
-
-      <div class="mStep" data-step="4">
-        <div class="mDot">4</div>
-        <div class="mBody">
-          <h3>ליווי עסקי ושקיפות מלאה</h3>
-          <p>דוח חודשי עם מה שבוצע באתר, המלצות לשיפור ושיחות ייעוץ שיעזרו לקדם את העסק דיגיטלית.</p>
-        </div>
-      </div>
-    </div>
-
+  </div>
 </section>
-<!-- UPGRADES -->
-  <section id="upgrades">
-    <div class="wide">
-      <div class="reveal" style="text-align:center;">
-        <h2 class="h2">קצת מהפרויקטים האחרונים שלי</h2>
-        <p class="sub" style="margin: 0 auto;">מילים זה טוב, אבל תוצאות מדברות בעד עצמן. הנה כמה דוגמאות אמיתיות לשיפוצים קטנים שביצעתי באתרים שהעלו המרות ושיפרו חוויית משתמש.</p>
-      </div>
 
-      <div class="projects-grid">
-        <article class="mac-card reveal">
-          <div class="mac-wrapper">
-            <img class="mac-frame" src="Images/macbookpro.svg" alt="MacBook Pro frame">
-            <div class="mac-screen">
-              <img src="Images/The D Diamond.png.png" alt="Storma – הודעת הזמנה אישית">
-            </div>
-          </div>
-          <div class="project-meta">
-            <strong>The D Diamond New York</strong>
-            <small>סליידר מותאם אישית באמצעות קוד לתכונות בדף מוצר</small>
-          </div>
-        </article>
 
-        <article class="mac-card reveal">
-          <div class="mac-wrapper">
-            <img class="mac-frame" src="Images/macbookpro.svg" alt="MacBook Pro frame">
-            <div class="mac-screen">
-              <img src="Images/storma medorot.png" alt="Storma מאווררי תקרה – סקשן אישי למדורות גן">
-            </div>
-          </div>
-          <div class="project-meta">
-            <strong>Storma מאווררי תקרה</strong>
-            <small>סקשן מדורות גן לבחירה אישית כולל כפתור הנעה לשיחה עם נציג להזמנה בעיצוב אישי</small>
-          </div>
-        </article>
 
-        <article class="mac-card reveal">
-          <div class="mac-wrapper">
-            <img class="mac-frame" src="Images/macbookpro.svg" alt="MacBook Pro frame">
-            <div class="mac-screen">
-              <img src="Images/with3.png" alt="Ice Diamonds – פופאפ ניוזלטר">
-            </div>
-          </div>
-          <div class="project-meta">
-            <strong>Ice Diamonds</strong>
-            <small>פופאפ הרשמה לניוזלטר + קופון 5% שמגדיל רשימת תפוצה ומכירות.</small>
-          </div>
-        </article>
-
-        <article class="mac-card reveal">
-          <div class="mac-wrapper">
-            <img class="mac-frame" src="Images/macbookpro.svg" alt="MacBook Pro frame">
-            <div class="mac-screen">
-              <img src="Images/kiara ring ICE.png" alt="Ice Diamonds – אייקון זמני שילוח">
-            </div>
-          </div>
-          <div class="project-meta">
-            <strong>Ice Diamonds</strong>
-            <small>אייקון זמני שילוח בהתאם להתנאי המוצר מה שמגדיל את האמון בין הלקוח למוכר ומעלה יחסי סגירה</small>
-          </div>
-        </article>
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="w about-grid">
+    <div class="about-img-wrap reveal">
+      <img src="Images/ME.jpg" alt="עמית עמיצור">
+      <div class="about-img-overlay"></div>
+      <div class="about-card">
+        <div class="about-card-dot"></div>
+        <div class="about-card-txt"><strong>פעיל עכשיו</strong> — זמין לפרויקטים חדשים</div>
       </div>
     </div>
-  </section>
-
-  <!-- DESIGNS -->
-  <section id="designs">
-    <div class="container">
-      <div class="reveal" style="text-align:center;">
-        <h2 class="h2">עיצובים גרפים לקמפיינים</h2>
-        <p class="sub" style="margin: 0 auto;">מחפשים עיצוב לקמפיין ממומן ? לוגו חדש לעסק שלכם ? הנה כמה עבודות שביצעתי ששיפרו אחוזי מכירה לעסקים וסגרו יותר עסקאות.</p>
-      </div>
-
-      <div class="designs">
-        <article class="design-card reveal">
-          <div class="thumb"><img src="Images/Amouage  2 גרסאת פוסט.png" alt="Amouage – סטורי קמפיין"></div>
-          <div class="design-meta">
-            <strong>בושם יוקרתי מבית Amouage</strong>
-            <small>סטורי קמפיין לבושם יוקרתי עם פוקוס על חוויית לייפסטייל.</small>
-          </div>
-        </article>
-
-        <article class="design-card reveal">
-          <div class="thumb"><img src="Images/החלום שלך העיצוב שלך מדורת גן עיצוב גרסאת  כתום פוסט.png" alt="מדורת גן – עיצוב אישי"></div>
-          <div class="design-meta">
-            <strong>מדורות גן בעיצוב אישי</strong>
-            <small>“החלום שלך — העיצוב שלך” לעסק שמתמחה במדורות גן בהתאמה אישית.</small>
-          </div>
-        </article>
-
-        <article class="design-card reveal">
-          <div class="thumb"><img src="Images/ZENO B.png" alt="מאוורר תקרה ZENO"></div>
-          <div class="design-meta">
-            <strong>מאוורר תקרה ZENO</strong>
-            <small>קריאייטיב למכירה מוקדמת בקמפיין ממומן.</small>
-          </div>
-        </article>
-
-        <article class="design-card reveal">
-          <div class="thumb"><img src="Images/CIRE BRECLET גרסאת פוסט פרטים והזמנה.png" alt="רוסרי – גרסאת סטורי"></div>
-          <div class="design-meta">
-            <strong>ROSERY</strong>
-            <small>תכשיטים לגבר מבית רוסרי , להתלבש בסטייל ברמה גבוהה.</small>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="container about">
-      <div class="about-img reveal">
-        <img src="Images/ME.jpg" alt="amitzur portrait">
-      </div>
-
-      <div class="box reveal">
-        <span class="kicker">קצת עליי</span>
-        <h2 class="h2">מי אני</h2>
-        <p class="muted">אני עמית עמיצור, בן 18, חי ונושם דיגיטל. עם השנים התחברתי לעולמות של בניית אתרים, עיצוב וחוויית משתמש — מתוך אהבה אמיתית לדיוק ולניקיון ויזואלי.</p>
-        <p class="muted">המטרה שלי היא שכל לקוח שייכנס לאתר שלך ירגיש מיד: “ממנו אני רוצה לקנות. הכל נקי, מונגש, נוח וברור”.</p>
-        <p class="muted">אתר טוב הוא הרבה מעבר לעיצוב יפה — הוא שילוב של נראות, נוחות ונגישות שמייצרים אמון ומכירות. אני כאן כדי למקסם את הפוטנציאל של העסק שלך.</p>
-
-        <a class="btn btn--primary" id="waCTA" href="#">ספרו לי על העסק שלכם</a>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- PACKAGES -->
-  <section id="packages" class="packagesV2">
-  <div class="wrap">
-    <div class="packagesHead">
-      <h2 class="packagesTitle">החבילות שלי </h2>
-      <p class="packagesSub">החבילה המתאימה ביותר עבורכם נמצאת כאן</p>
-    </div>
-
-    <div class="packageGrid">
-      <article class="packageCard" data-plan="growth">
-        <div class="pin" aria-hidden="true"></div>
-        <div class="planBadge">GROWTH</div>
-        <h3 class="planName">ליווי עסקי מלא</h3>
-        <p class="planLead">תחזוקה, פיתוח ואוטומציות — הכל במקום אחד.</p>
-
-        <div class="planListTitle">מה עושים עם זה בפועל:</div>
-        <ul class="planList">
-          <li>פיתוחים מותאמים אישית</li>
-          <li>אוטומציות</li>
-          <li>שדרוגים עמוקים</li>
-          <li>תהליכי מכירה (Upsell / Cross-sell)</li>
-          <li>ניהול תוספים מתקדם</li>
-          <li>ליווי טכני מלא</li>
-        </ul>
-
-        <div class="planFoot">
-          <div class="fitTitle">למי זה מתאים:</div>
-          <div class="fitText">עסקים שרוצים שותף אמיתי, לא “תחזוק טכני”.</div>
-          <a class="btnPrimary" href="https://api.whatsapp.com/send/?phone=972529535329&text=%D7%94%D7%99%D7%99+%D7%A2%D7%9E%D7%99%D7%AA%2C+%D7%A8%D7%90%D7%99%D7%AA%D7%99+%D7%90%D7%AA+%D7%94%D7%A2%D7%91%D7%95%D7%93%D7%95%D7%AA+%D7%A9%D7%9C%D7%9A+%D7%90%D7%A9%D7%9E%D7%97+%D7%9C%D7%91%D7%93%D7%95%D7%A7+%D7%90%D7%99%D7%9A+%D7%9E%D7%A9%D7%A4%D7%A8%D7%99%D7%9D+%D7%9C%D7%99+%D7%90%D7%AA+%D7%94%D7%A2%D7%A1%D7%A7.&type=phone_number&app_absent=0" target="_blank" rel="noopener">בוא נבנה תוכנית</a>
+    <div class="about-text">
+      <div class="sec-eyebrow reveal">היי, אני עמית</div>
+      <div class="about-h2-wrap reveal d1">
+        <!-- Shopify real icon -->
+        <div class="s3d-icon s3d-shopify" aria-hidden="true">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@v11/icons/shopify.svg"
+               alt="Shopify"
+               onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Shopify_logo_2018.svg/60px-Shopify_logo_2018.svg.png'">
         </div>
-      </article>
-
-      <article class="packageCard isFeatured" data-plan="pro">
-        <div class="pin" aria-hidden="true"></div>
-        <div class="planBadge">PRO</div>
-        <h3 class="planName">תחזוקה + שדרוגים</h3>
-        <p class="planLead">לא רק לשמור — לשפר ולהתקדם.</p>
-
-        <div class="planListTitle">כולל:</div>
-        <ul class="planList">
-          <li>שיפורים עיצוביים ותיקונים</li>
-          <li>קידום אורגני בסיסי</li>
-          <li>אוטומציות וטפסים חכמים</li>
-          <li>אופטימיזציה לתוכן ותמונות</li>
-          <li>דוחות חודשיים עם פירוט מלא</li>
-        </ul>
-
-        <div class="planFoot">
-          <div class="fitTitle">למי זה מתאים:</div>
-          <div class="fitText">עסקים שרוצים אתר שמתעדכן ומשתפר כל חודש.</div>
-          <a class="btnPrimary" href="https://api.whatsapp.com/send/?phone=972529535329&text=%D7%94%D7%99%D7%99+%D7%A2%D7%9E%D7%99%D7%AA%2C+%D7%A8%D7%90%D7%99%D7%AA%D7%99+%D7%90%D7%AA+%D7%94%D7%A2%D7%91%D7%95%D7%93%D7%95%D7%AA+%D7%A9%D7%9C%D7%9A+%D7%90%D7%A9%D7%9E%D7%97+%D7%9C%D7%91%D7%93%D7%95%D7%A7+%D7%90%D7%99%D7%9A+%D7%9E%D7%A9%D7%A4%D7%A8%D7%99%D7%9D+%D7%9C%D7%99+%D7%90%D7%AA+%D7%94%D7%A2%D7%A1%D7%A7.&type=phone_number&app_absent=0" target="_blank" rel="noopener">דברו איתי</a>
+        <h2>מנהל דיגיטל<br>לחנויות eCommerce.</h2>
+        <!-- Meta real icon -->
+        <div class="s3d-icon s3d-meta" aria-hidden="true">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons@v11/icons/meta.svg"
+               alt="Meta Ads"
+               onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platforms_Inc._logo.svg/100px-Meta_Platforms_Inc._logo.svg.png'">
         </div>
-      </article>
+      </div>
+      <p class="reveal d2">
+        אני מלווה עסקים בעולם הדיגיטל — מתחזוקה שוטפת ועד שדרוגים שמזיזים מספרים.
+        <strong>כל הלקוחות הגיעו אלי בהמלצה</strong>, ואני שומר על מספר מוגבל כדי שכל אחד יקבל זמינות ואיכות מקסימלית.
+      </p>
+      <p class="reveal d3">
+        היתרון בעבודה איתי: אתה לא נכנס למערכת גדולה ומאבד קשר. <strong>כל פרויקט מקבל חשיבה אמיתית, ביצוע מהיר ושקיפות מלאה</strong> — מהשיחה הראשונה ועד לדוח החודשי.
+      </p>
+      <!-- Large 3D app icons row beside text -->
+      <div class="skills reveal d4">
+        <span class="skill">Shopify</span>
+        <span class="skill">Liquid</span>
+        <span class="skill">JavaScript</span>
+        <span class="skill">Meta Ads</span>
+        <span class="skill">Klaviyo</span>
+        <span class="skill">Make</span>
+        <span class="skill">Canva Pro</span>
+        <span class="skill">SEO</span>
+        <span class="skill">WordPress</span>
+        <span class="skill">Figma</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <article class="packageCard" data-plan="basic">
-        <div class="pin" aria-hidden="true"></div>
-        <div class="planBadge">BASIC</div>
-        <h3 class="planName">תחזוקה בסיסית</h3>
-        <p class="planLead">פתרונות מהירים שמשאירים אתר תקין.</p>
+<!-- ══ SERVICES ══ -->
+<section id="services">
+  <div class="w">
+    <div class="sec-eyebrow reveal">מה אני עושה</div>
+    <h2 class="reveal d1">הפתרונות שמניעים<br>את העסק שלך קדימה.</h2>
 
-        <div class="planListTitle">מה עושים עם זה בפועל:</div>
-        <ul class="planList">
-          <li>תיקון באגים קטנים</li>
-          <li>שינויי טקסט / עיצוב</li>
-          <li>עדכוני תוספים / אפליקציות</li>
+    <div class="services-grid">
+      <div class="svc reveal">
+        <div class="svc-num">01</div>
+        <h3>ניהול Shopify שוטף</h3>
+        <p>תחזוקה מלאה, שדרוגי UX, אוטומציות, מוצרים, קולקציות ו-SEO — הכל מנוהל בשבילך. אתה מתמקד במכירות, אני בכל השאר.</p>
+        <span class="svc-tag">ריטיינר חודשי</span>
+      </div>
+      <div class="svc reveal d1">
+        <div class="svc-num">02</div>
+        <h3>בניית חנות / Landing Page</h3>
+        <p>בנייה מאפס עם פוקוס על המרות — ארכיטקטורת מוצר נכונה, עיצוב שממיר, אינטגרציות ואוטומציות מובנות. Shopify ו-WordPress.</p>
+        <span class="svc-tag">פרויקט חד פעמי</span>
+      </div>
+      <div class="svc reveal">
+        <div class="svc-num">03</div>
+        <h3>שדרוגי UX והמרות</h3>
+        <p>Upsell, Cross-sell, פופאפים חכמים, אייקוני אמון, זמני שילוח דינמיים — שיפורים קטנים שמניעים מספרים גדולים.</p>
+        <span class="svc-tag">לפי משימה</span>
+      </div>
+      <div class="svc reveal d1">
+        <div class="svc-num">04</div>
+        <h3>עיצוב גרפי לקמפיינים</h3>
+        <p>ויזואלים שמוכרים — פוסטים, סטוריז, קריאייטיב לקמפיינים ממומנים, מיתוג ולוגו. עיצוב שסוגר עסקאות.</p>
+        <span class="svc-tag">פר פרויקט / חבילה</span>
+      </div>
+      <div class="svc reveal">
+        <div class="svc-num">05</div>
+        <h3>אוטומציות ואינטגרציות</h3>
+        <p>חיבור בין מערכות, Make/Zapier, ניוזלטר אוטומטי, תזרים הזמנות — חוסך שעות עבודה ידניות בכל שבוע.</p>
+        <span class="svc-tag">פר פרויקט</span>
+      </div>
+      <div class="svc reveal d1">
+        <div class="svc-num">06</div>
+        <h3>ניהול קמפיינים ממומנים</h3>
+        <p>Meta Ads — אסטרטגיה, ויזואלים, ניהול שוטף ואופטימיזציה. מביא תנועה שיודעת להמיר.</p>
+        <span class="svc-tag">ריטיינר + אחוז</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROCESS ══ -->
+<section id="process" style="background:var(--bg2)">
+  <div class="w">
+    <div class="sec-eyebrow reveal">הדרך לפתרון</div>
+    <h2 class="reveal d1">תהליך ברור,<br>תוצאות מהירות.</h2>
+
+    <div class="process-steps">
+      <div class="pstep reveal">
+        <div class="pstep-circle">01</div>
+        <h3>היכרות ואבחון</h3>
+        <p>שיחה קצרה להבין את העסק, הצרכים והיעדים. אבחון חינם של האתר הקיים — מה עובד ומה פוגע בך.</p>
+      </div>
+      <div class="pstep reveal d1">
+        <div class="pstep-circle">02</div>
+        <h3>תוכנית פעולה</h3>
+        <p>מסמך עבודה ברור עם עדיפויות, לוחות זמנים ומה מצפה לך בכל חודש. שקיפות מלאה מהשלב הראשון.</p>
+      </div>
+      <div class="pstep reveal d2">
+        <div class="pstep-circle">03</div>
+        <h3>ביצוע ושדרוגים</h3>
+        <p>עובד מהיר ומדויק — רוב המשימות מסתיימות תוך שעות. אתה תמיד יודע מה קורה ואיפה הדברים עומדים.</p>
+      </div>
+      <div class="pstep reveal d3">
+        <div class="pstep-circle">04</div>
+        <h3>דוח וליווי שוטף</h3>
+        <p>דוח חודשי מסודר עם מה בוצע, מה השפיע ומה הצעד הבא. גם אחרי ההשקה — אני כאן.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJECTS ══ -->
+<section id="projects">
+  <div class="w">
+    <div class="proj-header">
+      <div class="sec-eyebrow reveal">עבודות אחרונות</div>
+      <h2 class="reveal d1">מילים זה טוב.<br>תוצאות מדברות בעד עצמן.</h2>
+      <p class="reveal d2" style="color:var(--muted2);font-size:17px;max-width:52ch;margin-top:10px;line-height:1.75">
+        כמה דוגמאות אמיתיות לפרויקטים ושדרוגים שביצעתי — בכל אחד הייתה בעיה ספציפית, ויש לה תוצאה מוכחת.
+      </p>
+    </div>
+
+    <!-- ICE DIAMONDS -->
+    <div class="pcard reveal">
+      <div class="pcard-inner">
+        <div class="pcard-body">
+          <div class="pcard-tag">Ice Diamonds — Shopify</div>
+          <h3>ניהול דיגיטל מלא לחנות תכשיטי יוקרה</h3>
+          <p>ניהול שוטף של חנות Shopify מובילה — פופאפ ניוזלטר עם אוטומציית Klaviyo, אייקוני שילוח דינמיים לפי מוצר, שדרוגי UX, קמפיינים גרפיים ועוד. לקוח קבוע מזה שנה.</p>
+          <div class="pcard-stats">
+            <div class="pcard-stat">
+              <div class="pcard-stat-val">+18%</div>
+              <div class="pcard-stat-lbl">גידול תפוצה</div>
+            </div>
+            <div class="pcard-stat">
+              <div class="pcard-stat-val">+12%</div>
+              <div class="pcard-stat-lbl">מכירות חוזרות</div>
+            </div>
+          </div>
+          <a class="pcard-btn" href="https://icediamonds.shop" target="_blank" rel="noopener">
+            לצפייה בפרויקט <span class="pcard-btn-arrow">←</span>
+          </a>
+        </div>
+        <div class="pcard-imgs">
+          <div class="pcard-imgs-grid">
+            <img src="Images/with3.png" alt="Ice Diamonds popup">
+            <img src="Images/kiara ring ICE.png" alt="Ice Diamonds shipping">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE D DIAMOND NY -->
+    <div class="pcard reveal">
+      <div class="pcard-inner flip">
+        <div class="pcard-imgs">
+          <div class="pcard-imgs-single">
+            <img src="Images/The D Diamond.png.png" alt="The D Diamond NY">
+          </div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-tag">The D Diamond New York — Shopify</div>
+          <h3>סליידר תכונות מוצר בהתאמה אישית</h3>
+          <p>פיתוח Section מותאם אישית שמציג תכונות מוצר בצורה ויזואלית — קוד נקי, בלי אפליקציה חיצונית, מובייל ריספונסיבי מלא. חיסכון של עשרות דולר בחודש.</p>
+          <div class="pcard-stats">
+            <div class="pcard-stat">
+              <div class="pcard-stat-val">+21%</div>
+              <div class="pcard-stat-lbl">זמן שהייה בדף</div>
+            </div>
+            <div class="pcard-stat">
+              <div class="pcard-stat-val">₪0</div>
+              <div class="pcard-stat-lbl">עלות אפליקציה</div>
+            </div>
+          </div>
+          <a class="pcard-btn" href="https://theddiamond.com" target="_blank" rel="noopener">
+            לצפייה בפרויקט <span class="pcard-btn-arrow">←</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- STORMA -->
+    <div class="pcard reveal">
+      <div class="pcard-inner">
+        <div class="pcard-body">
+          <div class="pcard-tag">Storma — מאווררי תקרה</div>
+          <h3>סקשן בחירת מדורת גן בהתאמה אישית</h3>
+          <p>סקשן ממיר שמאפשר ללקוח לבחור מדורה מותאמת אישית עם CTA ישיר לנציג. הוריד חסם קנייה ושיפר פניות לעסק משמעותית.</p>
+          <div class="pcard-stats">
+            <div class="pcard-stat">
+              <div class="pcard-stat-val">+35%</div>
+              <div class="pcard-stat-lbl">פניות דרך האתר</div>
+            </div>
+          </div>
+          <a class="pcard-btn" href="#contact" rel="noopener">
+            לפרטים נוספים <span class="pcard-btn-arrow">←</span>
+          </a>
+        </div>
+        <div class="pcard-imgs">
+          <div class="pcard-imgs-single">
+            <img src="Images/storma medorot.png" alt="Storma מדורות גן">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ LOGOS (clients) — moved here after projects ══ -->
+<div class="logos-section">
+  <div class="w">
+    <div class="logos-label">חלק מהלקוחות שעבדתי איתם</div>
+  </div>
+  <div class="logos-bar">
+    <div class="logos-group">
+        <img src="LOGOS/Pragmatica Extended.png" alt="INGLOT">
+        <img src="LOGOS/IMG_2826.PNG" alt="ספר נולד">
+        <img src="LOGOS/עיצוב ללא שם (3).png" alt="STORMA">
+        <img src="LOGOS/logos_black_3_.pdf_1.png" alt="ICE DIAMONDS">
+        <img src="LOGOS/ROSERY.png" alt="ROSERY">
+    </div>
+    <div class="logos-group" aria-hidden="true">
+        <img src="LOGOS/Pragmatica Extended.png" alt="INGLOT">
+        <img src="LOGOS/IMG_2826.PNG" alt="ספר נולד">
+        <img src="LOGOS/עיצוב ללא שם (3).png" alt="STORMA">
+        <img src="LOGOS/logos_black_3_.pdf_1.png" alt="ICE DIAMONDS">
+        <img src="LOGOS/ROSERY.png" alt="ROSERY">
+    </div>
+    <div class="logos-group" aria-hidden="true">
+        <img src="LOGOS/Pragmatica Extended.png" alt="INGLOT">
+        <img src="LOGOS/IMG_2826.PNG" alt="ספר נולד">
+        <img src="LOGOS/עיצוב ללא שם (3).png" alt="STORMA">
+        <img src="LOGOS/logos_black_3_.pdf_1.png" alt="ICE DIAMONDS">
+        <img src="LOGOS/ROSERY.png" alt="ROSERY">
+    </div>
+  </div>
+</div>
+
+<!-- ══ PACKAGES ══ -->
+<section id="packages" style="background:var(--bg2)">
+  <div class="w">
+    <div class="sec-eyebrow reveal" style="justify-content:center;display:flex">חבילות</div>
+    <h2 class="reveal d1" style="text-align:center">בחרו את<br>החבילה שלכם.</h2>
+    <p class="reveal d2" style="text-align:center;color:var(--muted2);font-size:16px;margin:12px auto 0;max-width:44ch">מחירים שקופים. ללא הפתעות. ללא קשקושים.</p>
+
+    <div class="pkg-grid">
+      <div class="pkg reveal">
+        <div class="pkg-tier">BASIC</div>
+        <div class="pkg-name">תחזוקה שוטפת</div>
+        <div class="pkg-lead">האתר שלך תמיד תקין, מאובטח ומהיר.</div>
+        <div class="pkg-price-row">
+          <span class="pkg-price">₪1,200</span>
+          <span class="pkg-per">/ חודש</span>
+        </div>
+        <div class="pkg-note">בנק 8 שעות · גלגול חודש קדימה</div>
+        <div class="pkg-hr"></div>
+        <ul class="pkg-list">
+          <li>תיקון באגים ועדכונים שוטפים</li>
+          <li>שינויי טקסט ועיצוב קל</li>
+          <li>עדכוני אפליקציות ותוספים</li>
           <li>התאמות מובייל</li>
-          <li>שיפורי UX קלים</li>
+          <li>דוח חודשי קצר</li>
+          <li>זמן תגובה עד 24 שעות</li>
         </ul>
+        <a class="pkg-btn" href="https://wa.me/972529535329?text=היי%20עמית,%20מעוניין%20ב-BASIC" target="_blank" rel="noopener">בואו נדבר →</a>
+      </div>
 
-        <div class="planFoot">
-          <div class="fitTitle">למי זה מתאים:</div>
-          <div class="fitText">עסקים שרוצים אתר תקין, מאובטח ומהיר.</div>
-          <a class="btnPrimary" href="https://api.whatsapp.com/send/?phone=972529535329&text=%D7%94%D7%99%D7%99+%D7%A2%D7%9E%D7%99%D7%AA%2C+%D7%A8%D7%90%D7%99%D7%AA%D7%99+%D7%90%D7%AA+%D7%94%D7%A2%D7%91%D7%95%D7%93%D7%95%D7%AA+%D7%A9%D7%9C%D7%9A+%D7%90%D7%A9%D7%9E%D7%97+%D7%9C%D7%91%D7%93%D7%95%D7%A7+%D7%90%D7%99%D7%9A+%D7%9E%D7%A9%D7%A4%D7%A8%D7%99%D7%9D+%D7%9C%D7%99+%D7%90%D7%AA+%D7%94%D7%A2%D7%A1%D7%A7.&type=phone_number&app_absent=0" target="_blank" rel="noopener">בדיקת התאמה</a>
+      <div class="pkg featured reveal d1">
+        <div class="pkg-badge">הכי פופולרי</div>
+        <div class="pkg-tier">PRO</div>
+        <div class="pkg-name">תחזוקה + שדרוגים</div>
+        <div class="pkg-lead">לא רק לשמור — לשפר ולהתקדם כל חודש.</div>
+        <div class="pkg-price-row">
+          <span class="pkg-price">₪2,500</span>
+          <span class="pkg-per">/ חודש</span>
         </div>
-      </article>
+        <div class="pkg-note">בנק 18 שעות · עדיפות בתמיכה</div>
+        <div class="pkg-hr"></div>
+        <ul class="pkg-list">
+          <li>הכל ב-BASIC +</li>
+          <li>שדרוגי UX חודשיים</li>
+          <li>SEO בסיסי וקידום אורגני</li>
+          <li>אוטומציות וטפסים חכמים</li>
+          <li>אופטימיזציית תמונות וביצועים</li>
+          <li>דוח מפורט עם המלצות</li>
+          <li>זמן תגובה עד 4 שעות</li>
+        </ul>
+        <a class="pkg-btn" href="https://wa.me/972529535329?text=היי%20עמית,%20מעוניין%20ב-PRO" target="_blank" rel="noopener">בואו נדבר →</a>
+      </div>
+
+      <div class="pkg reveal d2">
+        <div class="pkg-tier">GROWTH</div>
+        <div class="pkg-name">ניהול דיגיטל מלא</div>
+        <div class="pkg-lead">שותף דיגיטל אמיתי — הכל בידיים שלי.</div>
+        <div class="pkg-price-row">
+          <span class="pkg-price">₪5,500</span>
+          <span class="pkg-per">/ חודש</span>
+        </div>
+        <div class="pkg-note">ללא הגבלת שעות מעשית · ליווי אסטרטגי</div>
+        <div class="pkg-hr"></div>
+        <ul class="pkg-list">
+          <li>הכל ב-PRO +</li>
+          <li>פיתוחים מותאמים אישית</li>
+          <li>Upsell / Cross-sell</li>
+          <li>ניהול קמפיינים ממומנים</li>
+          <li>עיצוב גרפי לקמפיינים</li>
+          <li>ליווי אסטרטגי חודשי</li>
+          <li>מענה מיידי בשעות עבודה</li>
+        </ul>
+        <a class="pkg-btn" href="https://wa.me/972529535329?text=היי%20עמית,%20מעוניין%20ב-GROWTH" target="_blank" rel="noopener">בואו נדבר →</a>
+      </div>
     </div>
+    <p class="reveal" style="text-align:center;color:var(--muted2);font-size:14px;margin-top:24px">
+      צריכים משהו ספציפי? פרויקט חד פעמי? דף נחיתה?
+      <a href="https://wa.me/972529535329" style="color:#E63946;font-weight:600" target="_blank" rel="noopener">כתבו לי →</a>
+    </p>
   </div>
 </section>
-<section class="packages-cta" aria-label="החבילות שלי">
-  <div class="container">
-    <p class="section-sub">רוצים חבילה שמותאמת אליכם אישית ?</p>
-    <a class="btn btn--primary" href="https://api.whatsapp.com/send/?phone=972529535329&text=%D7%94%D7%99%D7%99+%D7%A2%D7%9E%D7%99%D7%AA%2C+%D7%A8%D7%90%D7%99%D7%AA%D7%99+%D7%90%D7%AA+%D7%94%D7%A2%D7%91%D7%95%D7%93%D7%95%D7%AA+%D7%A9%D7%9C%D7%9A+%D7%90%D7%A9%D7%9E%D7%97+%D7%9C%D7%91%D7%93%D7%95%D7%A7+%D7%90%D7%99%D7%9A+%D7%9E%D7%A9%D7%A4%D7%A8%D7%99%D7%9D+%D7%9C%D7%99+%D7%90%D7%AA+%D7%94%D7%A2%D7%A1%D7%A7.&type=phone_number&app_absent=0" target="_blank" rel="noopener">דברו איתי</a>
-  </div>
-</section>
 
+<!-- ══ FAQ ══ -->
+<section id="faq">
+  <div class="w">
+    <div class="sec-eyebrow reveal">שאלות נפוצות</div>
+    <h2 class="reveal d1">כל מה שרציתם<br>לדעת.</h2>
 
-
-  <!-- CLIENTS -->
-  <section id="clients">
-    <div class="container">
-      <h2 class="clients-title reveal">מבין הלקוחות שעבדתי איתם</h2>
-
-      <div class="logo-strip reveal">
-        <div class="logo-track">
-          <img src="LOGOS/Pragmatica Extended.png" alt="INGLOT">
-          <img src="LOGOS/IMG_2826.PNG" alt="ספר נולד">
-          <img src="LOGOS/עיצוב ללא שם (3).png" alt="STORMA">
-          <img src="LOGOS/logos_black_3_.pdf_1.png" alt="ICE DIAMONDS">
-          <img src="LOGOS/ROSERY.png" alt="ROSERY">
-
-          <img src="LOGOS/Pragmatica Extended.png" alt="INGLOT duplicate" aria-hidden="true">
-          <img src="LOGOS/IMG_2826.PNG" alt="ספר נולד duplicate" aria-hidden="true">
-          <img src="LOGOS/עיצוב ללא שם (3).png" alt="STORMA duplicate" aria-hidden="true">
-          <img src="LOGOS/logos_black_3_.pdf_1.png" alt="ICE DIAMONDS duplicate" aria-hidden="true">
-          <img src="LOGOS/ROSERY.png" alt="ROSERY duplicate" aria-hidden="true">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <section id="stats">
-    <div class="container">
-      <div class="reveal" style="text-align:center;">
-        <span class="kicker">תכל'ס</span>
-        <h2 class="h2">במספרים</h2>
+    <div class="faq-layout">
+      <div class="faq-sticky reveal">
+        <p>עדיין מתלבטים? ריכזתי תשובות לשאלות שבעלי עסקים שואלים לפני שמתחילים תהליך דיגיטלי חדש.<br><br>שאלה שלא מופיעה? שלחו הודעה ואחזור תוך שעות.</p>
+        <a class="btn-primary" style="display:inline-flex" href="https://wa.me/972529535329?text=יש%20לי%20שאלה" target="_blank" rel="noopener">שאלו אותי ישירות ↗</a>
       </div>
 
-      <div class="stats">
-        <div class="statbox reveal">
-          <div class="counter" data-target="100">0</div>
-          <div class="muted">לקוחות מרוצים</div>
-        </div>
-        <div class="statbox reveal">
-          <div class="counter" data-target="25">0</div>
-          <div class="muted">פרויקטים</div>
-        </div>
-        <div class="statbox reveal">
-          <div class="counter" data-target="3">0</div>
-          <div class="muted">שנות ניסיון</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq">
-    <div class="container faq-wrap">
       <div class="faq-list">
-
         <div class="faq-item">
-          <div class="faq-q"><div class="faq-toggle">+</div><span>? אני מעוניין בתחזוק אתר באופן שוטף מה זה כולל</span></div>
-          <div class="faq-a">פשוט מאוד - כל ענייני האתר יורדים מהראש שלכם. אני מטפל בעדכונים, תיקונים, שדרוגים ופיצ’רים חדשים לפי הצורך, ואתם מתפנים להתעסק במה שחשוב באמת: להביא הזמנות ולגדל את העסק.</div>
+          <div class="faq-q"><div class="faq-icon">+</div><span>מה כולל ניהול שוטף בפועל?</span></div>
+          <div class="faq-a">כל ענייני האתר יורדים מהראש שלכם — עדכונים, תיקונים, שדרוגים ופיצ'רים חדשים לפי הצורך. אתם מתפנים להביא הזמנות ולגדל את העסק, אני מטפל בכל השאר.</div>
         </div>
-
         <div class="faq-item">
-          <div class="faq-q"><div class="faq-toggle">+</div><span>? אני צריך עיצוב גרפי איך זה עובד ? בתשלום לפי תמונה</span></div>
-          <div class="faq-a">כן. עיצובים גרפיים מתומחרים לפי פר פרויקט / תמונה, אבל לרוב אני ממליץ על חבילות של 5 עיצובים ומעלה, כי הן משתלמות משמעותית מבחינת מחיר. כך אתם מקבלים הרבה יותר תמורה — והרבה יותר אפשרויות לשימוש בקמפיינים.</div>
+          <div class="faq-q"><div class="faq-icon">+</div><span>כמה זמן לוקח לבצע משימה?</span></div>
+          <div class="faq-a">רוב המשימות מסתיימות תוך כמה שעות. אני מתעדף לפי דחיפות — ואתם תמיד יודעים מה הסטטוס. אין "אחזור אליך סוף השבוע".</div>
         </div>
-
         <div class="faq-item">
-          <div class="faq-q"><div class="faq-toggle">+</div><span>? איך נדע מה צריך לשדרג באתר שלי</span></div>
-          <div class="faq-a">חלק מהעבודה שלי הוא לזהות הזדמנויות לשיפור. לפני כל פרויקט אני לומד את העסק, המוצר והקהל שלכם, ומאתר את הנקודות החזקות — ואת המקומות שכדאי לשדרג. אתם לא צריכים לדעת מה לשפר — זו המומחיות שלי.</div>
+          <div class="faq-q"><div class="faq-icon">+</div><span>האם אתה בונה גם Landing Pages?</span></div>
+          <div class="faq-a">בהחלט. בניית דפי נחיתה ממירים — לקמפיינים, לאיסוף לידים, להשקות מוצרים — זה אחד השירותים הנפוצים שלי. מחיר ומבנה לפי פרויקט.</div>
         </div>
-
         <div class="faq-item">
-          <div class="faq-q"><div class="faq-toggle">+</div><span>? כמה זמן לוקח עד שמשימה שביקשתי מתבצעת</span></div>
-          <div class="faq-a">זה תלוי בגודל המשימה, אבל אני שם דגש גדול מאוד על זמני תגובה מהירים. אני מתעדף משימות לפי הדחיפות שלכם, ופועל תמיד מתוך הבנה שהזמן של העסק שלכם חשוב בדיוק כמו הזמן שלי. ברוב המקרים — כמה שעות בודדות, והבקשה כבר מאחורינו.</div>
+          <div class="faq-q"><div class="faq-icon">+</div><span>האם אתה עובד גם עם WordPress?</span></div>
+          <div class="faq-a">כן. עובד עם Shopify ו-WordPress. לחנויות eCommerce אני ממליץ על Shopify — אבל אם האתר שלכם ב-WordPress, אין שום בעיה.</div>
         </div>
-
         <div class="faq-item">
-          <div class="faq-q"><div class="faq-toggle">+</div><span>? איך עובד נושא התשלום ? זה בתשלום חד־פעמי או חבילת תחזוקה</span></div>
-          <div class="faq-a">ללקוחות שמבקשים תחזוקה שוטפת, אני מציע בנק שעות גמיש שמתאים לצרכים של כל עסק. ההתחלה היא מ־10 שעות, ותמיד אפשר להוסיף עוד במידת הצורך. כך אתם משלמים רק על העבודה שבוצעה בפועל — בלי התחייבויות מיותרות ובלי הפתעות.</div>
+          <div class="faq-q"><div class="faq-icon">+</div><span>איך עובד נושא התשלום?</span></div>
+          <div class="faq-a">חבילות חודשיות משולמות בתחילת כל חודש. פרויקטים חד פעמיים — 50% מקדמה, 50% בסיום. כל המחירים ברורים מראש, אין הפתעות.</div>
         </div>
-
         <div class="faq-item">
-          <div class="faq-q"><div class="faq-toggle">+</div><span>? איך אדע כמה זמן לקחה כל משימה באתר שלי</span></div>
-          <div class="faq-a">אני עובד עם מערכת מדידת שעות מסודרת, כך שכל משימה מתועדת — ואתם יודעים בדיוק כמה זמן הושקע בכל פעולה ושדרוג. שקיפות מלאה מהשנייה הראשונה.</div>
+          <div class="faq-q"><div class="faq-icon">+</div><span>כמה לקוחות אתה מנהל בו זמנית?</span></div>
+          <div class="faq-a">אני שומר על מספר מוגבל של לקוחות פעילים כדי לתת לכל אחד זמינות ואיכות מקסימלית. אם יש רשימת המתנה — אגיד את זה בכנות.</div>
         </div>
-
-      </div>
-
-      <div class="faq-copy">
-        <h2>כל מה שצריך לדעת</h2>
-        <p>עדיין מתלבטים? ריכזתי את כל התשובות לשאלות שבעלי עסקים שואלים לפני שמתחילים תהליך דיגיטלי חדש.</p>
-        <p>אם יש לכם שאלה שלא הופיעה כאן – אתם תמיד מוזמנים לשלוח לי הודעה בוואטסאפ.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FOOTER / CONTACT -->
-  <footer id="contact">
-    <div class="container footer-grid reveal">
+<!-- ══ CTA ══ -->
+<section class="cta-section">
+  <div class="w">
+    <div class="cta-inner reveal">
+      <h2>מוכנים לקחת את<br>הדיגיטל <span class="txt-accent">ברצינות?</span></h2>
+      <p>שלחו הודעה קצרה. תוך 24 שעות תקבלו אבחון ראשוני בחינם ונדבר על מה שמתאים לכם.</p>
+      <div class="cta-btns">
+        <a class="btn-primary" href="https://wa.me/972529535329?text=היי%20עמית,%20אשמח%20לאבחון%20חינם%20לאתר%20שלי" target="_blank" rel="noopener">שלחו הודעה בוואטסאפ ↗</a>
+        <a class="btn-outline" href="mailto:Amitshop23@gmail.com">Amitshop23@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer id="contact">
+  <div class="w">
+    <div class="footer-top">
       <div>
-        <img src="Images/amitzur clear logo.png" alt="amitzur logo"
-             style="height: 230px; margin-top:-30px; background:transparent; border:none;" />
-        <div class="muted">Amitzur Digital | שיווק בדיגיטל • עיצוב גרפי • תחזוק אתרים</div>
-
-        <div class="socials">
-          <a class="social-btn" href="https://www.instagram.com/amit.amitzur/" aria-label="Instagram">
-            <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.9.3 2.3.5.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1.1.5 2.3.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.9-.5 2.3-.2.6-.5 1-0.9 1.4-.4.4-.8.7-1.4.9-.4.2-1.1.4-2.3.5-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.9-.3-2.3-.5-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1.1-.5-2.3C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.9.5-2.3.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1.1-.4 2.3-.5C8.4 2.2 8.8 2.2 12 2.2zm0 2c-3.1 0-3.5 0-4.7.1-1 .1-1.6.2-1.9.4-.5.2-.8.4-1.1.7-.3.3-.5.6-.7 1.1-.2.3-.3.9-.4 1.9-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1 .2 1.6.4 1.9.2.5.4.8.7 1.1.3.3.6.5 1.1.7.3.2.9.3 1.9.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1-.1 1.6-.2 1.9-.4.5-.2.8-.4 1.1-.7.3-.3.5-.6.7-1.1.2-.3.3-.9.4-1.9.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1-.2-1.6-.4-1.9-.2-.5-.4-.8-.7-1.1-.3-.3-.6-.5-1.1-.7-.3-.2-.9-.3-1.9-.4C15.5 4.2 15.1 4.2 12 4.2zm0 2.9a4.9 4.9 0 110 9.8 4.9 4.9 0 010-9.8zm0 1.8a3.1 3.1 0 100 6.2 3.1 3.1 0 000-6.2zm5.2-2.2a1.1 1.1 0 110 2.2 1.1 1.1 0 010-2.2z"/></svg>
-          </a>
-          <a class="social-btn" href="https://www.facebook.com/amit.amizur/?locale=he_IL" aria-label="Facebook">
-            <svg viewBox="0 0 24 24"><path d="M22 12.06C22 6.48 17.52 2 11.94 2S2 6.48 2 12.06C2 17.09 5.66 21.21 10.44 22v-7.03H7.9v-2.91h2.54V9.41c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22C18.34 21.21 22 17.09 22 12.06z"/></svg>
-          </a>
+        <div class="foot-logo"><div class="foot-logo-dot"></div>עמיצור דיגיטל</div>
+        <div class="foot-desc">ניהול דיגיטל לעסקי eCommerce. Shopify, עיצוב, קמפיינים, אוטומציות — הכל במקום אחד.</div>
+        <div class="foot-socials">
+          <a class="foot-social" href="https://www.instagram.com/amit.amitzur/" aria-label="Instagram" target="_blank" rel="noopener">📸</a>
+          <a class="foot-social" href="https://www.facebook.com/amit.amizur/" aria-label="Facebook" target="_blank" rel="noopener">👤</a>
         </div>
       </div>
-
-      <div class="foot-links">
-        <strong>מפת אתר</strong>
-        <a href="#process">איך זה עובד</a>
-        <a href="#upgrades">שדרוגים</a>
-        <a href="#designs">עיצובים</a>
-        <a href="#about">מי אני</a>
+      <div class="foot-col">
+        <h4>ניווט</h4>
+        <a href="#about">עליי</a>
+        <a href="#services">שירותים</a>
+        <a href="#projects">עבודות</a>
         <a href="#packages">חבילות</a>
-        <a href="#contact">צור קשר</a>
+        <a href="#faq">שאלות נפוצות</a>
       </div>
-
-      <div class="foot-links">
-        <strong>צור קשר</strong>
+      <div class="foot-col">
+        <h4>צור קשר</h4>
         <a href="mailto:Amitshop23@gmail.com">Amitshop23@gmail.com</a>
-        <a id="waFoot" href="#">וואטסאפ</a>
+        <a href="https://wa.me/972529535329" target="_blank" rel="noopener">וואטסאפ ↗</a>
       </div>
     </div>
-
-    <div class="container footbar">
-      <small>© <span id="y"></span> Amitzur Digital</small>
-      <small>בנוי במקצועיות — עמיצור בדיגיטל.</small>
+    <div class="foot-bar">
+      <span>© <span id="yr"></span> עמיצור דיגיטל</span>
+      <span>בנוי במקצועיות — עמיצור בדיגיטל</span>
     </div>
-  </footer>
+  </div>
+</footer>
 
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
 
-    const PHONE = '972529535329';
-    const MESSAGE = encodeURIComponent('היי עמית, ראיתי את העבודות שלך אשמח לבדוק איך משפרים לי את העסק.');
-    const wa = `https://wa.me/${PHONE}?text=${MESSAGE}`;
-    const waCTA = document.getElementById('waCTA');
-    if (waCTA) waCTA.href = wa;
-    const waFoot = document.getElementById('waFoot');
-    if (waFoot) waFoot.href = wa;
+/* REVEAL */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis') });
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-    // smooth scroll
-    document.querySelectorAll('nav a, .btn[href^="#"], .foot-links a[href^="#"]').forEach(a => {
-      a.addEventListener('click', (e)=>{
-        const href = a.getAttribute('href');
-        if(!href || !href.startsWith('#')) return;
-        const t = document.querySelector(href);
-        if(!t) return;
-        e.preventDefault();
-        t.scrollIntoView({behavior:'smooth'});
-      });
+/* COUNTERS */
+let counted = false;
+const statsEl = document.querySelector('.hero-stats');
+const cIO = new IntersectionObserver(entries=>{
+  if(!counted && entries[0].isIntersecting){
+    counted = true;
+    document.querySelectorAll('.hstat-val[data-target]').forEach(el=>{
+      const target = +el.getAttribute('data-target');
+      let n = 0;
+      const step = Math.max(1, Math.ceil(target/55));
+      const t = setInterval(()=>{
+        n = Math.min(n+step, target);
+        el.textContent = n;
+        if(n >= target){ el.textContent = target+'+'; clearInterval(t); }
+      },22);
     });
+  }
+},{threshold:.5});
+if(statsEl) cIO.observe(statsEl);
 
-    // reveal
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
-    }, {threshold: 0.14});
-    document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
-
-    // counters
-    let countersStarted = false;
-    function startCounters() {
-      if (countersStarted) return;
-      countersStarted = true;
-      document.querySelectorAll('.counter').forEach(c => {
-        const target = +c.getAttribute('data-target');
-        let cur = 0;
-        const step = Math.max(1, Math.round(target / 70));
-        const timer = setInterval(()=>{
-          cur += step;
-          if (cur >= target) { cur = target; clearInterval(timer); }
-          c.textContent = cur;
-        }, 18);
-      });
-    }
-    const statsEl = document.getElementById('stats');
-    const statsIO = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting) startCounters(); });
-    }, {threshold: 0.2});
-    if (statsEl) statsIO.observe(statsEl);
-
-    // FAQ accordion
-    document.querySelectorAll('.faq-q').forEach(function(q){
-      q.addEventListener('click', function () {
-        const item = q.parentElement;
-        document.querySelectorAll('.faq-item').forEach(function(other){
-          if (other !== item) other.classList.remove('open');
-        });
-        item.classList.toggle('open');
-      });
-    });
-
-    // Lamp parallax (subtle)
-    (function(){
-      const lamp = document.getElementById('lamp');
-      if(!lamp) return;
-      let raf = null;
-      function onMove(e){
-        if(raf) return;
-        raf = requestAnimationFrame(()=>{
-          raf = null;
-          const x = (e.clientX / window.innerWidth - 0.5);
-          const y = (e.clientY / window.innerHeight - 0.5);
-          const rot = x * 3; // degrees
-          const lift = y * -6; // px
-          lamp.style.transform = `rotate(${rot}deg) translateY(${lift}px)`;
-        });
-      }
-      window.addEventListener('mousemove', onMove, {passive:true});
-    })();
-    // Process (Nikita-like): scroll drives the wave + reveals steps progressively
-    (function(){
-      const wrap = document.getElementById('processWrap');
-      const draw = document.getElementById('waveDraw');
-      if(!wrap || !draw) return;
-
-      const texts = Array.from(document.querySelectorAll('.pText[data-step]'));
-      const nodes = Array.from(document.querySelectorAll('.pNode[data-step]'));
-
-      const total = draw.getTotalLength();
-      draw.style.strokeDasharray = total;
-      draw.style.strokeDashoffset = total;
-
-      function clamp(v,a,b){ return Math.max(a, Math.min(b,v)); }
-
-      function onScroll(){
-        const rect = wrap.getBoundingClientRect();
-        const vh = window.innerHeight || 800;
-
-        // If section is shorter than viewport (mobile), just show all
-        const totalScroll = Math.max(1, rect.height - vh);
-        const scrolled = clamp(-rect.top, 0, totalScroll);
-        const p = clamp(scrolled / totalScroll, 0, 1);
-
-        // Progressively draw the wave
-        draw.style.strokeDashoffset = (1 - p) * total;
-
-        // Step thresholds (4 steps)
-        const step = (p < 0.25) ? 1 : (p < 0.50) ? 2 : (p < 0.75) ? 3 : 4;
-
-        // Keep revealed steps visible (like Nikita)
-        texts.forEach(t=>{
-          const s = +t.dataset.step;
-          t.classList.toggle('shown', s <= step);
-        });
-
-        nodes.forEach(n=>{
-          const s = +n.dataset.step;
-          n.classList.toggle('is-active', s === step);
-          n.classList.toggle('is-done', s < step);
-        });
-      }
-
-      window.addEventListener('scroll', onScroll, {passive:true});
-      window.addEventListener('resize', onScroll);
-      onScroll();
-    })();
-
-
-// Mobile process timeline reveal
-(function(){
-  const mobile = document.getElementById('processMobile');
-  if(!mobile) return;
-
-  const steps = Array.from(mobile.querySelectorAll('.mStep'));
-  if(!steps.length) return;
-
-  // initial
-  steps.forEach((el,i)=>{
-    el.classList.remove('is-active','is-done');
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(14px)';
-    el.style.transition = 'opacity .45s ease, transform .45s ease';
+/* FAQ */
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item = q.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!isOpen) item.classList.add('open');
   });
+});
 
-  const obs = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        const el = entry.target;
-        const n = parseInt(el.getAttribute('data-step')||'0',10);
+/* SMOOTH SCROLL */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t = document.querySelector(a.getAttribute('href'));
+    if(!t) return;
+    e.preventDefault();
+    t.scrollIntoView({behavior:'smooth'});
+  });
+});
 
-        // mark done/active
-        steps.forEach(s=>{
-          const k = parseInt(s.getAttribute('data-step')||'0',10);
-          s.classList.toggle('is-done', k < n);
-          s.classList.toggle('is-active', k === n);
-          if(k <= n){
-            s.style.opacity = '1';
-            s.style.transform = 'translateY(0)';
-          }
-        });
+/* ══ CANVAS PARTICLES — Omer Miran style: subtle dots + white lines ══ */
+(function(){
+  const canvas = document.getElementById('heroBg');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  const COUNT = 55;          // fewer dots = cleaner
+  const CONNECT = 180;       // connection distance
+
+  function resize(){
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function Particle(){
+    this.x  = Math.random() * W;
+    this.y  = Math.random() * H;
+    this.vx = (Math.random() - .5) * .28;
+    this.vy = (Math.random() - .5) * .28;
+    this.r  = Math.random() * 1.8 + 1;   // 1–2.8px — subtle
+    this.a  = Math.random() * .35 + .12; // low opacity
+    // each dot is white with occasional red tint
+    this.red = Math.random() < 0.25;     // 25% are red
+  }
+
+  function init(){
+    resize();
+    particles = Array.from({length:COUNT}, () => new Particle());
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    /* white connecting lines — like Omer Miran */
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d  = Math.sqrt(dx*dx+dy*dy);
+        if(d < CONNECT){
+          const a = (1 - d/CONNECT) * .09;  // very subtle lines
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(255,255,255,${a})`;
+          ctx.lineWidth = .6;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
       }
+    }
+
+    /* dots */
+    particles.forEach(p => {
+      const col = p.red ? '230,57,70' : '255,255,255';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(${col},${p.a})`;
+      ctx.fill();
+
+      p.x += p.vx;
+      p.y += p.vy;
+      if(p.x < -5) p.x = W+5;
+      if(p.x > W+5) p.x = -5;
+      if(p.y < -5) p.y = H+5;
+      if(p.y > H+5) p.y = -5;
     });
-  }, { threshold: 0.35 });
 
-  steps.forEach(s=>obs.observe(s));
-})();
+    requestAnimationFrame(draw);
+  }
 
-</script>
+  init();
+  draw();
+  window.addEventListener('resize', resize);
+})();</script>
 </body>
 </html>
