@@ -268,35 +268,38 @@ h3{font-size:clamp(20px,2vw,26px);font-weight:700}
 /* ── TOOL ICON CARDS — real images, Nir style ── */
 .ti{
   flex-shrink:0;
-  width:88px;height:88px;
-  border-radius:22px;
-  background:#1a1c1e;
-  border:1px solid rgba(255,255,255,.08);
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  gap:7px;
-  padding:13px 8px 9px;
-  box-shadow:0 10px 30px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1);
-  transition:transform .25s,box-shadow .25s,border-color .25s;
-  cursor:default;
+  width:90px;height:90px;
+  border-radius:20px;
   overflow:hidden;
+  position:relative;
+  box-shadow:0 8px 24px rgba(0,0,0,.5);
+  transition:transform .25s,box-shadow .25s;
+  cursor:default;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-end;
 }
 .ti:hover{
-  transform:translateY(-8px) scale(1.07);
-  border-color:rgba(230,57,70,.35);
-  box-shadow:0 22px 48px rgba(0,0,0,.55),0 0 22px rgba(230,57,70,.1);
+  transform:translateY(-8px) scale(1.08);
+  box-shadow:0 20px 44px rgba(0,0,0,.65);
 }
 .ti img{
-  width:44px;height:44px;
-  object-fit:contain;
+  position:absolute;
+  inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
   display:block;
 }
 .ti small{
-  font-size:8px;font-weight:700;
-  color:rgba(255,255,255,.45);
-  letter-spacing:.6px;
+  position:relative;z-index:1;
+  font-size:8px;font-weight:800;
+  color:rgba(255,255,255,.9);
+  letter-spacing:.5px;
   text-transform:uppercase;
   white-space:nowrap;
+  background:rgba(0,0,0,.5);
+  padding:3px 8px 4px;
+  width:100%;text-align:center;
+  backdrop-filter:blur(4px);
 }
 
 /* ── CANVAS PARTICLE BACKGROUND — full page, fixed ── */
@@ -981,7 +984,7 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
   <div class="w nav">
     <!-- Logo: "עמית. עמיצור." -->
     <div class="logo">
-      <span class="logo-first">עמית </span><span class="logo-last">עמיצור</span><span class="logo-dot-txt">.</span>
+      <img src="Images/amitzur clear logo.png" alt="amitzur digital logo" style="height:44px;width:auto;object-fit:contain;">
     </div>
 
     <nav class="navlinks">
@@ -1465,7 +1468,7 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
   <div class="w">
     <div class="footer-top">
       <div>
-        <div class="foot-logo"><div class="foot-logo-dot"></div>עמיצור דיגיטל</div>
+        <div class="foot-logo"><img src="Images/amitzur clear logo.png" alt="amitzur digital" style="height:50px;width:auto;object-fit:contain;"></div>
         <div class="foot-desc">ניהול דיגיטל לעסקי eCommerce. Shopify, עיצוב, קמפיינים, אוטומציות — הכל במקום אחד.</div>
         <div class="foot-socials">
           <a class="foot-social" href="https://www.instagram.com/amit.amitzur/" aria-label="Instagram" target="_blank" rel="noopener">📸</a>
@@ -1616,5 +1619,37 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   draw();
   window.addEventListener('resize', resize);
 })();</script>
+
+<!-- ── FLOATING WHATSAPP BUTTON ── -->
+<a href="https://wa.me/972529535329?text=היי%20עמית,%20הגעתי%20מהאתר%20אשמח%20לדבר"
+   target="_blank" rel="noopener"
+   class="wa-float" aria-label="שלח הודעה בוואטסאפ">
+  <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.529 5.845L.057 23.487l5.797-1.522A11.934 11.934 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-5.002-1.368l-.357-.213-3.713.975.993-3.625-.234-.372A9.818 9.818 0 1 1 12 21.818z"/>
+  </svg>
+</a>
+
+<style>
+.wa-float{
+  position:fixed;
+  bottom:28px;
+  right:28px;
+  width:58px;height:58px;
+  border-radius:50%;
+  background:#25d366;
+  display:grid;place-items:center;
+  box-shadow:0 6px 24px rgba(37,211,102,.4);
+  z-index:999;
+  transition:transform .25s,box-shadow .25s;
+}
+.wa-float:hover{
+  transform:translateY(-4px) scale(1.08);
+  box-shadow:0 12px 36px rgba(37,211,102,.55);
+}
+.wa-float svg{
+  width:30px;height:30px;
+}
+</style>
 </body>
 </html>
