@@ -24,8 +24,8 @@
   --r:14px;
   --rL:22px;
   --rXL:32px;
-  --hh:72px;
-  --maxw:1120px;
+  --hh:88px;
+  --maxw:1200px;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
@@ -36,6 +36,7 @@ body{
   color:var(--text);
   line-height:1.7;
   overflow-x:hidden;
+  font-size:18px;   /* בסיס גדול יותר — תחושת 125% כברירת מחדל */
 }
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
@@ -270,16 +271,16 @@ h3{font-size:clamp(20px,2vw,26px);font-weight:700}
 }
 /* גודל אחיד ללוגואים בסליידר */
 .logos-group img{
-  height:46px;
+  height:50px;
   width:auto;
-  max-width:150px;
+  max-width:160px;
   object-fit:contain;
-  opacity:.78;
-  filter:grayscale(1) brightness(1.6);
-  transition:opacity .25s, filter .25s;
+  opacity:.92;
+  filter:none;               /* צבע מלא כברירת מחדל */
+  transition:opacity .25s, transform .25s;
   flex-shrink:0;
 }
-.logos-group img:hover{ opacity:1; filter:grayscale(0) brightness(1) }
+.logos-group img:hover{ opacity:1; transform:scale(1.06) }
 @keyframes logosScroll{
   0%  { transform:translateX(0) }
   100%{ transform:translateX(-100%) }
@@ -463,7 +464,7 @@ h3{font-size:clamp(20px,2vw,26px);font-weight:700}
 .about-card-txt{font-size:13px;color:var(--muted2);font-weight:500}
 .about-card-txt strong{color:var(--text);font-weight:700}
 .about-text h2{margin-bottom:20px}
-.about-text p{color:var(--muted2);font-size:16px;line-height:1.85;margin-bottom:16px}
+.about-text p{color:var(--muted2);font-size:18px;line-height:1.9;margin-bottom:18px}
 .about-text p strong{color:var(--text);font-weight:600}
 .skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
 .skill{
@@ -601,7 +602,7 @@ h3{font-size:clamp(20px,2vw,26px);font-weight:700}
   letter-spacing:-.4px;
 }
 .pcard-body p{
-  font-size:15.5px;color:var(--muted2);
+  font-size:17px;color:var(--muted2);
   line-height:1.85;margin-bottom:26px;
 }
 .pcard-stats{
@@ -862,7 +863,7 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
   .tools-group{ gap:22px; padding-left:22px; animation-duration:24s }
   .ti{ width:62px;height:62px;border-radius:14px }
   .logos-group{ gap:34px; padding-left:34px; animation-duration:22s }
-  .logos-group img{ height:34px;max-width:110px }
+  .logos-group img{ height:38px;max-width:120px }
 }
 @media(max-width:600px){
   h1{font-size:42px}
@@ -1179,37 +1180,27 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
   }
 }
 
-/* Logo fallback styling */
-.logo img{
-  font-size:0; /* hide alt text */
-}
-.logo img::before{
-  content:"amitzur.digital";
-  font-size:18px;
-  font-weight:800;
-  color:white;
-  display:block;
-}
+/* (logo fallback removed — real image used) */
 
 /* ── Logo image (Elitzur style — big, wide, transparent) ── */
 .logo-wrap{ display:flex;align-items:center }
 .logo-img{
-  height:48px;
+  height:74px;          /* גדול ורחב כמו אליצור */
   width:auto;
-  max-width:260px;
+  max-width:340px;
   object-fit:contain;
   display:block;
 }
 .logo-img-foot{
-  height:60px;
+  height:88px;
   width:auto;
-  max-width:300px;
+  max-width:380px;
   object-fit:contain;
   display:block;
 }
 @media(max-width:860px){
-  .logo-img{ height:42px;max-width:200px }
-  .logo-img-foot{ height:54px;max-width:240px }
+  .logo-img{ height:56px;max-width:240px }
+  .logo-img-foot{ height:66px;max-width:280px }
 }
 
 /* ══ OMER MIRAN STYLE SERVICE CARDS ══ */
@@ -1512,13 +1503,13 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
         </div>
       </div>
       <p class="reveal d2">
-        אני עמית עמיצור — מנהל דיגיטל לעסקי eCommerce. בניתי ושדרגתי עשרות חנויות Shopify, ניהלתי קמפיינים ממומנים ב-Meta, ויצרתי אוטומציות שחוסכות שעות עבודה בשבוע. <strong>כל הלקוחות הגיעו אלי בהמלצה בלבד</strong>.
+        אני עמית עמיצור, מנהל דיגיטל לעסקי eCommerce. אני מנהל ומשדרג חנויות Shopify ו-WooCommerce, בונה דפי נחיתה ממירים, מריץ קמפיינים ב-Meta ובונה אוטומציות שעושות את העבודה במקומך.
       </p>
       <p class="reveal d3">
-        אני לא סוכנות — אתה עובד ישירות מולי. כל פרויקט מקבל <strong>חשיבה אמיתית, ביצוע מהיר ושקיפות מלאה</strong>. המטרה שלי היא שתרגיש שיש לך מנהל דיגיטל בתוך הצוות — לא ספק חיצוני.
+        <strong>אני לא סוכנות — אתה עובד ישירות מולי.</strong> בלי מתווכים, בלי מנהלי לקוח, בלי הפתעות. כל לקוח שלי הגיע בהמלצה, וזה לא במקרה.
       </p>
       <p class="reveal d3" style="margin-top:0">
-        מתמחה ב: <strong>Shopify, Meta Ads, Landing Pages, אוטומציות Make/Zapier, עיצוב גרפי לקמפיינים</strong> — הכל תחת קורת גג אחת.
+        המטרה שלי פשוטה: שתרגיש שיש לך מנהל דיגיטל בתוך הצוות שלך — שחושב על העסק, מזיז מספרים, ולוקח אחריות מהרעיון ועד התוצאה.
       </p>
       <!-- Large 3D app icons row beside text -->
 
@@ -1661,7 +1652,7 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
         <div class="pcard-body">
           <div class="pcard-tag">Ice Diamonds — Shopify</div>
           <h3>ניהול דיגיטל מלא לחנות תכשיטי מואסנייט</h3>
-          <p>ניהול שוטף של אחת מחנויות המואסנייט המובילות בישראל — שדרוגי UX, פופאפים חכמים, אוטומציות Klaviyo, אינטגרציות מדיה (כאן 11, כלכליסט, ערוץ 7) וקמפיינים. לקוח קבוע מזה שנה.</p>
+          <p>חנות Shopify מובילה בתחום תכשיטי המואסנייט בישראל. אני מנהל אותה שוטף מזה שנה — שדרוגי UX והמרה, פופאפים ואוטומציות Klaviyo, ניהול קמפיינים ב-Meta, ושילוב סיקורי המדיה (כאן 11, כלכליסט, ערוץ 7) בתוך חווית הקנייה כדי לבנות אמון ולהגדיל מכירות.</p>
           <div class="pcard-stats">
             <div class="pcard-stat">
               <div class="pcard-stat-val" data-count="18" data-prefix="+" data-suffix="%">0%</div>
@@ -1695,7 +1686,7 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
         <div class="pcard-body">
           <div class="pcard-tag">LA TRES — Shopify</div>
           <h3>חנות תיקי יוקרה וינטג׳ אותנטיים</h3>
-          <p>בניית חנות Shopify למותג תיקי יוקרה וינטג׳ — Fendi, Gucci, Prada, Celine, Louis Vuitton. עיצוב יוקרתי ונקי, חווית קנייה פרימיום, אינטגרציית Instagram, וכל הפיסים יוניקים ונדירים. "Luxury · Authentic · Timeless".</p>
+          <p>בניית חנות Shopify למותג תיקי יוקרה וינטג׳ אותנטיים — Fendi, Gucci, Prada, Celine, Louis Vuitton. כל פריט הוא יוניק, ולכן בניתי חווית קנייה שמרגישה כמו בוטיק: עיצוב נקי ויוקרתי, אינטגרציית Instagram, ותחושת אמון שמתאימה למוצר ברמה הזו. "Luxury · Authentic · Timeless".</p>
           <div class="pcard-stats">
             <div class="pcard-stat">
               <div class="pcard-stat-val" data-count="100" data-prefix="" data-suffix="%">0%</div>
@@ -1717,17 +1708,17 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
     <div class="pcard reveal">
       <div class="pcard-inner">
         <div class="pcard-body">
-          <div class="pcard-tag">The D Diamond New York — Shopify</div>
+          <div class="pcard-tag">The D Diamond New York — WooCommerce</div>
           <h3>תכשיטי יוקרה לחברינו הקטנים</h3>
-          <p>בניית חנות Shopify ייחודית למותג תכשיטי יוקרה לכלבים — קולרים משובצי יהלומים, זהב 18K. עיצוב אלגנטי בסגנון איור יד, מערכת הזמנת פגישות מובנית, וסקשן מותאם אישית להצגת מוצרים — בלי אפליקציות חיצוניות.</p>
+          <p>חנות WooCommerce יוקרתית למותג תכשיטי יוקרה לכלבים — קולרים משובצי יהלומים וזהב 18K. אני אחראי על התחזוקה השוטפת, שיפור מתמיד של חווית המשתמש, וניהול היקפי של החנות: עדכוני מוצרים, אופטימיזציה לעמודים, ושמירה על אתר יציב, מהיר ומדויק שתואם את רמת המותג.</p>
           <div class="pcard-stats">
             <div class="pcard-stat">
-              <div class="pcard-stat-val" data-count="21" data-prefix="+" data-suffix="%">0%</div>
-              <div class="pcard-stat-lbl">זמן שהייה בדף</div>
+              <div class="pcard-stat-val" data-count="99" data-prefix="" data-suffix="%">0%</div>
+              <div class="pcard-stat-lbl">זמינות אתר</div>
             </div>
             <div class="pcard-stat">
-              <div class="pcard-stat-val" data-count="0" data-prefix="₪" data-suffix="">₪0</div>
-              <div class="pcard-stat-lbl">עלות אפליקציה</div>
+              <div class="pcard-stat-val" data-count="100" data-prefix="" data-suffix="%">0%</div>
+              <div class="pcard-stat-lbl">ניהול שוטף</div>
             </div>
           </div>
           <a class="pcard-btn" href="https://theddiamond.com" target="_blank" rel="noopener">
