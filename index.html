@@ -1334,7 +1334,7 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
   position:fixed;
   top:var(--hh);
   left:0;right:0;
-  background:rgba(10,10,11,.98);
+  background:rgba(0,3,33,.98);
   backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
   display:flex;
@@ -2100,5 +2100,26 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   width:30px;height:30px;
 }
 </style>
+<script>
+/* ── HAMBURGER MOBILE MENU ── */
+(function(){
+  const ham = document.getElementById('hamburger');
+  const menu = document.getElementById('mobileMenu');
+  if(ham && menu){
+    ham.addEventListener('click', function(){
+      ham.classList.toggle('active');
+      menu.classList.toggle('open');
+      document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+    });
+    menu.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        ham.classList.remove('active');
+        menu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+  }
+})();
+</script>
 </body>
 </html>
