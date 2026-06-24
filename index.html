@@ -7,7 +7,7 @@
 <meta name="description" content="ניהול דיגיטל מלא לחנויות Shopify — תחזוקה, שדרוגים, עיצוב, קמפיינים. תוצאות מוכחות."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Assistant:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#000321;
@@ -31,7 +31,8 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
-  font-family:'Assistant','Rubik',sans-serif;
+  font-family:'Google Sans','Assistant',sans-serif;
+  font-weight:400;
   background:var(--bg);
   color:var(--text);
   line-height:1.7;
@@ -112,6 +113,10 @@ section{padding:100px 0;border-bottom:1px solid var(--border)}
   display:block;
 }
 h1,h2,h3{line-height:1.05;letter-spacing:-.5px}
+/* Google Sans: כותרות שמנות (מקס 700), טקסט רגיל דק יותר */
+h1,h2,h3,h4{ font-weight:700 !important; }
+p, .about-text p, .pcard-body p, .foot-desc, .navlinks a{ font-weight:300; }
+strong{ font-weight:600; }
 h1{font-size:clamp(48px,6.5vw,92px);font-weight:900}
 h2{font-size:clamp(32px,4.2vw,58px);font-weight:800}
 h3{font-size:clamp(20px,2vw,26px);font-weight:700}
