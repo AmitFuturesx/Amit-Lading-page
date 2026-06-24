@@ -7,7 +7,7 @@
 <meta name="description" content="ניהול דיגיטל מלא לחנויות Shopify — תחזוקה, שדרוגים, עיצוב, קמפיינים. תוצאות מוכחות."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#0a0a0b;
@@ -31,7 +31,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
-  font-family:'Rubik',sans-serif;
+  font-family:'Assistant','Rubik',sans-serif;
   background:var(--bg);
   color:var(--text);
   line-height:1.7;
@@ -108,9 +108,8 @@ section{padding:100px 0;border-bottom:1px solid var(--border)}
   color:#E63946;letter-spacing:1.2px;
   text-transform:uppercase;
   margin-bottom:16px;
-  display:flex;align-items:center;gap:8px;
+  display:block;
 }
-.sec-eyebrow::before{content:"";width:18px;height:1.5px;background:#E63946}
 h1,h2,h3{line-height:1.05;letter-spacing:-.5px}
 h1{font-size:clamp(48px,6.5vw,92px);font-weight:900}
 h2{font-size:clamp(32px,4.2vw,58px);font-weight:800}
@@ -125,6 +124,12 @@ h3{font-size:clamp(20px,2vw,26px);font-weight:700}
   padding:calc(var(--hh) + 60px) 0 0;
   border-bottom:1px solid var(--border);
   position:relative;overflow:hidden;
+}
+/* tools strip sits at bottom of hero */
+.hero .tools-strip{
+  margin-top:auto;
+  width:100%;
+  padding:32px 0 28px;
 }
 
 /* dot grid background */
@@ -811,12 +816,19 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
 .foot-desc{font-size:14px;color:var(--muted2);line-height:1.75;max-width:32ch;margin-bottom:20px}
 .foot-socials{display:flex;gap:8px}
 .foot-social{
-  width:36px;height:36px;border-radius:50%;
+  width:44px;height:44px;border-radius:50%;
   border:1px solid var(--border);background:rgba(255,255,255,.03);
-  display:grid;place-items:center;font-size:15px;
-  transition:border-color .2s,background .2s;
+  display:grid;place-items:center;
+  color:var(--muted2);
+  transition:border-color .2s,background .2s,color .2s,transform .2s;
 }
-.foot-social:hover{border-color:rgba(230,57,70,.3);background:rgba(230,57,70,.06)}
+.foot-social:hover{
+  border-color:rgba(230,57,70,.4);
+  background:rgba(230,57,70,.08);
+  color:#E63946;
+  transform:translateY(-2px);
+}
+.foot-socials{gap:10px}
 .foot-col h4{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px}
 .foot-col a{display:block;font-size:14px;color:var(--muted2);padding:4px 0;transition:color .2s}
 .foot-col a:hover{color:var(--text)}
@@ -1114,25 +1126,19 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
 
 /* ── Mobile tools strip fix ── */
 @media(max-width:768px){
-  .tools-strip{ padding:16px 0 !important; }
-  /* Mobile: אייקונים קטנים יותר + gap קבוע */
+  .tools-group{
+    justify-content:flex-start !important;
+    min-width:max-content !important;
+    gap:14px !important;
+    padding:0 7px !important;
+  }
   .ti{ 
-    width:64px !important; 
-    height:64px !important; 
+    width:62px !important; 
+    height:62px !important; 
     border-radius:14px !important;
     flex-shrink:0 !important;
   }
-  /* Mobile: group לא min-width:100% — נותן space-around על פחות מקום */
-  .tools-group{
-    justify-content:flex-start !important;
-    min-width:auto !important;
-    gap:10px !important;
-    padding:0 12px !important;
-  }
-  /* במובייל — כל group לא צריך min-width:100%, הלופ עובד אחרת */
-  .tools-bar{
-    overflow:hidden !important;
-  }
+  .tools-bar{ overflow:hidden !important; }
 }
 
 /* ── Logo size in header ── */
@@ -1156,13 +1162,16 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
   .tools-group{
     min-width:max-content !important;
     justify-content:flex-start !important;
-    gap:12px !important;
-    padding:0 6px !important;
+    gap:14px !important;
+    padding:0 7px !important;
   }
   .ti{
-    width:60px !important;
-    height:60px !important;
+    width:58px !important;
+    height:58px !important;
     border-radius:13px !important;
+  }
+  .hero .tools-strip{
+    padding:20px 0 16px !important;
   }
 }
 
@@ -1177,7 +1186,192 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
   color:white;
   display:block;
 }
+
+/* ── Logo image (Elitzur style — big, wide, transparent) ── */
+.logo-wrap{ display:flex;align-items:center }
+.logo-img{
+  height:48px;
+  width:auto;
+  max-width:260px;
+  object-fit:contain;
+  display:block;
+}
+.logo-img-foot{
+  height:60px;
+  width:auto;
+  max-width:300px;
+  object-fit:contain;
+  display:block;
+}
+@media(max-width:860px){
+  .logo-img{ height:42px;max-width:200px }
+  .logo-img-foot{ height:54px;max-width:240px }
+}
+
+/* ══ OMER MIRAN STYLE SERVICE CARDS ══ */
+.om-card{
+  display:grid;
+  grid-template-columns:1fr 1.1fr; /* media-left, text-right */
+  direction:ltr; /* force layout direction */
+  gap:0;
+  align-items:center;
+  border-radius:28px;
+  border:1px solid rgba(230,57,70,.18);
+  background:linear-gradient(135deg,rgba(230,57,70,.04),rgba(20,22,40,.6));
+  overflow:hidden;
+  margin-bottom:28px;
+  min-height:340px;
+  transition:border-color .3s,transform .3s,box-shadow .3s;
+  position:relative;
+}
+.om-card::before{
+  content:"";
+  position:absolute;inset:0;
+  background:
+    linear-gradient(rgba(230,57,70,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(230,57,70,.04) 1px,transparent 1px);
+  background-size:40px 40px;
+  opacity:.5;
+  pointer-events:none;
+}
+.om-card:hover{
+  border-color:rgba(230,57,70,.4);
+  transform:translateY(-4px);
+  box-shadow:0 30px 70px rgba(230,57,70,.12);
+}
+/* flip removed — all cards uniform */
+
+/* Media side */
+.om-card-media{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:340px;
+  position:relative;
+  z-index:1;
+}
+.om-lottie{
+  width:200px;
+  height:200px;
+  display:block;
+}
+@media(max-width:860px){
+  .om-lottie{ width:150px;height:150px }
+}
+@keyframes omFloat{
+  0%,100%{ transform:translateY(0) rotate(-3deg) }
+  50%{ transform:translateY(-16px) rotate(2deg) }
+}
+
+/* Text side */
+.om-card-text{
+  padding:48px 44px;
+  position:relative;
+  z-index:1;
+  direction:rtl; /* text reads RTL */
+  text-align:right;
+}
+.om-num{
+  font-size:14px;font-weight:800;
+  color:var(--accent);
+  letter-spacing:2px;
+  margin-bottom:10px;
+  font-family:monospace;
+}
+.om-card-text h3{
+  font-size:clamp(24px,2.4vw,32px);
+  font-weight:800;
+  line-height:1.2;
+  margin-bottom:6px;
+}
+.om-sub{
+  font-size:15px;
+  color:var(--accent);
+  margin-bottom:18px !important;
+  font-weight:600;
+}
+.om-card-text p{
+  font-size:15px;
+  color:var(--muted2);
+  line-height:1.85;
+}
+
+@media(max-width:860px){
+  .om-card{
+    grid-template-columns:1fr;
+    direction:rtl;
+  }
+  .om-card-media{ min-height:180px;order:1 }
+  .om-card-text{ order:2 }
+  
+  .om-card-text{ padding:28px 24px }
+  .om-card{ min-height:auto }
+}
+
+/* ── Hamburger menu (mobile) ── */
+.hamburger{
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+  width:42px;height:42px;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border2);
+  border-radius:12px;
+  cursor:pointer;
+  padding:0 10px;
+  z-index:1001;
+}
+.hamburger span{
+  display:block;
+  height:2px;width:100%;
+  background:var(--text);
+  border-radius:2px;
+  transition:transform .3s,opacity .3s;
+}
+.hamburger.active span:nth-child(1){ transform:translateY(7px) rotate(45deg) }
+.hamburger.active span:nth-child(2){ opacity:0 }
+.hamburger.active span:nth-child(3){ transform:translateY(-7px) rotate(-45deg) }
+
+.mobile-menu{
+  position:fixed;
+  top:var(--hh);
+  left:0;right:0;
+  background:rgba(10,10,11,.98);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  padding:20px;
+  gap:4px;
+  transform:translateY(-120%);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+  z-index:1000;
+  max-height:calc(100vh - var(--hh));
+  overflow-y:auto;
+}
+.mobile-menu.open{ transform:translateY(0) }
+.mobile-menu a{
+  padding:14px 18px;
+  border-radius:12px;
+  font-size:17px;font-weight:600;
+  color:var(--text);
+  transition:background .2s;
+  text-align:right;
+}
+.mobile-menu a:hover{ background:rgba(255,255,255,.05) }
+.mobile-menu-cta{
+  background:var(--accent) !important;
+  color:#fff !important;
+  text-align:center !important;
+  margin-top:8px;
+  box-shadow:0 4px 20px rgba(230,57,70,.3);
+}
+@media(max-width:860px){
+  .hamburger{ display:flex }
+}
 </style>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 <body>
 
@@ -1185,14 +1379,8 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
 <header>
   <div class="w nav">
     <!-- Logo: "עמית. עמיצור." -->
-    <div class="logo">
-      <img src="Images/amitzur clear logo.png" 
-           alt="amitzur digital logo" 
-           style="height:52px;width:auto;max-width:220px;object-fit:contain;display:block;"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div style="display:none;align-items:center;font-size:20px;font-weight:900;color:#fff;letter-spacing:-.5px">
-        עמית <span style="color:#E63946">עמיצור</span><span style="color:#E63946">.</span>
-      </div>
+    <div class="logo-wrap">
+      <img src="Images/amitzur clear logo.png" alt="AMITZUR" class="logo-img">
     </div>
 
     <nav class="navlinks">
@@ -1208,6 +1396,21 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
       <span class="nav-wa-circle">←</span>
       <span class="nav-wa-txt">יצירת קשר</span>
     </a>
+
+    <!-- Hamburger (mobile) -->
+    <button class="hamburger" id="hamburger" aria-label="תפריט">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">עליי</a>
+    <a href="#services">שירותים</a>
+    <a href="#projects">עבודות</a>
+    <a href="#packages">חבילות</a>
+    <a href="#faq">שאלות נפוצות</a>
+    <a class="mobile-menu-cta" href="https://wa.me/972529535329?text=היי%20עמית,%20הגעתי%20מהאתר%20אשמח%20לדבר" target="_blank" rel="noopener">יצירת קשר ←</a>
   </div>
 </header>
 
@@ -1322,72 +1525,87 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
 <!-- ══ SERVICES ══ -->
 <section id="services">
   <div class="w">
-    <div class="sec-eyebrow reveal">מה אני עושה בתכלס</div>
-    <h2 class="reveal d1">הפתרונות שמניעים<br>את העסק שלך קדימה.</h2>
+    <div class="sec-eyebrow reveal" style="text-align:center">מה אני עושה בתכלס</div>
+    <h2 class="reveal d1" style="text-align:center;margin-bottom:60px">הפתרונות שמניעים<br>את העסק שלך קדימה.</h2>
 
-    <div class="svc-cards-grid">
-
-      <div class="svc-card-new reveal">
-        <div class="svc-emoji">🛍️</div>
-        <div class="svc-card-body">
-          <div class="svc-num">01</div>
-          <h3>ניהול Shopify שוטף</h3>
-          <p>תחזוקה מלאה, שדרוגי UX, אוטומציות, מוצרים, קולקציות ו-SEO — הכל מנוהל בשבילך. אתה מתמקד במכירות, אני בכל השאר.</p>
-          <span class="svc-tag-new">ריטיינר חודשי</span>
-        </div>
+    <!-- 01 -->
+    <div class="om-card reveal">
+      <div class="om-card-media">
+        <lottie-player src="lottie/shopify.json" background="transparent" speed="1" loop autoplay class="om-lottie"></lottie-player>
       </div>
-
-      <div class="svc-card-new reveal">
-        <div class="svc-emoji">🚀</div>
-        <div class="svc-card-body">
-          <div class="svc-num">02</div>
-          <h3>בניית חנויות eCommerce / דפי נחיתה</h3>
-          <p>בנייה מאפס עם פוקוס על המרות — ארכיטקטורת מוצר חכמה, עיצוב שסוגר עסקאות, אינטגרציות ואוטומציות מובנות.</p>
-          <span class="svc-tag-new">פרויקט חד פעמי</span>
-        </div>
+      <div class="om-card-text">
+        <div class="om-num">01</div>
+        <h3>ניהול Shopify שוטף</h3>
+        <p class="om-sub">(ריטיינר חודשי קבוע)</p>
+        <p>תחזוקה מלאה של החנות, שדרוגי UX, אוטומציות, ניהול מוצרים וקולקציות, אופטימיזציית SEO והטמעת פיצ'רים — הכל מנוהל בשבילך. אתה מתמקד במכירות, אני בכל השאר.</p>
       </div>
-
-      <div class="svc-card-new reveal">
-        <div class="svc-emoji">⚡</div>
-        <div class="svc-card-body">
-          <div class="svc-num">03</div>
-          <h3>שדרוגי UX והמרות</h3>
-          <p>Upsell, Cross-sell, פופאפים חכמים, אייקוני אמון, זמני שילוח דינמיים — שיפורים קטנים שמניעים מספרים גדולים.</p>
-          <span class="svc-tag-new">לפי משימה</span>
-        </div>
-      </div>
-
-      <div class="svc-card-new reveal">
-        <div class="svc-emoji">🤖</div>
-        <div class="svc-card-body">
-          <div class="svc-num">04</div>
-          <h3>בניית מערכות CRM ותהליכי עבודה</h3>
-          <p>מחברים בין הכלים שלך — CRM, מעקב לידים, תהליכי onboarding אוטומטיים. עסק שעובד חכם, לא רק קשה.</p>
-          <span class="svc-tag-new">פר פרויקט</span>
-        </div>
-      </div>
-
-      <div class="svc-card-new reveal">
-        <div class="svc-emoji">🔗</div>
-        <div class="svc-card-body">
-          <div class="svc-num">05</div>
-          <h3>אוטומציות ואינטגרציות</h3>
-          <p>חיבור בין מערכות, Make/Zapier, ניוזלטר אוטומטי, תזרים הזמנות — חוסך שעות עבודה ידניות בכל שבוע.</p>
-          <span class="svc-tag-new">פר פרויקט</span>
-        </div>
-      </div>
-
-      <div class="svc-card-new reveal">
-        <div class="svc-emoji">🎯</div>
-        <div class="svc-card-body">
-          <div class="svc-num">06</div>
-          <h3>ניהול קמפיינים ממומנים</h3>
-          <p>Meta Ads — אסטרטגיה, ויזואלים, ניהול שוטף ואופטימיזציה. מביא תנועה שיודעת להמיר.</p>
-          <span class="svc-tag-new">ריטיינר + אחוז</span>
-        </div>
-      </div>
-
     </div>
+
+    <!-- 02 -->
+    <div class="om-card reveal">
+      <div class="om-card-media">
+        <lottie-player src="lottie/ecommerce.json" background="transparent" speed="1" loop autoplay class="om-lottie"></lottie-player>
+      </div>
+      <div class="om-card-text">
+        <div class="om-num">02</div>
+        <h3>בניית חנויות eCommerce / דפי נחיתה</h3>
+        <p class="om-sub">(בנייה מאפס עד עלייה לאוויר)</p>
+        <p>ארכיטקטורת מוצר חכמה, עיצוב שסוגר עסקאות, אינטגרציות ואוטומציות מובנות. בנייה ב-Shopify או WordPress עם פוקוס מוחלט על המרות ומובייל מושלם.</p>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="om-card reveal">
+      <div class="om-card-media">
+        <lottie-player src="lottie/ux.json" background="transparent" speed="1" loop autoplay class="om-lottie"></lottie-player>
+      </div>
+      <div class="om-card-text">
+        <div class="om-num">03</div>
+        <h3>שדרוגי UX והמרות</h3>
+        <p class="om-sub">(שיפורים שמזיזים מספרים)</p>
+        <p>Upsell, Cross-sell, פופאפים חכמים, אייקוני אמון, זמני שילוח דינמיים לפי מוצר. שיפורים קטנים וממוקדים שמייצרים הבדל גדול בשורה התחתונה.</p>
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="om-card reveal">
+      <div class="om-card-media">
+        <lottie-player src="lottie/crm.json" background="transparent" speed="1" loop autoplay class="om-lottie"></lottie-player>
+      </div>
+      <div class="om-card-text">
+        <div class="om-num">04</div>
+        <h3>בניית מערכות CRM ותהליכי עבודה</h3>
+        <p class="om-sub">(אוטומציה לעסק שעובד חכם)</p>
+        <p>מחברים בין כל הכלים שלך — CRM, מעקב לידים אוטומטי, תהליכי onboarding, התראות חכמות. עסק שרץ על מסילות, בלי לאבד אף ליד בדרך.</p>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="om-card reveal">
+      <div class="om-card-media">
+        <lottie-player src="lottie/automation.json" background="transparent" speed="1" loop autoplay class="om-lottie"></lottie-player>
+      </div>
+      <div class="om-card-text">
+        <div class="om-num">05</div>
+        <h3>אוטומציות ובוטים לוואטסאפ</h3>
+        <p class="om-sub">(Make / Zapier + צ'אטבוטים)</p>
+        <p>בניית בוטים לוואטסאפ עם מענה אוטומטי חכם, חיבור בין מערכות, ניוזלטר אוטומטי, תזרים הזמנות וסנכרון נתונים. חוסך שעות עבודה ידניות ונותן ללקוחות שלך מענה מיידי 24/7.</p>
+      </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="om-card reveal">
+      <div class="om-card-media">
+        <lottie-player src="lottie/marketing.json" background="transparent" speed="1" loop autoplay class="om-lottie"></lottie-player>
+      </div>
+      <div class="om-card-text">
+        <div class="om-num">06</div>
+        <h3>ניהול קמפיינים ממומנים</h3>
+        <p class="om-sub">(Meta Ads)</p>
+        <p>אסטרטגיה, יצירת ויזואלים, ניהול שוטף ואופטימיזציה מתמדת. מביא תנועה איכותית שיודעת להמיר, עם דוחות שקופים על כל שקל שמושקע.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1427,9 +1645,9 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
   <div class="w">
     <div class="proj-header">
       <div class="sec-eyebrow reveal">עבודות אחרונות</div>
-      <h2 class="reveal d1">מילים זה טוב.<br>תוצאות מדברות בעד עצמן.</h2>
-      <p class="reveal d2" style="color:var(--muted2);font-size:17px;max-width:52ch;margin-top:10px;line-height:1.75">
-        כמה דוגמאות אמיתיות לפרויקטים ושדרוגים שביצעתי — בכל אחד הייתה בעיה ספציפית, ויש לה תוצאה מוכחת.
+      <h2 class="reveal d1">תוצאות מדברות<br>בעד עצמן.</h2>
+      <p class="reveal d2" style="color:var(--muted2);font-size:17px;max-width:54ch;margin-top:10px;line-height:1.75">
+        כמה מהמותגים שאני מנהל, בונה ומלווה — כל פרויקט עם אתגר משלו ותוצאה מוכחת בשטח.
       </p>
     </div>
 
@@ -1438,15 +1656,15 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
       <div class="pcard-inner">
         <div class="pcard-body">
           <div class="pcard-tag">Ice Diamonds — Shopify</div>
-          <h3>ניהול דיגיטל מלא לחנות תכשיטי יוקרה</h3>
-          <p>ניהול שוטף של חנות Shopify מובילה — פופאפ ניוזלטר עם אוטומציית Klaviyo, אייקוני שילוח דינמיים לפי מוצר, שדרוגי UX, קמפיינים גרפיים ועוד. לקוח קבוע מזה שנה.</p>
+          <h3>ניהול דיגיטל מלא לחנות תכשיטי מואסנייט</h3>
+          <p>ניהול שוטף של אחת מחנויות המואסנייט המובילות בישראל — שדרוגי UX, פופאפים חכמים, אוטומציות Klaviyo, אינטגרציות מדיה (כאן 11, כלכליסט, ערוץ 7) וקמפיינים. לקוח קבוע מזה שנה.</p>
           <div class="pcard-stats">
             <div class="pcard-stat">
-              <div class="pcard-stat-val">+18%</div>
+              <div class="pcard-stat-val" data-count="18" data-prefix="+" data-suffix="%">0%</div>
               <div class="pcard-stat-lbl">גידול תפוצה</div>
             </div>
             <div class="pcard-stat">
-              <div class="pcard-stat-val">+12%</div>
+              <div class="pcard-stat-val" data-count="12" data-prefix="+" data-suffix="%">0%</div>
               <div class="pcard-stat-lbl">מכירות חוזרות</div>
             </div>
           </div>
@@ -1455,33 +1673,56 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
           </a>
         </div>
         <div class="pcard-imgs">
-          <div class="pcard-imgs-grid">
-            <img src="Images/with3.png" alt="Ice Diamonds popup">
-            <img src="Images/kiara ring ICE.png" alt="Ice Diamonds shipping">
+          <div class="pcard-imgs-single">
+            <img src="Images/ice-diamonds.jpg" alt="Ice Diamonds">
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LA TRES -->
+    <div class="pcard reveal">
+      <div class="pcard-inner flip">
+        <div class="pcard-imgs">
+          <div class="pcard-imgs-single">
+            <img src="Images/la-tres.jpg" alt="LA TRES">
+          </div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-tag">LA TRES — Shopify</div>
+          <h3>חנות תיקי יוקרה וינטג׳ אותנטיים</h3>
+          <p>בניית חנות Shopify למותג תיקי יוקרה וינטג׳ — Fendi, Gucci, Prada, Celine, Louis Vuitton. עיצוב יוקרתי ונקי, חווית קנייה פרימיום, אינטגרציית Instagram, וכל הפיסים יוניקים ונדירים. "Luxury · Authentic · Timeless".</p>
+          <div class="pcard-stats">
+            <div class="pcard-stat">
+              <div class="pcard-stat-val" data-count="100" data-prefix="" data-suffix="%">0%</div>
+              <div class="pcard-stat-lbl">עיצוב מותאם מותג</div>
+            </div>
+            <div class="pcard-stat">
+              <div class="pcard-stat-val" data-count="24" data-prefix="" data-suffix="/7">0</div>
+              <div class="pcard-stat-lbl">חנות פעילה</div>
+            </div>
+          </div>
+          <a class="pcard-btn" href="https://la-tres.com" target="_blank" rel="noopener">
+            לצפייה בפרויקט <span class="pcard-btn-arrow">←</span>
+          </a>
         </div>
       </div>
     </div>
 
     <!-- THE D DIAMOND NY -->
     <div class="pcard reveal">
-      <div class="pcard-inner flip">
-        <div class="pcard-imgs">
-          <div class="pcard-imgs-single">
-            <img src="Images/The D Diamond.png.png" alt="The D Diamond NY">
-          </div>
-        </div>
+      <div class="pcard-inner">
         <div class="pcard-body">
           <div class="pcard-tag">The D Diamond New York — Shopify</div>
-          <h3>סליידר תכונות מוצר בהתאמה אישית</h3>
-          <p>פיתוח Section מותאם אישית שמציג תכונות מוצר בצורה ויזואלית — קוד נקי, בלי אפליקציה חיצונית, מובייל ריספונסיבי מלא. חיסכון של עשרות דולר בחודש.</p>
+          <h3>תכשיטי יוקרה לחברינו הקטנים</h3>
+          <p>בניית חנות Shopify ייחודית למותג תכשיטי יוקרה לכלבים — קולרים משובצי יהלומים, זהב 18K. עיצוב אלגנטי בסגנון איור יד, מערכת הזמנת פגישות מובנית, וסקשן מותאם אישית להצגת מוצרים — בלי אפליקציות חיצוניות.</p>
           <div class="pcard-stats">
             <div class="pcard-stat">
-              <div class="pcard-stat-val">+21%</div>
+              <div class="pcard-stat-val" data-count="21" data-prefix="+" data-suffix="%">0%</div>
               <div class="pcard-stat-lbl">זמן שהייה בדף</div>
             </div>
             <div class="pcard-stat">
-              <div class="pcard-stat-val">₪0</div>
+              <div class="pcard-stat-val" data-count="0" data-prefix="₪" data-suffix="">₪0</div>
               <div class="pcard-stat-lbl">עלות אפליקציה</div>
             </div>
           </div>
@@ -1489,29 +1730,9 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
             לצפייה בפרויקט <span class="pcard-btn-arrow">←</span>
           </a>
         </div>
-      </div>
-    </div>
-
-    <!-- STORMA -->
-    <div class="pcard reveal">
-      <div class="pcard-inner">
-        <div class="pcard-body">
-          <div class="pcard-tag">Storma — מאווררי תקרה</div>
-          <h3>סקשן בחירת מדורת גן בהתאמה אישית</h3>
-          <p>סקשן ממיר שמאפשר ללקוח לבחור מדורה מותאמת אישית עם CTA ישיר לנציג. הוריד חסם קנייה ושיפר פניות לעסק משמעותית.</p>
-          <div class="pcard-stats">
-            <div class="pcard-stat">
-              <div class="pcard-stat-val">+35%</div>
-              <div class="pcard-stat-lbl">פניות דרך האתר</div>
-            </div>
-          </div>
-          <a class="pcard-btn" href="#contact" rel="noopener">
-            לפרטים נוספים <span class="pcard-btn-arrow">←</span>
-          </a>
-        </div>
         <div class="pcard-imgs">
           <div class="pcard-imgs-single">
-            <img src="Images/storma medorot.png" alt="Storma מדורות גן">
+            <img src="Images/the-d-diamond.jpg" alt="The D Diamond New York">
           </div>
         </div>
       </div>
@@ -1690,11 +1911,17 @@ footer{padding:52px 0 24px;border-top:1px solid var(--border)}
   <div class="w">
     <div class="footer-top">
       <div>
-        <div class="foot-logo"><img src="Images/amitzur clear logo.png" alt="amitzur digital" style="height:64px;width:auto;max-width:260px;object-fit:contain;display:block;"></div>
+        <div class="logo-wrap">
+          <img src="Images/amitzur clear logo.png" alt="AMITZUR" class="logo-img-foot">
+        </div>
         <div class="foot-desc">ניהול דיגיטל לעסקי eCommerce. Shopify, עיצוב, קמפיינים, אוטומציות — הכל במקום אחד.</div>
         <div class="foot-socials">
-          <a class="foot-social" href="https://www.instagram.com/amit.amitzur/" aria-label="Instagram" target="_blank" rel="noopener">📸</a>
-          <a class="foot-social" href="https://www.facebook.com/amit.amizur/" aria-label="Facebook" target="_blank" rel="noopener">👤</a>
+          <a class="foot-social" href="https://www.instagram.com/amit.amitzur/" aria-label="Instagram" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.31-1.46.72-2.12 1.38C1.36 2.67.95 3.34.64 4.13.34 4.9.14 5.77.08 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.12.66.66 1.33 1.07 2.12 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.12-1.38.66-.66 1.07-1.33 1.38-2.12.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.31-.79-.72-1.46-1.38-2.12C21.33 1.36 20.66.95 19.87.64c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zM12 16a4 4 0 110-8 4 4 0 010 8zm6.41-10.85a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"/></svg>
+          </a>
+          <a class="foot-social" href="https://wa.me/972529535329" aria-label="WhatsApp" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12 0C5.37 0 0 5.37 0 12c0 2.12.56 4.12 1.53 5.85L.06 23.49l5.8-1.52A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12S18.63 0 12 0zm0 21.82a9.8 9.8 0 01-5-1.37l-.36-.21-3.71.97.99-3.62-.24-.37A9.82 9.82 0 1112 21.82z"/></svg>
+          </a>
         </div>
       </div>
       <div class="foot-col">
