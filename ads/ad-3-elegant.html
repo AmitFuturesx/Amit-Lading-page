@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Ad 3 – Elegant Dark Purple</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  width:1080px;height:1080px;overflow:hidden;
+  background:#09060F;
+  font-family:'Heebo',sans-serif;
+  color:#f0ecff;
+}
+.ad{
+  width:1080px;height:1080px;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  padding:56px 76px 62px;
+  text-align:center;
+}
+
+/* BG */
+.bg-orbs{position:absolute;inset:0;pointer-events:none;}
+.bg-orbs::before{
+  content:"";position:absolute;
+  width:800px;height:600px;
+  top:-180px;left:50%;transform:translateX(-50%);
+  background:radial-gradient(ellipse,rgba(139,92,246,.14) 0%,transparent 65%);
+}
+.bg-orbs::after{
+  content:"";position:absolute;
+  width:600px;height:500px;
+  bottom:-140px;left:50%;transform:translateX(-50%);
+  background:radial-gradient(ellipse,rgba(236,72,153,.08) 0%,transparent 65%);
+}
+.bg-grain{
+  position:absolute;inset:0;pointer-events:none;opacity:.20;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+}
+.bg-ring{
+  position:absolute;
+  width:550px;height:550px;
+  top:50%;left:50%;transform:translate(-50%,-48%);
+  border-radius:50%;
+  border:1px solid rgba(139,92,246,.12);
+  pointer-events:none;
+}
+.bg-ring2{
+  position:absolute;
+  width:700px;height:700px;
+  top:50%;left:50%;transform:translate(-50%,-48%);
+  border-radius:50%;
+  border:1px solid rgba(139,92,246,.06);
+  pointer-events:none;
+}
+.c-tl{
+  position:absolute;top:0;right:0;
+  width:150px;height:150px;
+  border-top:2px solid rgba(139,92,246,.18);
+  border-right:2px solid rgba(139,92,246,.18);
+}
+.c-br{
+  position:absolute;bottom:0;left:0;
+  width:150px;height:150px;
+  border-bottom:2px solid rgba(139,92,246,.12);
+  border-left:2px solid rgba(139,92,246,.12);
+}
+
+/* TOP */
+.toprow{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;position:relative;z-index:2;
+}
+.brand{display:flex;flex-direction:column;align-items:flex-end;gap:1px;}
+.brand-name{
+  font-size:16px;font-weight:800;
+  color:rgba(255,255,255,.4);
+  letter-spacing:1.5px;text-transform:uppercase;
+}
+.brand-sub{
+  font-size:11px;font-weight:700;
+  color:rgba(139,92,246,.65);
+  letter-spacing:2px;text-transform:uppercase;
+}
+.promo-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 22px;border-radius:999px;
+  border:1px solid rgba(139,92,246,.30);
+  background:rgba(139,92,246,.10);
+  font-size:15px;font-weight:800;
+  color:rgba(200,180,255,.85);
+}
+
+/* CENTER */
+.center{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;
+  gap:0;margin-top:-10px;
+}
+.label{
+  font-size:16px;font-weight:800;
+  color:rgba(200,180,255,.5);
+  letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:14px;
+}
+.title{
+  font-size:58px;font-weight:800;
+  line-height:1.05;letter-spacing:-1.5px;color:#fff;
+  margin-bottom:10px;
+}
+.title .grad{
+  background:linear-gradient(90deg,#A78BFA,#EC4899);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.tagline{
+  font-size:20px;font-weight:700;
+  color:rgba(255,255,255,.3);
+  margin-bottom:46px;letter-spacing:-.2px;
+}
+
+/* PRICE */
+.price-wrap{
+  display:flex;flex-direction:column;align-items:center;
+}
+.old-block{
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:8px;
+}
+.old-num{
+  font-size:44px;font-weight:800;
+  color:rgba(255,255,255,.2);direction:ltr;
+  position:relative;
+}
+.old-num::after{
+  content:"";position:absolute;
+  top:50%;left:-5px;right:-5px;height:3px;
+  background:rgba(236,72,153,.6);
+  transform:translateY(-50%) rotate(-3deg);
+}
+.off-chip{
+  padding:5px 14px;border-radius:999px;
+  background:rgba(236,72,153,.12);
+  border:1px solid rgba(236,72,153,.28);
+  font-size:14px;font-weight:800;color:#F9A8D4;
+}
+.big-price-row{
+  display:flex;align-items:flex-start;
+  direction:ltr;line-height:1;
+  margin-bottom:12px;
+}
+.sym{
+  font-size:90px;font-weight:800;
+  color:#A78BFA;margin-top:20px;
+}
+.num{
+  font-size:230px;font-weight:800;
+  letter-spacing:-10px;color:#fff;
+  filter:drop-shadow(0 0 80px rgba(139,92,246,.3));
+}
+.saved-ribbon{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:10px 24px;border-radius:999px;
+  background:rgba(139,92,246,.14);
+  border:1px solid rgba(139,92,246,.28);
+  font-size:17px;font-weight:800;
+  color:rgba(200,180,255,.8);
+}
+.ribbon-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#A78BFA;flex-shrink:0;
+}
+
+/* FEATURES */
+.features{
+  display:flex;align-items:center;gap:12px;
+  position:relative;z-index:2;
+}
+.f{
+  display:flex;align-items:center;gap:9px;
+  padding:12px 20px;border-radius:14px;
+  border:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.03);
+  font-size:15px;font-weight:800;color:rgba(255,255,255,.65);
+}
+.fic{
+  width:22px;height:22px;border-radius:6px;
+  background:rgba(139,92,246,.15);
+  border:1px solid rgba(139,92,246,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:#A78BFA;flex-shrink:0;
+}
+
+/* CTA */
+.cta{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:20px 56px;border-radius:999px;
+  background:linear-gradient(90deg,#8B5CF6,#A855F7);
+  font-size:22px;font-weight:800;
+  color:#fff;letter-spacing:-.3px;
+  box-shadow:0 18px 50px rgba(139,92,246,.32),0 4px 14px rgba(0,0,0,.6);
+  position:relative;z-index:2;white-space:nowrap;
+}
+</style>
+</head>
+<body>
+<div class="ad">
+  <div class="bg-orbs"></div>
+  <div class="bg-grain"></div>
+  <div class="bg-ring"></div>
+  <div class="bg-ring2"></div>
+  <div class="c-tl"></div>
+  <div class="c-br"></div>
+
+  <div class="toprow">
+    <div class="brand">
+      <div class="brand-name">Amitzur Digital</div>
+      <div class="brand-sub">Landing Pages</div>
+    </div>
+    <div class="promo-badge">✦&nbsp;מחיר מיוחד לזמן מוגבל</div>
+  </div>
+
+  <div class="center">
+    <div class="label">Landing Page</div>
+    <div class="title">
+      דף נחיתה שמוכר<br>
+      <span class="grad">לקוחות עבורך</span>
+    </div>
+    <div class="tagline">עיצוב · UX · קוד · מסירה מהירה</div>
+
+    <div class="price-wrap">
+      <div class="old-block">
+        <span class="old-num">₪1,599</span>
+        <span class="off-chip">-37%</span>
+      </div>
+      <div class="big-price-row">
+        <span class="sym">₪</span>
+        <span class="num">999</span>
+      </div>
+      <div class="saved-ribbon">
+        <div class="ribbon-dot"></div>
+        חסכת ₪600 על ההזמנה שלך
+        <div class="ribbon-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="f"><div class="fic">✓</div>עיצוב מקצועי</div>
+    <div class="f"><div class="fic">✓</div>UX ממוקד מכירות</div>
+    <div class="f"><div class="fic">✓</div>מסירה ב-48 שעות</div>
+  </div>
+
+  <div class="cta">לפרטים ולהזמנה&nbsp;&nbsp;←</div>
+</div>
+</body>
+</html>

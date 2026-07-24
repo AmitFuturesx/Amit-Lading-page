@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Ad 2 – Premium Dark Blue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  width:1080px;height:1080px;overflow:hidden;
+  background:#060C1C;
+  font-family:'Heebo',sans-serif;
+  color:#f0f4ff;
+}
+.ad{
+  width:1080px;height:1080px;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  padding:0;
+}
+
+/* BG */
+.bg-mesh{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(900px 700px at 50% -5%, rgba(56,189,248,.09) 0%, transparent 55%),
+    radial-gradient(600px 500px at 0% 100%, rgba(99,102,241,.10) 0%, transparent 60%),
+    radial-gradient(500px 400px at 100% 60%, rgba(56,189,248,.06) 0%, transparent 60%);
+}
+.bg-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:80px 80px;
+}
+.bg-grain{
+  position:absolute;inset:0;pointer-events:none;opacity:.18;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+}
+
+/* TOP BAND */
+.top-band{
+  width:100%;
+  padding:30px 64px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:2;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  background:rgba(6,12,28,.6);
+  backdrop-filter:blur(8px);
+}
+.brand-mark{display:flex;align-items:center;gap:10px;}
+.brand-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:#38BDF8;
+  box-shadow:0 0 10px rgba(56,189,248,.8);
+}
+.brand-name{
+  font-size:16px;font-weight:800;
+  color:rgba(255,255,255,.5);
+  letter-spacing:1.5px;text-transform:uppercase;
+}
+.limited-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 20px;border-radius:999px;
+  border:1px solid rgba(56,189,248,.25);
+  background:rgba(56,189,248,.08);
+  font-size:14px;font-weight:800;
+  color:#38BDF8;letter-spacing:.3px;
+}
+.pulse{
+  width:8px;height:8px;border-radius:50%;
+  background:#38BDF8;
+  box-shadow:0 0 8px rgba(56,189,248,.9);
+}
+
+/* MAIN */
+.main{
+  flex:1;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  position:relative;z-index:2;
+  padding:0 64px;
+  gap:0;text-align:center;
+}
+.eyebrow{
+  font-size:13px;font-weight:800;
+  color:#38BDF8;letter-spacing:3.5px;text-transform:uppercase;
+  margin-bottom:18px;
+}
+.headline{
+  font-size:60px;font-weight:800;
+  line-height:1.05;letter-spacing:-2px;color:#fff;
+  margin-bottom:44px;
+}
+.headline .hl{
+  background:linear-gradient(90deg,#38BDF8,#818CF8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* PRICE CARD */
+.price-card{
+  width:100%;max-width:780px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:28px;
+  padding:40px 56px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  position:relative;overflow:hidden;
+  margin-bottom:36px;
+}
+.price-card::before{
+  content:"";position:absolute;inset:-1px;
+  border-radius:29px;
+  background:linear-gradient(135deg,rgba(56,189,248,.18),transparent 50%,rgba(129,140,248,.12));
+  pointer-events:none;z-index:0;
+}
+.price-card>*{position:relative;z-index:1;}
+
+.price-old-side{
+  display:flex;flex-direction:column;align-items:flex-end;gap:6px;
+}
+.label-was{
+  font-size:13px;font-weight:800;
+  color:rgba(255,255,255,.3);
+  letter-spacing:2px;text-transform:uppercase;
+}
+.old-p{
+  font-size:52px;font-weight:800;
+  color:rgba(255,255,255,.2);
+  direction:ltr;position:relative;
+}
+.old-p::after{
+  content:"";position:absolute;
+  top:50%;left:-3px;right:-3px;height:3px;
+  background:rgba(239,68,68,.65);
+  transform:translateY(-50%) rotate(-3deg);
+}
+
+.price-divider{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:0 32px;
+}
+.arrow-right{font-size:28px;color:rgba(255,255,255,.15);}
+.pct-badge{
+  padding:6px 14px;border-radius:999px;
+  background:rgba(239,68,68,.15);
+  border:1px solid rgba(239,68,68,.3);
+  font-size:13px;font-weight:800;color:#F87171;
+}
+
+.price-new-side{
+  display:flex;flex-direction:column;align-items:flex-start;gap:4px;
+}
+.label-now{
+  font-size:13px;font-weight:800;
+  color:#38BDF8;letter-spacing:2px;text-transform:uppercase;
+}
+.new-p{
+  font-size:86px;font-weight:800;
+  line-height:.9;direction:ltr;color:#fff;
+  letter-spacing:-3px;
+  filter:drop-shadow(0 0 30px rgba(56,189,248,.25));
+}
+.saved-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 12px;border-radius:999px;
+  background:rgba(56,189,248,.12);
+  border:1px solid rgba(56,189,248,.2);
+  font-size:12px;font-weight:800;color:#38BDF8;
+  margin-top:6px;
+}
+
+/* FEATURES */
+.features{display:flex;align-items:center;gap:10px;}
+.ft{
+  display:flex;align-items:center;gap:8px;
+  padding:11px 18px;border-radius:12px;
+  border:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.03);
+  font-size:14px;font-weight:800;color:rgba(255,255,255,.65);
+}
+.ft-icon{font-size:15px;}
+
+/* BOTTOM BAND */
+.bottom-band{
+  width:100%;
+  padding:28px 64px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:2;
+  border-top:1px solid rgba(255,255,255,.05);
+  background:rgba(56,189,248,.05);
+}
+.cta-text{display:flex;flex-direction:column;gap:2px;align-items:flex-end;}
+.cta-top-line{font-size:14px;font-weight:700;color:rgba(255,255,255,.38);}
+.cta-main-line{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.3px;}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:18px 44px;border-radius:999px;
+  background:linear-gradient(90deg,#38BDF8,#818CF8);
+  font-size:20px;font-weight:800;color:#06101E;letter-spacing:-.2px;
+  box-shadow:0 14px 40px rgba(56,189,248,.3);
+  white-space:nowrap;
+}
+</style>
+</head>
+<body>
+<div class="ad">
+  <div class="bg-mesh"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+
+  <div class="top-band">
+    <div class="brand-mark">
+      <div class="brand-dot"></div>
+      <div class="brand-name">Amitzur Digital</div>
+    </div>
+    <div class="limited-pill">
+      <div class="pulse"></div>
+      מבצע מוגבל בזמן
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="eyebrow">Landing Page</div>
+    <div class="headline">
+      דף נחיתה מקצועי<br>
+      <span class="hl">במחיר שלא יחזור</span>
+    </div>
+
+    <div class="price-card">
+      <div class="price-old-side">
+        <div class="label-was">המחיר הרגיל</div>
+        <div class="old-p">₪1,599</div>
+      </div>
+      <div class="price-divider">
+        <div class="arrow-right">←</div>
+        <div class="pct-badge">-37%</div>
+      </div>
+      <div class="price-new-side">
+        <div class="label-now">עכשיו רק</div>
+        <div class="new-p">₪999</div>
+        <div class="saved-tag">✦ חסכת ₪600</div>
+      </div>
+    </div>
+
+    <div class="features">
+      <div class="ft"><span class="ft-icon">⚡</span>עיצוב מקצועי</div>
+      <div class="ft"><span class="ft-icon">🎯</span>UX ממוקד מכירות</div>
+      <div class="ft"><span class="ft-icon">📱</span>Mobile-First</div>
+      <div class="ft"><span class="ft-icon">⏱</span>48 שעות</div>
+    </div>
+  </div>
+
+  <div class="bottom-band">
+    <div class="cta-text">
+      <div class="cta-top-line">ייעוץ ראשוני ללא התחייבות</div>
+      <div class="cta-main-line">כתוב לי היום ונתחיל</div>
+    </div>
+    <div class="cta-btn">להזמנה עכשיו&nbsp;&nbsp;←</div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Ad 1 – Shock Price</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  width:1080px;height:1080px;overflow:hidden;
+  background:#08080C;
+  font-family:'Heebo',sans-serif;
+  color:#f5f5f5;
+}
+.ad{
+  width:1080px;height:1080px;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  padding:56px 72px 60px;
+  text-align:center;
+}
+
+/* BG */
+.bg-glow{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(680px 500px at 50% 52%, rgba(255,196,0,.07) 0%, transparent 65%),
+    radial-gradient(400px 300px at 50% 100%, rgba(255,90,0,.05) 0%, transparent 70%);
+}
+.bg-grain{
+  position:absolute;inset:0;pointer-events:none;opacity:.22;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+}
+.line-top{
+  position:absolute;top:0;left:12%;right:12%;height:2px;
+  background:linear-gradient(90deg,transparent,#FFC400 40%,#FFC400 60%,transparent);
+  opacity:.7;
+}
+.line-bottom{
+  position:absolute;bottom:0;left:12%;right:12%;height:2px;
+  background:linear-gradient(90deg,transparent,#FFC400 40%,#FFC400 60%,transparent);
+  opacity:.35;
+}
+
+/* TOP */
+.toprow{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;position:relative;z-index:2;
+}
+.brand{
+  font-size:16px;font-weight:800;
+  color:rgba(255,255,255,.38);
+  letter-spacing:1.5px;text-transform:uppercase;
+}
+.badge-alert{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 22px;border-radius:999px;
+  background:#FF3535;
+  font-size:15px;font-weight:800;color:#fff;
+  letter-spacing:.2px;
+  box-shadow:0 6px 22px rgba(255,53,53,.4);
+}
+
+/* SERVICE */
+.service-area{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.service-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 18px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);
+  font-size:14px;font-weight:800;
+  color:rgba(255,255,255,.38);
+  letter-spacing:2px;text-transform:uppercase;
+}
+.service-title{
+  font-size:54px;font-weight:800;
+  line-height:1.05;letter-spacing:-1.5px;
+  color:#fff;
+}
+.service-title em{color:#FFC400;font-style:normal;}
+
+/* PRICE */
+.price-block{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;
+}
+.old-row{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:6px;
+}
+.old-price{
+  font-size:42px;font-weight:800;
+  color:rgba(255,255,255,.22);
+  direction:ltr;
+  position:relative;
+}
+.old-price::after{
+  content:"";
+  position:absolute;
+  top:50%;left:-4px;right:-4px;
+  height:3px;
+  background:rgba(255,53,53,.7);
+  transform:translateY(-50%) rotate(-4deg);
+}
+.pct-off{
+  padding:5px 13px;border-radius:999px;
+  background:rgba(255,53,53,.15);
+  border:1px solid rgba(255,53,53,.35);
+  font-size:15px;font-weight:800;
+  color:#FF7070;
+}
+.price-hero{
+  display:flex;align-items:flex-start;justify-content:center;
+  direction:ltr;line-height:1;
+}
+.price-sym{
+  font-size:88px;font-weight:800;
+  color:#FFC400;margin-top:18px;
+}
+.price-num{
+  font-size:230px;font-weight:800;
+  color:#FFC400;letter-spacing:-12px;
+  filter:drop-shadow(0 0 70px rgba(255,196,0,.2));
+}
+.saved-note{
+  font-size:17px;font-weight:700;
+  color:rgba(255,255,255,.3);letter-spacing:.3px;
+  margin-top:6px;
+}
+.saved-note strong{color:rgba(255,196,0,.65);font-weight:800;}
+
+/* FEATURES */
+.features{
+  display:flex;align-items:center;gap:12px;
+  position:relative;z-index:2;
+}
+.ftag{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:13px 20px;border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03);
+  font-size:15px;font-weight:800;
+  color:rgba(255,255,255,.7);
+}
+.fcheck{
+  width:22px;height:22px;border-radius:6px;
+  background:rgba(255,196,0,.12);
+  border:1px solid rgba(255,196,0,.28);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:#FFC400;flex-shrink:0;
+}
+
+/* CTA */
+.cta{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:20px 56px;border-radius:999px;
+  background:#FFC400;
+  font-size:22px;font-weight:800;
+  color:#080809;letter-spacing:-.3px;
+  box-shadow:0 18px 50px rgba(255,196,0,.28),0 4px 14px rgba(0,0,0,.6);
+  position:relative;z-index:2;
+  white-space:nowrap;
+}
+</style>
+</head>
+<body>
+<div class="ad">
+  <div class="bg-glow"></div>
+  <div class="bg-grain"></div>
+  <div class="line-top"></div>
+  <div class="line-bottom"></div>
+
+  <div class="toprow">
+    <div class="brand">Amitzur Digital</div>
+    <div class="badge-alert">⚡&nbsp;מבצע מוגבל</div>
+  </div>
+
+  <div class="service-area">
+    <div class="service-eyebrow">Landing Page</div>
+    <div class="service-title">דף נחיתה מקצועי<br>שמוכר <em>לקוחות</em> עבורך</div>
+  </div>
+
+  <div class="price-block">
+    <div class="old-row">
+      <span class="old-price">₪1,599</span>
+      <span class="pct-off">-37%</span>
+    </div>
+    <div class="price-hero">
+      <span class="price-sym">₪</span>
+      <span class="price-num">999</span>
+    </div>
+    <div class="saved-note">חסכת <strong>₪600</strong> על ההזמנה שלך</div>
+  </div>
+
+  <div class="features">
+    <div class="ftag"><div class="fcheck">✓</div>עיצוב מקצועי</div>
+    <div class="ftag"><div class="fcheck">✓</div>UX ממוקד מכירות</div>
+    <div class="ftag"><div class="fcheck">✓</div>מסירה ב-48 שעות</div>
+  </div>
+
+  <div class="cta">לפרטים ולהזמנה&nbsp;&nbsp;←</div>
+</div>
+</body>
+</html>
