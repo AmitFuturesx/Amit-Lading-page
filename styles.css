@@ -991,7 +991,8 @@ html[data-theme="black"] .faq-sec__ask a { color: #0D0D0D; text-decoration-color
 /* ══ ALL-BLACK PAGE (Amit, 2026-10-03) — services / process / FAQ join the black stage.
       Three blacks + hairline seams keep the section rhythm without any white world. ══ */
 html[data-theme="black"] { --k0: #070707; --k1: #0B0B0B; --k2: #0F0F0F; --k-card: #141414; --k-line: rgb(255 255 255 / .09); --k-text: #FFFFFF; --k-text-2: #B5B5B5; --k-text-3: #8A8A8A; }
-html[data-theme="black"] body { background: var(--k0); }
+html[data-theme="black"],
+html[data-theme="black"] body { background: var(--k0); } /* html too — iOS Safari overscroll/bounce uses html bg */
 html[data-theme="black"] .services { background: var(--k1); }
 html[data-theme="black"] .process { background: var(--k2); }
 html[data-theme="black"] .faq-sec { background: var(--k1); }
